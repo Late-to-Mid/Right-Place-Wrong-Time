@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FirstMove : MonoBehaviour
+public class PlayerCharacterController : MonoBehaviour
 {
-    // Set speed multiplier
+    public Camera playerCamera;
     public float playerSpeed = 20.0f;
 
     // Declare variables for motion vector
-    private Rigidbody m_Rigidbody;
-    private Vector3 motion;
+    Rigidbody m_Rigidbody;
+    Vector3 motion;
 
     // Declare variables for input
-    private float horizontalInput;
-    private float verticalInput;
+    float horizontalInput;
+    float verticalInput;
 
-    private void Start()
+    void Start()
     {
         // Get rigidbody component of the object this script is attached to
         m_Rigidbody = GetComponent<Rigidbody>();
@@ -28,7 +28,7 @@ public class FirstMove : MonoBehaviour
     }
 
     // Get movement input from player
-    private void Movement()
+    void Movement()
     {
         motion = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
         transform.Translate(motion * playerSpeed * Time.deltaTime);
