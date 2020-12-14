@@ -4,50 +4,33 @@ using UnityEngine;
 
 public class FirstMove : MonoBehaviour
 {
-    //Feel free to delete all this code its garbage anyway
-    Vector3 upVector;
-    Vector3 leftVector;
-    Vector3 rightVector;
-    Vector3 forVector;
-    Vector3 backVector;
-    Rigidbody m_Rigidbody;
+    // Set speed multiplier
+    public float playerSpeed = 20.0f;
 
-    public float playerSpeed = 2.0f;
+    // Declare variables for motion vector
+    private Rigidbody m_Rigidbody;
+    private Vector3 motion;
+
+    // Declare variables for input
+    private float horizontalInput;
+    private float verticalInput;
 
     private void Start()
     {
-        upVector = new Vector3(0.0f, 1.0f, 0.0f);
-        forVector = new Vector3(0.0f, 0.0f, 1.0f);
-        backVector = new Vector3(0.0f, 0.0f, -1.0f);
-        leftVector = new Vector3(-1.0f, 0.0f, 0.0f);
-        rightVector = new Vector3(1.0f, 0.0f, 0.0f);
+        // Get rigidbody component of the object this script is attached to
         m_Rigidbody = GetComponent<Rigidbody>();
     }
 
-
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space))
-        {
-            m_Rigidbody.velocity = upVector * playerSpeed;
-        }
+        // Call movement method
+        Movement();
+    }
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            m_Rigidbody.velocity = leftVector * playerSpeed;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            m_Rigidbody.velocity = rightVector * playerSpeed;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            m_Rigidbody.velocity = forVector * playerSpeed;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            m_Rigidbody.velocity = backVector * playerSpeed;
-        }
-
+    // Get movement input from player
+    private void Movement()
+    {
+        motion = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        transform.Translate(motion * playerSpeed * Time.deltaTime);
     }
 }
