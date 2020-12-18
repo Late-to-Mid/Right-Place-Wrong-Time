@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerCharacterController : MonoBehaviour
 {
-    public Camera playerCamera;
-    public float playerSpeed = 20.0f;
+    Camera playerCamera;
+    public float playerSpeed = 10.0f;
 
     [Tooltip("Sensitivity multiplier for moving the camera around")]
     public float lookSensitivity = 1f;
@@ -22,7 +22,6 @@ public class PlayerCharacterController : MonoBehaviour
     float m_CameraVerticalAngle = 0f;
 
     // Declare variables for motion vector
-    Rigidbody m_Rigidbody;
     Vector3 motion;
 
     // Declare variables for input
@@ -31,8 +30,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     void Start()
     {
-        // Get rigidbody component of the object this script is attached to
-        m_Rigidbody = GetComponent<Rigidbody>();
+        playerCamera = Camera.main;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
