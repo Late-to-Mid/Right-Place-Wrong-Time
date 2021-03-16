@@ -60,7 +60,7 @@ public class PlayerCharacterController : MonoBehaviour
     [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
     public Vector3 characterVelocity;
     public bool isGrounded;
-    public bool hasJumpedThisFrame;
+    public bool hasJumpedThisFrame { get; private set; }
     public bool isDead;
     public bool isCrouching;
 
@@ -83,6 +83,7 @@ public class PlayerCharacterController : MonoBehaviour
         // Get the input handler of the character
         m_InputHandler = GetComponent<PlayerInputHandler>();
 
+        // Get the character controller
         m_Controller = GetComponent<CharacterController>();
 
         m_Controller.enableOverlapRecovery = true;
@@ -131,8 +132,7 @@ public class PlayerCharacterController : MonoBehaviour
 
                 // Only consider this a valid ground hit if the ground normal goes in the same direction as the character up
                 // and if the slope angle is lower than the character controller's limit
-                if (Vector3.Dot(hit.normal, transform.up) > 0f &&
-                    IsNormalUnderSlopeLimit(m_GroundNormal))
+                if (Vector3.Dot(hit.normal, transform.up) > 0f && IsNormalUnderSlopeLimit(m_GroundNormal))
                 {
                     isGrounded = true;
 
@@ -175,9 +175,10 @@ public class PlayerCharacterController : MonoBehaviour
         {
             // calculate the desired velocity from inputs, max speed, and current slope
             Vector3 targetVelocity = worldspaceMoveInput * maxSpeedOnGround;
+            
             // reduce speed if crouching by crouch speed ratio
-            if (isCrouching)
-                targetVelocity *= maxSpeedCrouchedRatio;
+            if (isCrouching) targetVelocity *= maxSpeedCrouchedRatio;
+
             targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) * targetVelocity.magnitude;
 
             // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
@@ -230,12 +231,8 @@ public class PlayerCharacterController : MonoBehaviour
         m_Controller.Move(characterVelocity * Time.deltaTime);
 
         // detect obstructions to adjust velocity accordingly
-        m_LatestImpactSpeed = Vector3.zero;
         if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
         {
-            // We remember the last impact speed because the fall damage logic might need it
-            m_LatestImpactSpeed = characterVelocity;
-
             characterVelocity = Vector3.ProjectOnPlane(characterVelocity, hit.normal);
         }
     }
