@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler))]
 public class PlayerCharacterController : MonoBehaviour
 {
     [Header("References")]
@@ -18,6 +19,7 @@ public class PlayerCharacterController : MonoBehaviour
     public float groundCheckDistance = 0.05f;
 
     [Header("Movement")]
+    [Tooltip("Max movement speed when grounded")]
     public float maxSpeedOnGround = 10.0f;
     [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
     public float movementSharpnessOnGround = 15;
@@ -55,16 +57,14 @@ public class PlayerCharacterController : MonoBehaviour
 
     public UnityAction<bool> onStanceChanged;
 
-    // Declare variable for input handler script
+    [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
+    public Vector3 characterVelocity;
+    public bool isGrounded;
+    public bool hasJumpedThisFrame;
+    public bool isDead;
+    public bool isCrouching;
+
     PlayerInputHandler m_InputHandler;
-
-    // Declare variables for character movement information
-    public Vector3 characterVelocity { get; set; }
-    public bool isGrounded { get; private set; }
-    public bool hasJumpedThisFrame { get; private set; }
-    public bool isDead { get; private set; }
-    public bool isCrouching { get; private set; }
-
     CharacterController m_Controller;
     Vector3 m_GroundNormal;
     float m_LastTimeJumped = 0f;
@@ -85,10 +85,6 @@ public class PlayerCharacterController : MonoBehaviour
 
         m_Controller = GetComponent<CharacterController>();
 
-        // Lock the cursor in place and make it invisible
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         m_Controller.enableOverlapRecovery = true;
 
         // force the crouch state to false when starting
@@ -103,12 +99,6 @@ public class PlayerCharacterController : MonoBehaviour
         bool wasGrounded = isGrounded;
         GroundCheck();
 
-        // landing
-        if (isGrounded && !wasGrounded)
-        {
-            float fallSpeed = -Mathf.Min(characterVelocity.y, m_LatestImpactSpeed.y);
-        }
-
         // crouching
         if (m_InputHandler.GetCrouchInputDown())
         {
@@ -117,14 +107,46 @@ public class PlayerCharacterController : MonoBehaviour
 
         UpdateCharacterHeight(false);
 
-        // Call camera control method
-        HandleCameraControl();
-
         // Call movement method
         HandleCharacterMovement();
     }
 
-    void HandleCameraControl()
+    void GroundCheck()
+    {
+        // Make sure that the ground check distance while already in air is very small, to prevent suddenly snapping to ground
+        float chosenGroundCheckDistance = isGrounded ? (m_Controller.skinWidth + groundCheckDistance) : k_GroundCheckDistanceInAir;
+
+        // reset values before the ground check
+        isGrounded = false;
+        m_GroundNormal = Vector3.up;
+
+        // only try to detect ground if it's been a short amount of time since last jump; otherwise we may snap to the ground instantly after we try jumping
+        if (Time.time >= m_LastTimeJumped + k_JumpGroundingPreventionTime)
+        {
+            // if we're grounded, collect info about the ground normal with a downward capsule cast representing our character capsule
+            if (Physics.CapsuleCast(GetCapsuleBottomHemisphere(), GetCapsuleTopHemisphere(m_Controller.height), m_Controller.radius, Vector3.down, out RaycastHit hit, chosenGroundCheckDistance, groundCheckLayers, QueryTriggerInteraction.Ignore))
+            {
+                // storing the upward direction for the surface found
+                m_GroundNormal = hit.normal;
+
+                // Only consider this a valid ground hit if the ground normal goes in the same direction as the character up
+                // and if the slope angle is lower than the character controller's limit
+                if (Vector3.Dot(hit.normal, transform.up) > 0f &&
+                    IsNormalUnderSlopeLimit(m_GroundNormal))
+                {
+                    isGrounded = true;
+
+                    // handle snapping to the ground
+                    if (hit.distance > m_Controller.skinWidth)
+                    {
+                        m_Controller.Move(Vector3.down * hit.distance);
+                    }
+                }
+            }
+        }
+    }
+
+    void HandleCharacterMovement()
     {
         // horizontal character rotation
         {
@@ -143,10 +165,7 @@ public class PlayerCharacterController : MonoBehaviour
             // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
             playerCamera.transform.localEulerAngles = new Vector3(-m_CameraVerticalAngle, 0, 0);
         }
-    }
 
-    void HandleCharacterMovement()
-    {
         // character movement handling
         // converts move input to a worldspace vector based on our character's transform orientation
         Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());
@@ -259,41 +278,6 @@ public class PlayerCharacterController : MonoBehaviour
 
         isCrouching = crouched;
         return true;
-    }
-
-    void GroundCheck()
-    {
-        // Make sure that the ground check distance while already in air is very small, to prevent suddenly snapping to ground
-        float chosenGroundCheckDistance = isGrounded ? (m_Controller.skinWidth + groundCheckDistance) : k_GroundCheckDistanceInAir;
-
-        // reset values before the ground check
-        isGrounded = false;
-        m_GroundNormal = Vector3.up;
-
-        // only try to detect ground if it's been a short amount of time since last jump; otherwise we may snap to the ground instantly after we try jumping
-        if (Time.time >= m_LastTimeJumped + k_JumpGroundingPreventionTime)
-        {
-            // if we're grounded, collect info about the ground normal with a downward capsule cast representing our character capsule
-            if (Physics.CapsuleCast(GetCapsuleBottomHemisphere(), GetCapsuleTopHemisphere(m_Controller.height), m_Controller.radius, Vector3.down, out RaycastHit hit, chosenGroundCheckDistance, groundCheckLayers, QueryTriggerInteraction.Ignore))
-            {
-                // storing the upward direction for the surface found
-                m_GroundNormal = hit.normal;
-
-                // Only consider this a valid ground hit if the ground normal goes in the same direction as the character up
-                // and if the slope angle is lower than the character controller's limit
-                if (Vector3.Dot(hit.normal, transform.up) > 0f &&
-                    IsNormalUnderSlopeLimit(m_GroundNormal))
-                {
-                    isGrounded = true;
-
-                    // handle snapping to the ground
-                    if (hit.distance > m_Controller.skinWidth)
-                    {
-                        m_Controller.Move(Vector3.down * hit.distance);
-                    }
-                }
-            }
-        }
     }
 
     void UpdateCharacterHeight(bool force)

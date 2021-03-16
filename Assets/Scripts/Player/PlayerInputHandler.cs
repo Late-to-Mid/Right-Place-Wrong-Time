@@ -17,10 +17,15 @@ public class PlayerInputHandler : MonoBehaviour
     public float horizontalInput;
     public float verticalInput;
 
+    PlayerCharacterController m_PlayerCharacterController;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
