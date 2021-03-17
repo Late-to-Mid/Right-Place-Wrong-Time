@@ -12,12 +12,8 @@ public class PlayerInputHandler : MonoBehaviour
     [Tooltip("Used to flip the horizontal input axis")]
     public bool invertXAxis = false;
 
-    [Header("Input Variables")]
-    [Tooltip("Variables to track when movement characters are being pressed")]
-    public float horizontalInput;
-    public float verticalInput;
-
     PlayerCharacterController m_PlayerCharacterController;
+    bool m_FireInputWasHeld;
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +34,8 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (CanProcessInput())
         {
-            horizontalInput = Input.GetAxisRaw(GameConstants.k_AxisNameHorizontal);
-            verticalInput = Input.GetAxisRaw(GameConstants.k_AxisNameVertical);
+            float horizontalInput = Input.GetAxisRaw(GameConstants.k_AxisNameHorizontal);
+            float verticalInput = Input.GetAxisRaw(GameConstants.k_AxisNameVertical);
 
             Vector3 move = new Vector3(horizontalInput, 0f, verticalInput);
 
@@ -50,6 +46,26 @@ public class PlayerInputHandler : MonoBehaviour
         }
 
         return Vector3.zero;
+    }
+
+    public bool GetFireInputDown()
+    {
+        return GetFireInputHeld() && !m_FireInputWasHeld;
+    }
+
+    public bool GetFireInputReleased()
+    {
+        return !GetFireInputHeld() && m_FireInputWasHeld;
+    }
+
+    public bool GetFireInputHeld()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButton(GameConstants.k_ButtonNameFire);
+        }
+
+        return false;
     }
 
     public bool GetJumpInputDown()

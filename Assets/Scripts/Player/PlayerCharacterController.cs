@@ -8,7 +8,7 @@ public class PlayerCharacterController : MonoBehaviour
 {
     [Header("References")]
     [Tooltip("Reference to the camera for player perspective")]
-    Camera playerCamera;
+    public Camera playerCamera;
 
     [Header("General")]
     [Tooltip("Force applied downward when in the air")]
