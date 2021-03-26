@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Vault : MonoBehaviour
+public class PlayerVault : MonoBehaviour
 {
 
     public bool inCollider;
