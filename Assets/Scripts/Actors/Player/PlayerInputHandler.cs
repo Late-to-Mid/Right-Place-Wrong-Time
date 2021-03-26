@@ -108,6 +108,50 @@ public class PlayerInputHandler : MonoBehaviour
         return false;
     }
 
+    public int GetSwitchWeaponInput()
+    {
+        if (CanProcessInput())
+        {
+
+            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadSwitchWeapon) != 0f;
+            string axisName = isGamepad ? GameConstants.k_ButtonNameGamepadSwitchWeapon : GameConstants.k_ButtonNameSwitchWeapon;
+
+            if (Input.GetAxis(axisName) > 0f)
+                return -1;
+            else if (Input.GetAxis(axisName) < 0f)
+                return 1;
+            else if (Input.GetAxis(GameConstants.k_ButtonNameNextWeapon) > 0f)
+                return -1;
+            else if (Input.GetAxis(GameConstants.k_ButtonNameNextWeapon) < 0f)
+                return 1;
+        }
+
+        return 0;
+    }
+
+    public int GetSelectWeaponInput()
+    {
+        if (CanProcessInput())
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                return 1;
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                return 2;
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                return 3;
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+                return 4;
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+                return 5;
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+                return 6;
+            else
+                return 0;
+        }
+
+        return 0;
+    }
+
     public float GetLookInputsHorizontal()
     {
         if (invertXAxis)

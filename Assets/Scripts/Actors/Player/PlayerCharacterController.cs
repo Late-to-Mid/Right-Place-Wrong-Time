@@ -19,8 +19,8 @@ public class PlayerCharacterController : MonoBehaviour
     public float groundCheckDistance = 0.05f;
 
     [Header("Movement")]
-    [Tooltip("Max movement speed when grounded")]
-    public float maxSpeedOnGround = 10.0f;
+    [Tooltip("Max movement speed when grounded (when not sprinting)")]
+    public float maxSpeedOnGround = 10f;
     [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
     public float movementSharpnessOnGround = 15;
     [Tooltip("Max movement speed when crouching")]
@@ -35,15 +35,14 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Height at which the player dies instantly when falling off the map")]
     public float killHeight = -50f;
 
+    [Header("Rotation")]
+    [Tooltip("Rotation speed for moving the camera")]
+    public float rotationSpeed = 200f;
+    [Range(0.1f, 1f)]
+
     [Header("Jump")]
     [Tooltip("Force applied upward when jumping")]
     public float jumpForce = 9f;
-
-    [Header("Camera Rotation")]
-    [Tooltip("Rotation speed for moving the camera")]
-    public float rotationSpeed = 200f;
-    [Tooltip("Camera's vertical angle")]
-    public float m_CameraVerticalAngle = 0f;
 
     [Header("Stance")]
     [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
@@ -64,12 +63,17 @@ public class PlayerCharacterController : MonoBehaviour
     public bool isDead;
     public bool isCrouching;
 
+    Health m_Health;
     PlayerInputHandler m_InputHandler;
     CharacterController m_Controller;
+    PlayerWeaponsManager m_WeaponsManager;
+    Actor m_Actor;
     Vector3 m_GroundNormal;
-    float m_LastTimeJumped = 0f;
-    float m_footstepDistanceCounter;
+    Vector3 m_CharacterVelocity;
     Vector3 m_LatestImpactSpeed;
+    float m_LastTimeJumped = 0f;
+    float m_CameraVerticalAngle = 0f;
+    float m_footstepDistanceCounter;
     float m_TargetCharacterHeight;
 
     const float k_JumpGroundingPreventionTime = 0.2f;
@@ -80,13 +84,24 @@ public class PlayerCharacterController : MonoBehaviour
         // Set the camera to the main camera in the scene
         playerCamera = Camera.main;
 
-        // Get the input handler of the character
+        // Get the input handler of the character, used to handle player input
         m_InputHandler = GetComponent<PlayerInputHandler>();
 
         // Get the character controller
         m_Controller = GetComponent<CharacterController>();
-
         m_Controller.enableOverlapRecovery = true;
+
+        // Get the weapons manager, used for managing weapons
+        m_WeaponsManager = GetComponent<PlayerWeaponsManager>();
+
+
+        // Get the health, used for tracking health
+        m_Health = GetComponent<Health>();
+
+
+        // Get the actor, used to keep track of allies and enemies
+        m_Actor = GetComponent<Actor>();
+
 
         // force the crouch state to false when starting
         SetCrouchingState(false, true);
@@ -95,10 +110,22 @@ public class PlayerCharacterController : MonoBehaviour
 
     void Update()
     {
+        // check for Y kill
+        if (!isDead && transform.position.y < killHeight)
+        {
+            m_Health.Kill();
+        }
+
+        // Reset variables
         hasJumpedThisFrame = false;
 
+        // set wasGrounded to the previous isGrounded
         bool wasGrounded = isGrounded;
+        // set new isGrounded
         GroundCheck();
+
+        // landing
+        // if (isGrounded && !wasGrounded) { audioSource.PlayOneShot(landSFX) }
 
         // crouching
         if (m_InputHandler.GetCrouchInputDown())
@@ -114,6 +141,9 @@ public class PlayerCharacterController : MonoBehaviour
 
     void GroundCheck()
     {
+        // This function sets the isGrounded variable to true or false depending on whether the character is touching the ground.
+
+
         // Make sure that the ground check distance while already in air is very small, to prevent suddenly snapping to ground
         float chosenGroundCheckDistance = isGrounded ? (m_Controller.skinWidth + groundCheckDistance) : k_GroundCheckDistanceInAir;
 

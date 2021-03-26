@@ -21,10 +21,8 @@ public class PlayerWeaponsManager : MonoBehaviour
     public Camera weaponCamera;
     [Tooltip("Parent transform where all weapon will be added in the hierarchy")]
     public Transform weaponParentSocket;
-    [Tooltip("Position for weapons when active but not actively aiming")]
+    [Tooltip("Position for weapons when active")]
     public Transform defaultWeaponPosition;
-    [Tooltip("Position for weapons when aiming")]
-    public Transform aimingWeaponPosition;
     [Tooltip("Position for innactive weapons")]
     public Transform downWeaponPosition;
 
@@ -35,8 +33,6 @@ public class PlayerWeaponsManager : MonoBehaviour
     public float bobSharpness = 10f;
     [Tooltip("Distance the weapon bobs when not aiming")]
     public float defaultBobAmount = 0.05f;
-    [Tooltip("Distance the weapon bobs when aiming")]
-    public float aimingBobAmount = 0.02f;
 
     [Header("Weapon Recoil")]
     [Tooltip("This will affect how fast the recoil moves the weapon, the bigger the value, the fastest")]
@@ -47,8 +43,6 @@ public class PlayerWeaponsManager : MonoBehaviour
     public float recoilRestitutionSharpness = 10f;
 
     [Header("Misc")]
-    [Tooltip("Speed at which the aiming animatoin is played")]
-    public float aimingAnimationSpeed = 10f;
     [Tooltip("Field of view when not aiming")]
     public float defaultFOV = 60f;
     [Tooltip("Portion of the regular FOV to apply to the weapon camera")]
@@ -58,7 +52,6 @@ public class PlayerWeaponsManager : MonoBehaviour
     [Tooltip("Layer to set FPS weapon gameObjects to")]
     public LayerMask FPSWeaponLayer;
 
-    public bool isAiming { get; private set; }
     public bool isPointingAtEnemy { get; private set; }
     public int activeWeaponIndex { get; private set; }
 
@@ -121,40 +114,39 @@ public class PlayerWeaponsManager : MonoBehaviour
             }
         }
 
-        //// weapon switch handling
-        //if (!isAiming &&
-        //    (activeWeapon == null || !activeWeapon.isCharging) &&
-        //    (m_WeaponSwitchState == WeaponSwitchState.Up || m_WeaponSwitchState == WeaponSwitchState.Down))
-        //{
-        //    int switchWeaponInput = m_InputHandler.GetSwitchWeaponInput();
-        //    if (switchWeaponInput != 0)
-        //    {
-        //        bool switchUp = switchWeaponInput > 0;
-        //        SwitchWeapon(switchUp);
-        //    }
-        //    else
-        //    {
-        //        switchWeaponInput = m_InputHandler.GetSelectWeaponInput();
-        //        if (switchWeaponInput != 0)
-        //        {
-        //            if (GetWeaponAtSlotIndex(switchWeaponInput - 1) != null)
-        //                SwitchToWeaponIndex(switchWeaponInput - 1);
-        //        }
-        //    }
-        //}
+        // weapon switch handling
+        if ((activeWeapon == null || !activeWeapon.isCharging) &&
+            (m_WeaponSwitchState == WeaponSwitchState.Up || m_WeaponSwitchState == WeaponSwitchState.Down))
+        {
+            int switchWeaponInput = m_InputHandler.GetSwitchWeaponInput();
+            if (switchWeaponInput != 0)
+            {
+                bool switchUp = switchWeaponInput > 0;
+                SwitchWeapon(switchUp);
+            }
+            else
+            {
+                switchWeaponInput = m_InputHandler.GetSelectWeaponInput();
+                if (switchWeaponInput != 0)
+                {
+                    if (GetWeaponAtSlotIndex(switchWeaponInput - 1) != null)
+                        SwitchToWeaponIndex(switchWeaponInput - 1);
+                }
+            }
+        }
 
-        //// Pointing at enemy handling
-        //isPointingAtEnemy = false;
-        //if (activeWeapon)
-        //{
-        //    if(Physics.Raycast(weaponCamera.transform.position, weaponCamera.transform.forward, out RaycastHit hit, 1000, -1, QueryTriggerInteraction.Ignore))
-        //    {
-        //        if(hit.collider.GetComponentInParent<EnemyController>())
-        //        {
-        //            isPointingAtEnemy = true;
-        //        }
-        //    }
-        //}
+        // Pointing at enemy handling
+        isPointingAtEnemy = false;
+        if (activeWeapon)
+        {
+            if(Physics.Raycast(weaponCamera.transform.position, weaponCamera.transform.forward, out RaycastHit hit, 1000, -1, QueryTriggerInteraction.Ignore))
+            {
+                if(hit.collider.GetComponentInParent<EnemyController>())
+                {
+                    isPointingAtEnemy = true;
+                }
+            }
+        }
     }
 
 
@@ -246,25 +238,6 @@ public class PlayerWeaponsManager : MonoBehaviour
         return false;
     }
 
-    // Updates weapon position and camera FoV for the aiming transition
-    void UpdateWeaponAiming()
-    {
-        if (m_WeaponSwitchState == WeaponSwitchState.Up)
-        {
-            WeaponController activeWeapon = GetActiveWeapon();
-            if (isAiming && activeWeapon)
-            {
-                m_WeaponMainLocalPosition = Vector3.Lerp(m_WeaponMainLocalPosition, aimingWeaponPosition.localPosition + activeWeapon.aimOffset, aimingAnimationSpeed * Time.deltaTime);
-                SetFOV(Mathf.Lerp(m_PlayerCharacterController.playerCamera.fieldOfView, activeWeapon.aimZoomRatio * defaultFOV, aimingAnimationSpeed * Time.deltaTime));
-            }
-            else
-            {
-                m_WeaponMainLocalPosition = Vector3.Lerp(m_WeaponMainLocalPosition, defaultWeaponPosition.localPosition, aimingAnimationSpeed * Time.deltaTime);
-                SetFOV(Mathf.Lerp(m_PlayerCharacterController.playerCamera.fieldOfView, defaultFOV, aimingAnimationSpeed * Time.deltaTime));
-            }
-        }
-    }
-
     // Updates the weapon bob animation based on character speed
     void UpdateWeaponBob()
     {
@@ -281,7 +254,7 @@ public class PlayerWeaponsManager : MonoBehaviour
             m_WeaponBobFactor = Mathf.Lerp(m_WeaponBobFactor, characterMovementFactor, bobSharpness * Time.deltaTime);
 
             // Calculate vertical and horizontal weapon bob values based on a sine function
-            float bobAmount = isAiming ? aimingBobAmount : defaultBobAmount;
+            float bobAmount = defaultBobAmount;
             float frequency = bobFrequency;
             float hBobValue = Mathf.Sin(Time.time * frequency) * bobAmount * m_WeaponBobFactor;
             float vBobValue = ((Mathf.Sin(Time.time * frequency * 2f) * 0.5f) + 0.5f) * bobAmount * m_WeaponBobFactor;
