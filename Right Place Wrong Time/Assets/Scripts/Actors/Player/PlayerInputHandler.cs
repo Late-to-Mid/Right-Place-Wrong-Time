@@ -24,12 +24,6 @@ public class PlayerInputHandler : MonoBehaviour
         Cursor.visible = false;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public Vector3 GetMoveInput()
     {
         if (CanProcessInput())
