@@ -124,7 +124,7 @@ public class PlayerCharacterController : MonoBehaviour
         // set new isGrounded
         GroundCheck();
 
-        // landing
+        // landing SFX
         // if (isGrounded && !wasGrounded) { audioSource.PlayOneShot(landSFX) }
 
         // crouching
@@ -133,6 +133,7 @@ public class PlayerCharacterController : MonoBehaviour
             SetCrouchingState(!isCrouching, false);
         }
 
+        // Update the character height (but do not force it)
         UpdateCharacterHeight(false);
 
         // Call movement method
@@ -154,7 +155,8 @@ public class PlayerCharacterController : MonoBehaviour
         // only try to detect ground if it's been a short amount of time since last jump; otherwise we may snap to the ground instantly after we try jumping
         if (Time.time >= m_LastTimeJumped + k_JumpGroundingPreventionTime)
         {
-            // if we're grounded, collect info about the ground normal with a downward capsule cast representing our character capsule
+            // if we're grounded, collect info about the ground normal vector with a downward capsule cast representing our character capsule.
+            // This info is stored as a RaycastHit called hit.
             if (Physics.CapsuleCast(GetCapsuleBottomHemisphere(), GetCapsuleTopHemisphere(m_Controller.height), m_Controller.radius, Vector3.down, out RaycastHit hit, chosenGroundCheckDistance, groundCheckLayers, QueryTriggerInteraction.Ignore))
             {
                 // storing the upward direction for the surface found
@@ -179,22 +181,18 @@ public class PlayerCharacterController : MonoBehaviour
     void HandleCharacterMovement()
     {
         // horizontal character rotation
-        {
-            // rotate the transform with the input speed around its local Y axis
-            transform.Rotate(new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * rotationSpeed), 0f), Space.Self);
-        }
-
+        // rotate the transform with the input speed around its local Y axis
+        transform.Rotate(new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * rotationSpeed), 0f), Space.Self);
+        
         // vertical camera rotation
-        {
-            // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * rotationSpeed;
+        // add vertical inputs to the camera's vertical angle
+        m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * rotationSpeed;
 
-            // limit the camera's vertical angle to min/max
-            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
+        // limit the camera's vertical angle to min/max
+        m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
 
-            // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
-            playerCamera.transform.localEulerAngles = new Vector3(-m_CameraVerticalAngle, 0, 0);
-        }
+        // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
+        playerCamera.transform.localEulerAngles = new Vector3(-m_CameraVerticalAngle, 0, 0);
 
         // character movement handling
         // converts move input to a worldspace vector based on our character's transform orientation
@@ -217,7 +215,8 @@ public class PlayerCharacterController : MonoBehaviour
             // jumping
             if (isGrounded && m_InputHandler.GetJumpInputDown())
             {
-                // force the crouch state to false
+                // try to set the crouch state to false
+                // if we can't stand, then we can't jump
                 if (SetCrouchingState(false, false))
                 {
                     // start by canceling out the vertical component of our velocity
@@ -277,19 +276,24 @@ public class PlayerCharacterController : MonoBehaviour
         }
         else
         {
-            // Detect obstructions
+            // Detect obstructions if ignore obstructions is set to false
             if (!ignoreObstructions)
             {
+                // Get all the overlapped colliders
                 Collider[] standingOverlaps = Physics.OverlapCapsule(
                     GetCapsuleBottomHemisphere(),
                     GetCapsuleTopHemisphere(capsuleHeightStanding),
                     m_Controller.radius,
                     -1,
                     QueryTriggerInteraction.Ignore);
+                
+                // For each collider we're currently colliding with...
                 foreach (Collider c in standingOverlaps)
                 {
+                    // If the collider isn't ourself
                     if (c != m_Controller)
                     {
+                        // We can't stand up
                         return false;
                     }
                 }
@@ -298,6 +302,7 @@ public class PlayerCharacterController : MonoBehaviour
             m_TargetCharacterHeight = capsuleHeightStanding;
         }
 
+        // Don't really know what this does
         if (onStanceChanged != null)
         {
             onStanceChanged.Invoke(crouched);
@@ -315,7 +320,7 @@ public class PlayerCharacterController : MonoBehaviour
             m_Controller.height = m_TargetCharacterHeight;
             m_Controller.center = Vector3.up * m_Controller.height * 0.5f;
             playerCamera.transform.localPosition = Vector3.up * m_TargetCharacterHeight * cameraHeightRatio;
-//            m_Actor.aimPoint.transform.localPosition = m_Controller.center;
+            m_Actor.aimPoint.transform.localPosition = m_Controller.center;
         }
         // Update smooth height
         else if (m_Controller.height != m_TargetCharacterHeight)
@@ -324,7 +329,7 @@ public class PlayerCharacterController : MonoBehaviour
             m_Controller.height = Mathf.Lerp(m_Controller.height, m_TargetCharacterHeight, crouchingSharpness * Time.deltaTime);
             m_Controller.center = Vector3.up * m_Controller.height * 0.5f;
             playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, Vector3.up * m_TargetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime);
-//            m_Actor.aimPoint.transform.localPosition = m_Controller.center;
+            m_Actor.aimPoint.transform.localPosition = m_Controller.center;
         }
     }
 
