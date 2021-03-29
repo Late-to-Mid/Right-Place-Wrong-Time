@@ -8,12 +8,12 @@
     public const string k_AxisNameJoystickLookVertical = "Look Y";
     public const string k_AxisNameJoystickLookHorizontal = "Look X";
     public const string k_ButtonNameJump = "Jump";
-    public const string k_ButtonNameFire = "Fire";
-    public const string k_ButtonNameGamepadFire = "Gamepad Fire";
+    public const string k_ButtonNameFire1 = "Fire1";
+    public const string k_ButtonNameGamepadFire1 = "Gamepad Fire1";
     public const string k_ButtonNameSprint = "Sprint";
     public const string k_ButtonNameCrouch = "Crouch";
-    public const string k_ButtonNameAim = "Aim";
-    public const string k_ButtonNameGamepadAim = "Gamepad Aim";
+    public const string k_ButtonNameFire2 = "Fire2";
+    public const string k_ButtonNameGamepadFire2 = "Gamepad Fire2";
     public const string k_ButtonNameSwitchWeapon = "Mouse ScrollWheel";
     public const string k_ButtonNameGamepadSwitchWeapon = "Gamepad Switch";
     public const string k_ButtonNameNextWeapon = "NextWeapon";
