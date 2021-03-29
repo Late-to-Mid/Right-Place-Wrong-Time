@@ -264,7 +264,7 @@ GameObject:
   - component: {fileID: 5552112052822374225}
   - component: {fileID: 5552112052822374224}
   - component: {fileID: 5552112052822374230}
-  - component: {fileID: 5552112052822374231}
+  - component: {fileID: 8351106147952080962}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -415,7 +415,7 @@ MonoBehaviour:
   FPSWeaponLayer:
     serializedVersion: 2
     m_Bits: 4096
---- !u!114 &5552112052822374231
+--- !u!114 &8351106147952080962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -427,6 +427,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c387f05c25772be49a4f913ef3e01fd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCamera: {fileID: 0}
   inCollider: 0
 --- !u!1 &5552112053116106488
 GameObject:
