@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Environment
+  - Projectiles
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - Mount
   - Wall
   - Player
-  - 
+  - Projectiles
   - FirstPersonWeapon
   - 
   - 
