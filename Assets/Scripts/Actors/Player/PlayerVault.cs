@@ -14,6 +14,17 @@ public class PlayerVault : MonoBehaviour
     Transform objectToBeVaulted;
     Vector3 directionToVault;
 
+    //These are the objects for getting the size of the collider
+    Collider m_Collider;
+    Vector3 m_Center;
+    Vector3 m_Size, m_Min, m_Max;
+    CharacterController m_Controller;
+
+    float count;
+
+
+    BoxCollider m_box_Collider;
+
 
     /*
     A Vector 3 is a set of 3 numbers. X,Y,Z Example: (1, 3, 5) A Transform is a game 
@@ -27,6 +38,10 @@ public class PlayerVault : MonoBehaviour
         playerCamera = Camera.main;
         // Set check if inside trigger to false
         inCollider = false;
+        m_Controller = GetComponent<CharacterController>();        
+
+
+
     }
 
     // Update is called once per frame
@@ -37,7 +52,9 @@ public class PlayerVault : MonoBehaviour
         {
             LookingAtTrigger();
             Debug.Log("Vault key pressed");
-        }  
+        }
+
+
     }
 
 
@@ -45,26 +62,37 @@ public class PlayerVault : MonoBehaviour
     {
         //This class is to check if player is colliding with vaultable walls
 
+        //Getting sizes of the vault wall the player collides with
+        m_Collider = collider;
+        m_Size = m_Collider.bounds.size;
+        m_Min = m_Collider.bounds.min;
+        m_Max = m_Collider.bounds.max;        
+        //Fetch the center of the Collider volume
+        //m_Center = m_Collider.bounds.center;
+
+        //Getting 
         directionToVault = collider.transform.position;
-        objectToBeVaulted = collider.transform;        
+        objectToBeVaulted = collider.transform;
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Mount"))
         {
             //Sets boolean to true confirming we are in a trigger
             inCollider = true;
+
+            
+
+
         }
     }
 
     void OnTriggerExit(Collider other)
     {
         inCollider = false;
+        count = 0;
     }
 
     void LookingAtTrigger()
     {
-
-        //Transform objectThatShouldBeOutOfSight;
-        //Vector3 directionToObject;
 
         directionToVault = objectToBeVaulted.position - playerCamera.transform.position;
 
@@ -77,6 +105,17 @@ public class PlayerVault : MonoBehaviour
     void Vault()
     {
         Debug.Log("The player should vault now");
+
+        //Get vector between the two objects
+        while (count < m_Size.y)
+        {
+            m_Controller.Move(Vector3.up);
+            count++;
+        }
+            
+
+
+
     }
 
 }
