@@ -300,11 +300,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6544379ef186d8b44aa54fdd8682624c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
+  playerCamera: {fileID: 5552112052663093884}
+  audioSource: {fileID: 0}
   gravityDownForce: 20
   groundCheckLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 769
   groundCheckDistance: 0.05
   maxSpeedOnGround: 10
   movementSharpnessOnGround: 15
