@@ -16,16 +16,14 @@ public class PlayerInputHandler : MonoBehaviour
     public bool invertXAxis = false;
 
     [Header("Movement Options")]
-    [Tooltip("Make crouching a toggle")]
-    public bool crouchIsToggle = false;
-    [Tooltip("Make sprinting a toggle")]
+    [Tooltip("Make crouching a toggle (default true)")]
+    public bool crouchIsToggle = true;
+    [Tooltip("Make sprinting a toggle (default false)")]
     public bool sprintIsToggle = false;
 
     // GameFlowManager m_GameFlowManager;
     PlayerCharacterController m_PlayerCharacterController;
     bool m_FireInputWasHeld;
-    bool m_CrouchInputWasHeld;
-    bool m_SprintInputWasHeld;
     public bool isSprinting;
     public bool isCrouching;
 
@@ -48,8 +46,6 @@ public class PlayerInputHandler : MonoBehaviour
     private void LateUpdate()
     {
         m_FireInputWasHeld = GetFire1InputHeld();
-        m_CrouchInputWasHeld = GetCrouchInputHeld();
-        m_SprintInputWasHeld = GetSprintInputHeld();
     }
 
     private void GetCrouchingState()
@@ -190,39 +186,36 @@ public class PlayerInputHandler : MonoBehaviour
         if (CanProcessInput())
         {
             return Input.GetButton(GameConstants.k_ButtonNameSprint);
-        }
-    
+        }    
         return false;
-    }
-
-    public bool GetSprintInputReleased()
-    {
-        return !GetSprintInputHeld() && m_SprintInputWasHeld;
     }
 
     public bool GetSprintInputDown()
     {
-        return GetSprintInputHeld() && !m_SprintInputWasHeld;
+        if (CanProcessInput())
+        {
+            return Input.GetButtonDown(GameConstants.k_ButtonNameSprint);
+        }
+        return false;
     }
 
     public bool GetCrouchInputHeld()
     {
         if (CanProcessInput())
         {
-            return Input.GetButtonDown(GameConstants.k_ButtonNameCrouch);
+            return Input.GetButton(GameConstants.k_ButtonNameCrouch);
         }
 
         return false;
     }
 
-    public bool GetCrouchInputReleased()
-    {
-        return !GetCrouchInputHeld() && m_CrouchInputWasHeld;
-    }
-
     public bool GetCrouchInputDown()
     {
-        return GetCrouchInputHeld() && !m_CrouchInputWasHeld;
+        if (CanProcessInput())
+        {
+            return Input.GetButtonDown(GameConstants.k_ButtonNameCrouch);
+        }
+        return false;
     }
 
     public int GetSwitchWeaponInput()

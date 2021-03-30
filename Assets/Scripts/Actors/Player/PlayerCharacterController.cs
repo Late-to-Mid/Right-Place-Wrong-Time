@@ -211,8 +211,8 @@ public class PlayerCharacterController : MonoBehaviour
                 // calculate the desired velocity from inputs, max speed, and current slope
                 Vector3 targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
                 // reduce speed if crouching by crouch speed ratio
-                if (m_InputHandler.isCrouching)
-                    targetVelocity *= maxSpeedCrouchedRatio;
+                if (m_InputHandler.isCrouching) { targetVelocity *= maxSpeedCrouchedRatio; }
+
                 targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) * targetVelocity.magnitude;
 
                 // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
@@ -343,6 +343,7 @@ public class PlayerCharacterController : MonoBehaviour
 
             m_TargetCharacterHeight = capsuleHeightStanding;
         }
+        m_InputHandler.isCrouching = crouched;
         return true;
     }
 
