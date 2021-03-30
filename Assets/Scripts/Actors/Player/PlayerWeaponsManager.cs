@@ -61,7 +61,8 @@ public class PlayerWeaponsManager : MonoBehaviour
 
     WeaponController[] m_WeaponSlots = new WeaponController[9]; // 9 available weapon slots
     PlayerInputHandler m_InputHandler;
-    PlayerCharacterController m_PlayerCharacterController;
+    PlayerMovementHandler m_PlayerMovementHandler;
+    Camera playerCamera;
     float m_WeaponBobFactor;
     Vector3 m_LastCharacterPosition;
     Vector3 m_WeaponMainLocalPosition;
@@ -74,12 +75,15 @@ public class PlayerWeaponsManager : MonoBehaviour
 
     private void Start()
     {
+        // Set the camera to the main camera in the scene
+        playerCamera = Camera.main;
+
         activeWeaponIndex = -1;
         m_WeaponSwitchState = WeaponSwitchState.Down;
 
         m_InputHandler = GetComponent<PlayerInputHandler>();
 
-        m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
+        m_PlayerMovementHandler = GetComponent<PlayerMovementHandler>();
 
         SetFOV(defaultFOV);
 
@@ -164,7 +168,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     // Sets the FOV of the main camera and the weapon camera simultaneously
     public void SetFOV(float fov)
     {
-        m_PlayerCharacterController.playerCamera.fieldOfView = fov;
+        playerCamera.fieldOfView = fov;
         weaponCamera.fieldOfView = fov * weaponFOVMultiplier;
     }
 
@@ -242,13 +246,13 @@ public class PlayerWeaponsManager : MonoBehaviour
     {
         if (Time.deltaTime > 0f)
         {
-            Vector3 playerCharacterVelocity = (m_PlayerCharacterController.transform.position - m_LastCharacterPosition) / Time.deltaTime;
+            Vector3 playerCharacterVelocity = m_PlayerMovementHandler.characterVelocity;
 
             // calculate a smoothed weapon bob amount based on how close to our max grounded movement velocity we are
             float characterMovementFactor = 0f;
-            if (m_PlayerCharacterController.isGrounded)
+            if (m_PlayerMovementHandler.isGrounded)
             {
-                characterMovementFactor = Mathf.Clamp01(playerCharacterVelocity.magnitude / (m_PlayerCharacterController.maxSpeedOnGround * m_PlayerCharacterController.sprintSpeedModifier));
+                characterMovementFactor = Mathf.Clamp01(playerCharacterVelocity.magnitude / (m_PlayerMovementHandler.maxSpeedOnGround * m_PlayerMovementHandler.sprintSpeedModifier));
             }
             m_WeaponBobFactor = Mathf.Lerp(m_WeaponBobFactor, characterMovementFactor, bobSharpness * Time.deltaTime);
 

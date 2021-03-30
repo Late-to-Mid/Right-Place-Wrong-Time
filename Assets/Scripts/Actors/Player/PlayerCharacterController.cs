@@ -7,99 +7,39 @@ using UnityEngine.Events;
 public class PlayerCharacterController : MonoBehaviour
 {
     [Header("References")]
-    [Tooltip("Reference to the camera for player perspective")]
-    public Camera playerCamera;
     [Tooltip("Audio source for footsteps, jump, etc...")]
     public AudioSource audioSource;
 
-
     [Header("General")]
-    [Tooltip("Force applied downward when in the air")]
-    public float gravityDownForce = 20f;
     [Tooltip("Physic layers checked to consider the player grounded")]
     public LayerMask groundCheckLayers = -1;
     [Tooltip("distance from the bottom of the character controller capsule to test for grounded")]
     public float groundCheckDistance = 0.05f;
 
-    [Header("Movement")]
-    [Tooltip("Max movement speed when grounded (when not sprinting)")]
-    public float maxSpeedOnGround = 10f;
-    [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
-    public float movementSharpnessOnGround = 15;
-    [Tooltip("Max movement speed when crouching")]
-    [Range(0, 1)]
-    public float maxSpeedCrouchedRatio = 0.5f;
-    [Tooltip("Max movement speed when not grounded")]
-    public float maxSpeedInAir = 10f;
-    [Tooltip("Acceleration speed when in the air")]
-    public float accelerationSpeedInAir = 25f;
-    [Tooltip("Multiplicator for the sprint speed (based on grounded speed)")]
-    public float sprintSpeedModifier = 2f;
     [Tooltip("Height at which the player dies instantly when falling off the map")]
     public float killHeight = -50f;
-
-    [Header("Rotation")]
-    [Tooltip("Rotation speed for moving the camera")]
-    public float rotationSpeed = 200f;
-    [Range(0.1f, 1f)]
-
-    [Header("Jump")]
-    [Tooltip("Force applied upward when jumping")]
-    public float jumpForce = 9f;
-
-    [Header("Stance")]
-    [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
-    public float cameraHeightRatio = 0.9f;
-    [Tooltip("Height of character when standing")]
-    public float capsuleHeightStanding = 1.8f;
-    [Tooltip("Height of character when crouching")]
-    public float capsuleHeightCrouching = 0.9f;
-    [Tooltip("Speed of crouching transitions")]
-    public float crouchingSharpness = 10f;
 
     public UnityAction<bool> onStanceChanged;
 
     [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
-    public Vector3 characterVelocity; // { get; set; }
     public bool isGrounded; // { get; private set; }
-    public bool hasJumpedThisFrame { get; private set; }
     public bool isDead; // { get; private set; }
-    public float RotationMultiplier
-    {
-        get
-        {
-            // if (m_WeaponsManager.isAiming)
-            // {
-            //     return aimingRotationMultiplier;
-            // }
-
-            return 1f;
-        }
-    }
 
     Health m_Health;
-    PlayerInputHandler m_InputHandler;
     CharacterController m_Controller;
-    PlayerWeaponsManager m_WeaponsManager;
-    Actor m_Actor;
-    Vector3 m_GroundNormal;
+    PlayerMovementHandler m_MovementHandler;
+    PlayerWeaponsManager m_WeaponsManager;    
+    public Vector3 m_GroundNormal;
     Vector3 m_CharacterVelocity;
-    Vector3 m_LatestImpactSpeed;
-    float m_LastTimeJumped = 0f;
-    float m_CameraVerticalAngle = 0f;
-    float m_footstepDistanceCounter;
-    float m_TargetCharacterHeight;
+    public float m_footstepDistanceCounter;
 
     const float k_JumpGroundingPreventionTime = 0.2f;
     const float k_GroundCheckDistanceInAir = 0.07f;
 
     void Start()
     {
-        // Set the camera to the main camera in the scene
-        playerCamera = Camera.main;
-
-        // Get the input handler of the character, used to handle player input
-        m_InputHandler = GetComponent<PlayerInputHandler>();
+        // Get the movement handler
+        m_MovementHandler = GetComponent<PlayerMovementHandler>();
 
         // Get the character controller
         m_Controller = GetComponent<CharacterController>();
@@ -108,18 +48,8 @@ public class PlayerCharacterController : MonoBehaviour
         // Get the weapons manager, used for managing weapons
         m_WeaponsManager = GetComponent<PlayerWeaponsManager>();
 
-
         // Get the health, used for tracking health
         m_Health = GetComponent<Health>();
-
-
-        // Get the actor, used to keep track of allies and enemies
-        m_Actor = GetComponent<Actor>();
-
-
-        // force the crouch state to false when starting
-        SetCrouchingState(false, true);
-        UpdateCharacterHeight(true);
     }
 
     void Update()
@@ -129,9 +59,6 @@ public class PlayerCharacterController : MonoBehaviour
         {
             m_Health.Kill();
         }
-
-        // Reset variables
-        hasJumpedThisFrame = false;
 
         // set wasGrounded to the previous isGrounded
         bool wasGrounded = isGrounded;
@@ -143,6 +70,50 @@ public class PlayerCharacterController : MonoBehaviour
 
         // Call movement method
         HandleCharacterMovement();
+    }
+
+    public void HandleCharacterMovement()
+    {
+        m_MovementHandler.RotateCharacter();
+
+        // character movement handling
+        // Crouching
+        m_MovementHandler.SetCrouchingState(isCrouching, false);
+
+        // Update the character height (but do not force it)
+        UpdateCharacterHeight(false);
+
+        if (m_InputHandler.isSprinting)
+        {
+            m_InputHandler.isSprinting = SetCrouchingState(false, false);
+        }
+
+        float speedModifier = m_InputHandler.isSprinting ? sprintSpeedModifier : 1f;
+
+        // converts move input to a worldspace vector based on our character's transform orientation
+        Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());
+
+        // handle grounded movement
+        if (m_CharacterController.isGrounded)
+        {
+            HandleGroundedMovement(worldspaceMoveInput, speedModifier);
+        }
+        else
+        {
+            HandleAirMovement(worldspaceMoveInput, speedModifier);
+        }
+
+        // apply the final calculated velocity value as a character movement
+        Vector3 capsuleBottomBeforeMove = m_CharacterController.GetCapsuleBottomHemisphere();
+        Vector3 capsuleTopBeforeMove = m_CharacterController.GetCapsuleTopHemisphere(m_Controller.height);
+
+        // detect obstructions to adjust velocity accordingly
+        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
+        {
+            characterVelocity = Vector3.ProjectOnPlane(characterVelocity, hit.normal);
+        }
+
+        m_Controller.Move(characterVelocity * Time.deltaTime);
     }
 
     void GroundCheck()
@@ -158,7 +129,7 @@ public class PlayerCharacterController : MonoBehaviour
         m_GroundNormal = Vector3.up;
 
         // only try to detect ground if it's been a short amount of time since last jump; otherwise we may snap to the ground instantly after we try jumping
-        if (Time.time >= m_LastTimeJumped + k_JumpGroundingPreventionTime)
+        if (Time.time >= m_MovementHandler.m_LastTimeJumped + k_JumpGroundingPreventionTime)
         {
             // if we're grounded, collect info about the ground normal vector with a downward capsule cast representing our character capsule.
             // This info is stored as a RaycastHit called hit.
@@ -183,199 +154,14 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
-    void HandleCharacterMovement()
-    {
-        RotateCharacter();
-
-        // character movement handling
-        {
-            // Crouching
-            SetCrouchingState(m_InputHandler.isCrouching, false);
-
-            // Update the character height (but do not force it)
-            UpdateCharacterHeight(false);
-
-            if (m_InputHandler.isSprinting)
-            {
-                m_InputHandler.isSprinting = SetCrouchingState(false, false);
-            }
-
-            float speedModifier = m_InputHandler.isSprinting ? sprintSpeedModifier : 1f;
-
-            // converts move input to a worldspace vector based on our character's transform orientation
-            Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());
-
-            // handle grounded movement
-            if (isGrounded)
-            {
-                // calculate the desired velocity from inputs, max speed, and current slope
-                Vector3 targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
-                // reduce speed if crouching by crouch speed ratio
-                if (m_InputHandler.isCrouching) { targetVelocity *= maxSpeedCrouchedRatio; }
-
-                targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) * targetVelocity.magnitude;
-
-                // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
-                characterVelocity = Vector3.Lerp(characterVelocity, targetVelocity, movementSharpnessOnGround * Time.deltaTime);
-
-                // jumping
-                if (isGrounded && m_InputHandler.GetJumpInputDown())
-                {
-                    // force the crouch state to false
-                    if (SetCrouchingState(false, false))
-                    {
-                        // start by canceling out the vertical component of our velocity
-                        characterVelocity = new Vector3(characterVelocity.x, 0f, characterVelocity.z);
-
-                        // then, add the jumpSpeed value upwards
-                        characterVelocity += Vector3.up * jumpForce;
-
-                        // play sound
-                        // audioSource.PlayOneShot(jumpSFX);
-
-                        // remember last time we jumped because we need to prevent snapping to ground for a short time
-                        m_LastTimeJumped = Time.time;
-                        hasJumpedThisFrame = true;
-
-                        // Force grounding to false
-                        isGrounded = false;
-                        m_GroundNormal = Vector3.up;
-                    }
-                }
-
-                // footsteps sound
-                // float chosenFootstepSFXFrequency = (isSprinting ? footstepSFXFrequencyWhileSprinting : footstepSFXFrequency);
-                // if (m_footstepDistanceCounter >= 1f / chosenFootstepSFXFrequency)
-                // {
-                //     m_footstepDistanceCounter = 0f;
-                //     audioSource.PlayOneShot(footstepSFX);
-                // }
-
-                // keep track of distance traveled for footsteps sound
-                m_footstepDistanceCounter += characterVelocity.magnitude * Time.deltaTime;
-            }
-            // handle air movement
-            else
-            {
-                // add air acceleration
-                characterVelocity += worldspaceMoveInput * accelerationSpeedInAir * Time.deltaTime;
-
-                // limit air speed to a maximum, but only horizontally
-                float verticalVelocity = characterVelocity.y;
-                Vector3 horizontalVelocity = Vector3.ProjectOnPlane(characterVelocity, Vector3.up);
-                horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeedInAir * speedModifier);
-                characterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
-
-                // apply the gravity to the velocity
-                characterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
-            }
-        }
-
-        // apply the final calculated velocity value as a character movement
-        Vector3 capsuleBottomBeforeMove = GetCapsuleBottomHemisphere();
-        Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(m_Controller.height);
-        m_Controller.Move(characterVelocity * Time.deltaTime);
-
-        // detect obstructions to adjust velocity accordingly
-        m_LatestImpactSpeed = Vector3.zero;
-        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, characterVelocity.normalized, out RaycastHit hit, characterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
-        {
-            // We remember the last impact speed because the fall damage logic might need it
-            m_LatestImpactSpeed = characterVelocity;
-
-            characterVelocity = Vector3.ProjectOnPlane(characterVelocity, hit.normal);
-        }
-    }
-
-    void RotateCharacter()
-    {
-        // horizontal character rotation
-        {
-            // rotate the transform with the input speed around its local Y axis
-            transform.Rotate(new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * rotationSpeed * RotationMultiplier), 0f), Space.Self);
-        }
-
-        // vertical camera rotation
-        {
-            // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * rotationSpeed * RotationMultiplier;
-
-            // limit the camera's vertical angle to min/max
-            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
-
-            // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
-            playerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
-        }
-    }
-
-    // returns false if there was an obstruction
-    bool SetCrouchingState(bool crouched, bool ignoreObstructions)
-    {
-        // set appropriate heights
-        if (crouched)
-        {
-            m_TargetCharacterHeight = capsuleHeightCrouching;
-        }
-        else
-        {
-            // Detect obstructions if ignore obstructions is set to false
-            if (!ignoreObstructions)
-            {
-                // Get all the overlapped colliders
-                Collider[] standingOverlaps = Physics.OverlapCapsule(
-                    GetCapsuleBottomHemisphere(),
-                    GetCapsuleTopHemisphere(capsuleHeightStanding),
-                    m_Controller.radius,
-                    -1,
-                    QueryTriggerInteraction.Ignore);
-                
-                // For each collider we're currently colliding with...
-                foreach (Collider c in standingOverlaps)
-                {
-                    // If the collider isn't ourself
-                    if (c != m_Controller)
-                    {
-                        // We can't stand up
-                        return false;
-                    }
-                }
-            }
-
-            m_TargetCharacterHeight = capsuleHeightStanding;
-        }
-        m_InputHandler.isCrouching = crouched;
-        return true;
-    }
-
-    void UpdateCharacterHeight(bool force)
-    {
-        // Update height instantly
-        if (force)
-        {
-            m_Controller.height = m_TargetCharacterHeight;
-            m_Controller.center = Vector3.up * m_Controller.height * 0.5f;
-            playerCamera.transform.localPosition = Vector3.up * m_TargetCharacterHeight * cameraHeightRatio;
-            m_Actor.aimPoint.transform.localPosition = m_Controller.center;
-        }
-        // Update smooth height
-        else if (m_Controller.height != m_TargetCharacterHeight)
-        {
-            // resize the capsule and adjust camera position
-            m_Controller.height = Mathf.Lerp(m_Controller.height, m_TargetCharacterHeight, crouchingSharpness * Time.deltaTime);
-            m_Controller.center = Vector3.up * m_Controller.height * 0.5f;
-            playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, Vector3.up * m_TargetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime);
-            m_Actor.aimPoint.transform.localPosition = m_Controller.center;
-        }
-    }
-
     // Gets the center point of the bottom hemisphere of the character controller capsule    
-    Vector3 GetCapsuleBottomHemisphere()
+    public Vector3 GetCapsuleBottomHemisphere()
     {
         return transform.position + (transform.up * m_Controller.radius);
     }
 
     // Gets the center point of the top hemisphere of the character controller capsule    
-    Vector3 GetCapsuleTopHemisphere(float atHeight)
+    public Vector3 GetCapsuleTopHemisphere(float atHeight)
     {
         return transform.position + (transform.up * (atHeight - m_Controller.radius));
     }
