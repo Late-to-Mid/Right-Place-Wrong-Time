@@ -61,7 +61,7 @@ public class PlayerWeaponsManager : MonoBehaviour
 
     WeaponController[] m_WeaponSlots = new WeaponController[9]; // 9 available weapon slots
     PlayerInputHandler m_InputHandler;
-    PlayerMovementHandler m_PlayerMovementHandler;
+    PlayerCharacterController m_PlayerCharacterController;
     Camera playerCamera;
     float m_WeaponBobFactor;
     Vector3 m_LastCharacterPosition;
@@ -83,7 +83,7 @@ public class PlayerWeaponsManager : MonoBehaviour
 
         m_InputHandler = GetComponent<PlayerInputHandler>();
 
-        m_PlayerMovementHandler = GetComponent<PlayerMovementHandler>();
+        m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
 
         SetFOV(defaultFOV);
 
@@ -246,13 +246,11 @@ public class PlayerWeaponsManager : MonoBehaviour
     {
         if (Time.deltaTime > 0f)
         {
-            Vector3 playerCharacterVelocity = m_PlayerMovementHandler.characterVelocity;
-
             // calculate a smoothed weapon bob amount based on how close to our max grounded movement velocity we are
             float characterMovementFactor = 0f;
-            if (m_PlayerMovementHandler.isGrounded)
+            if (m_PlayerCharacterController.isGrounded)
             {
-                characterMovementFactor = Mathf.Clamp01(playerCharacterVelocity.magnitude / (m_PlayerMovementHandler.maxSpeedOnGround * m_PlayerMovementHandler.sprintSpeedModifier));
+                characterMovementFactor = Mathf.Clamp01(m_PlayerCharacterController.m_CharacterVelocity.magnitude / (m_PlayerCharacterController.maxSpeedOnGround * m_PlayerCharacterController.sprintSpeedModifier));
             }
             m_WeaponBobFactor = Mathf.Lerp(m_WeaponBobFactor, characterMovementFactor, bobSharpness * Time.deltaTime);
 
