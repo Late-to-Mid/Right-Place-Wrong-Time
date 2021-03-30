@@ -64,7 +64,6 @@ public class PlayerCharacterController : MonoBehaviour
     public bool isGrounded; // { get; private set; }
     public bool hasJumpedThisFrame { get; private set; }
     public bool isDead; // { get; private set; }
-    public bool isCrouching; // { get; private set; }
     public float RotationMultiplier
     {
         get
@@ -142,15 +141,6 @@ public class PlayerCharacterController : MonoBehaviour
         // landing SFX
         // if (isGrounded && !wasGrounded) { audioSource.PlayOneShot(landSFX) }
 
-        // crouching
-        if (m_InputHandler.GetCrouchInputDown())
-        {
-            SetCrouchingState(!isCrouching, false);
-        }
-
-        // Update the character height (but do not force it)
-        UpdateCharacterHeight(false);
-
         // Call movement method
         HandleCharacterMovement();
     }
@@ -195,33 +185,22 @@ public class PlayerCharacterController : MonoBehaviour
 
     void HandleCharacterMovement()
     {
-        // horizontal character rotation
-        {
-            // rotate the transform with the input speed around its local Y axis
-            transform.Rotate(new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * rotationSpeed * RotationMultiplier), 0f), Space.Self);
-        }
-
-        // vertical camera rotation
-        {
-            // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * rotationSpeed * RotationMultiplier;
-
-            // limit the camera's vertical angle to min/max
-            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
-
-            // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
-            playerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
-        }
+        RotateCharacter();
 
         // character movement handling
-        bool isSprinting = m_InputHandler.GetSprintInputHeld();
         {
-            if (isSprinting)
+            // Crouching
+            SetCrouchingState(m_InputHandler.isCrouching, false);
+
+            // Update the character height (but do not force it)
+            UpdateCharacterHeight(false);
+
+            if (m_InputHandler.isSprinting)
             {
-                isSprinting = SetCrouchingState(false, false);
+                m_InputHandler.isSprinting = SetCrouchingState(false, false);
             }
 
-            float speedModifier = isSprinting ? sprintSpeedModifier : 1f;
+            float speedModifier = m_InputHandler.isSprinting ? sprintSpeedModifier : 1f;
 
             // converts move input to a worldspace vector based on our character's transform orientation
             Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());
@@ -232,7 +211,7 @@ public class PlayerCharacterController : MonoBehaviour
                 // calculate the desired velocity from inputs, max speed, and current slope
                 Vector3 targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
                 // reduce speed if crouching by crouch speed ratio
-                if (isCrouching)
+                if (m_InputHandler.isCrouching)
                     targetVelocity *= maxSpeedCrouchedRatio;
                 targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) * targetVelocity.magnitude;
 
@@ -308,6 +287,27 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
+    void RotateCharacter()
+    {
+        // horizontal character rotation
+        {
+            // rotate the transform with the input speed around its local Y axis
+            transform.Rotate(new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * rotationSpeed * RotationMultiplier), 0f), Space.Self);
+        }
+
+        // vertical camera rotation
+        {
+            // add vertical inputs to the camera's vertical angle
+            m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * rotationSpeed * RotationMultiplier;
+
+            // limit the camera's vertical angle to min/max
+            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
+
+            // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
+            playerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
+        }
+    }
+
     // returns false if there was an obstruction
     bool SetCrouchingState(bool crouched, bool ignoreObstructions)
     {
@@ -343,14 +343,6 @@ public class PlayerCharacterController : MonoBehaviour
 
             m_TargetCharacterHeight = capsuleHeightStanding;
         }
-
-        // Don't really know what this does
-        if (onStanceChanged != null)
-        {
-            onStanceChanged.Invoke(crouched);
-        }
-
-        isCrouching = crouched;
         return true;
     }
 

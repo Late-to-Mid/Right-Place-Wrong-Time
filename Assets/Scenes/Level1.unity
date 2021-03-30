@@ -1239,6 +1239,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5552112052822374226, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
+        type: 3}
+      propertyPath: crouchIsToggle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5552112052822374226, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
+        type: 3}
+      propertyPath: sprintIsToggle
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5552112052822374230, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
       propertyPath: startingWeapons.Array.size

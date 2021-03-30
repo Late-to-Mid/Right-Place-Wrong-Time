@@ -15,9 +15,19 @@ public class PlayerInputHandler : MonoBehaviour
     [Tooltip("Used to flip the horizontal input axis")]
     public bool invertXAxis = false;
 
+    [Header("Movement Options")]
+    [Tooltip("Make crouching a toggle")]
+    public bool crouchIsToggle = false;
+    [Tooltip("Make sprinting a toggle")]
+    public bool sprintIsToggle = false;
+
     // GameFlowManager m_GameFlowManager;
     PlayerCharacterController m_PlayerCharacterController;
     bool m_FireInputWasHeld;
+    bool m_CrouchInputWasHeld;
+    bool m_SprintInputWasHeld;
+    public bool isSprinting;
+    public bool isCrouching;
 
     // Start is called before the first frame update
     void Start()
@@ -29,9 +39,48 @@ public class PlayerInputHandler : MonoBehaviour
         Cursor.visible = false;
     }
 
+    void Update()
+    {
+        GetCrouchingState();
+        GetSprintingState();
+    }
+
     private void LateUpdate()
     {
         m_FireInputWasHeld = GetFire1InputHeld();
+        m_CrouchInputWasHeld = GetCrouchInputHeld();
+        m_SprintInputWasHeld = GetSprintInputHeld();
+    }
+
+    private void GetCrouchingState()
+    {
+        if (crouchIsToggle)
+        {
+            if (GetCrouchInputDown())
+            {
+                isCrouching = !isCrouching;
+            }
+        }
+        else
+        {
+            isCrouching = GetCrouchInputHeld();
+        }
+    }
+
+    private void GetSprintingState()
+    {
+        if (sprintIsToggle)
+        {
+            if (GetSprintInputDown())
+            {
+                isSprinting = !isSprinting;
+            }
+        }
+        else
+        {
+            isSprinting = GetSprintInputHeld();
+        }
+
     }
 
     public bool CanProcessInput()
@@ -146,7 +195,17 @@ public class PlayerInputHandler : MonoBehaviour
         return false;
     }
 
-    public bool GetCrouchInputDown()
+    public bool GetSprintInputReleased()
+    {
+        return !GetSprintInputHeld() && m_SprintInputWasHeld;
+    }
+
+    public bool GetSprintInputDown()
+    {
+        return GetSprintInputHeld() && !m_SprintInputWasHeld;
+    }
+
+    public bool GetCrouchInputHeld()
     {
         if (CanProcessInput())
         {
@@ -158,12 +217,12 @@ public class PlayerInputHandler : MonoBehaviour
 
     public bool GetCrouchInputReleased()
     {
-        if (CanProcessInput())
-        {
-            return Input.GetButtonUp(GameConstants.k_ButtonNameCrouch);
-        }
+        return !GetCrouchInputHeld() && m_CrouchInputWasHeld;
+    }
 
-        return false;
+    public bool GetCrouchInputDown()
+    {
+        return GetCrouchInputHeld() && !m_CrouchInputWasHeld;
     }
 
     public int GetSwitchWeaponInput()
