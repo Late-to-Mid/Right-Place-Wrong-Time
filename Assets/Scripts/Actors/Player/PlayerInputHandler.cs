@@ -110,12 +110,12 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (CanProcessInput())
         {
-            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadFire1) != 0f;
-            if (isGamepad)
-            {
-                return Input.GetAxis(GameConstants.k_ButtonNameGamepadFire1) >= triggerAxisThreshold;
-            }
-            else
+            //bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadFire1) != 0f;
+            //if (isGamepad)
+            //{
+            //    return Input.GetAxis(GameConstants.k_ButtonNameGamepadFire1) >= triggerAxisThreshold;
+            //}
+            //else
             {
                 return Input.GetButton(GameConstants.k_ButtonNameFire1);
             }
