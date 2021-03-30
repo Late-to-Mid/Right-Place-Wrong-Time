@@ -179,17 +179,17 @@ public class ProjectileStandard : MonoBehaviour
 
     bool IsHitValid(RaycastHit hit)
     {
-        //// ignore hits with an ignore component
-        //if(hit.collider.GetComponent<IgnoreHitDetection>())
-        //{
-        //    return false;
-        //}
+        // ignore hits with an ignore component
+        if(hit.collider.GetComponent<IgnoreHitDetection>())
+        {
+            return false;
+        }
 
-        //// ignore hits with triggers that don't have a Damageable component
-        //if(hit.collider.isTrigger && hit.collider.GetComponent<Damageable>() == null)
-        //{
-        //    return false;
-        //}
+        // ignore hits with triggers that don't have a Damageable component
+        if(hit.collider.isTrigger && hit.collider.GetComponent<Damageable>() == null)
+        {
+            return false;
+        }
 
         // ignore hits with specific ignored colliders (self colliders, by default)
         if (m_IgnoredColliders != null && m_IgnoredColliders.Contains(hit.collider))
@@ -202,21 +202,21 @@ public class ProjectileStandard : MonoBehaviour
 
     void OnHit(Vector3 point, Vector3 normal, Collider collider)
     { 
-        //// damage
-        //if (areaOfDamage)
-        //{
-        //    // area damage
-        //    areaOfDamage.InflictDamageInArea(damage, point, hittableLayers, k_TriggerInteraction, m_ProjectileBase.owner);
-        //}
-        //else
-        //{
-        //    // point damage
-        //    Damageable damageable = collider.GetComponent<Damageable>();
-        //    if (damageable)
-        //    {
-        //        damageable.InflictDamage(damage, false, m_ProjectileBase.owner);
-        //    }
-        //}
+        // damage
+        if (areaOfDamage)
+        {
+            // area damage
+            areaOfDamage.InflictDamageInArea(damage, point, hittableLayers, k_TriggerInteraction, m_ProjectileBase.owner);
+        }
+        else
+        {
+            // point damage
+            Damageable damageable = collider.GetComponent<Damageable>();
+            if (damageable)
+            {
+                damageable.InflictDamage(damage, false, m_ProjectileBase.owner);
+            }
+        }
 
         // impact vfx
         if (impactVFX)
