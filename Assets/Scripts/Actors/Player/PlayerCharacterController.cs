@@ -133,6 +133,7 @@ public class PlayerCharacterController : MonoBehaviour
 
         RotateCharacter(m_PlayerInputHandler);
 
+        // Adjust speed modifier depending on whether or not the player is sprinting.
         float speedModifier = m_PlayerInputHandler.isSprinting ? sprintSpeedModifier : 1f;
 
         // converts move input to a worldspace vector based on our character's transform orientation
@@ -296,7 +297,7 @@ public class PlayerCharacterController : MonoBehaviour
         // }
 
         // keep track of distance traveled for footsteps sound
-        m_footstepDistanceCounter += m_CharacterVelocity.magnitude * Time.deltaTime;
+        // m_footstepDistanceCounter += m_CharacterVelocity.magnitude * Time.deltaTime;
     }
 
     void HandleAirMovement(Vector3 worldspaceMoveInput, float speedModifier)
@@ -349,7 +350,6 @@ public class PlayerCharacterController : MonoBehaviour
 
             m_TargetCharacterHeight = capsuleHeightStanding;
         }
-        m_PlayerInputHandler.isCrouching = crouched;
         return true;
     }
 
