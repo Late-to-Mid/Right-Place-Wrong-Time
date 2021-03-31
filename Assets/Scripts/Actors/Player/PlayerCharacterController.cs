@@ -123,29 +123,14 @@ public class PlayerCharacterController : MonoBehaviour
             m_Health.Kill();
         }
 
-        // set wasGrounded to the previous isGrounded
-        bool wasGrounded = isGrounded;
-
-        // reset values before the ground check
-        isGrounded = false;
-        m_GroundNormal = Vector3.up;
-
-        // only try to detect ground if it's been a short amount of time since last jump; otherwise we may snap to the ground instantly after we try jumping
-        if (Time.time >= m_LastTimeJumped + k_JumpGroundingPreventionTime)
-        {
-            // set new isGrounded
-            SnapToGround(wasGrounded);
-        }
-
-        // landing SFX
-        // if (isGrounded && !wasGrounded) { audioSource.PlayOneShot(landSFX) }
-
         // Call movement method
         HandleCharacterMovement();
     }
 
     void HandleCharacterMovement()
     {
+        HandleGrounding();
+
         RotateCharacter(m_PlayerInputHandler);
 
         float speedModifier = m_PlayerInputHandler.isSprinting ? sprintSpeedModifier : 1f;
@@ -174,6 +159,26 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         m_Controller.Move(m_CharacterVelocity * Time.deltaTime);
+    }
+
+    void HandleGrounding()
+    {
+        // set wasGrounded to the previous isGrounded
+        bool wasGrounded = isGrounded;
+
+        // reset values before the ground check
+        isGrounded = false;
+        m_GroundNormal = Vector3.up;
+
+        // only try to detect ground if it's been a short amount of time since last jump; otherwise we may snap to the ground instantly after we try jumping
+        if (Time.time >= m_LastTimeJumped + k_JumpGroundingPreventionTime)
+        {
+            // set new isGrounded
+            SnapToGround(wasGrounded);
+        }
+
+        // landing SFX
+        // if (isGrounded && !wasGrounded) { audioSource.PlayOneShot(landSFX) }
     }
 
     void SnapToGround(bool wasGrounded)
