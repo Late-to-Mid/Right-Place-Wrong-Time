@@ -61,7 +61,6 @@ public class PlayerWeaponsManager : MonoBehaviour
 
     WeaponController[] m_WeaponSlots = new WeaponController[9]; // 9 available weapon slots
     PlayerInputHandler m_InputHandler;
-    PlayerCharacterController m_PlayerCharacterController;
     Camera playerCamera;
     float m_WeaponBobFactor;
     Vector3 m_LastCharacterPosition;
@@ -72,6 +71,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     float m_TimeStartedWeaponSwitch;
     WeaponSwitchState m_WeaponSwitchState;
     int m_WeaponSwitchNewWeaponIndex;
+    public PlayerCharacterController m_PlayerCharacterController;
 
     private void Start()
     {

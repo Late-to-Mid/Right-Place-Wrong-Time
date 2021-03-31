@@ -6,10 +6,6 @@ using UnityEngine.Events;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerCharacterController : MonoBehaviour
 {
-    [Header("References")]
-    [Tooltip("Audio source for footsteps, jump, etc...")]
-    public AudioSource audioSource;
-
     [Header("General")]
     [Tooltip("Height at which the player dies instantly when falling off the map")]
     public float killHeight = -50f;
@@ -54,13 +50,12 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Speed of crouching transitions")]
     public float crouchingSharpness = 10f;
 
-
     [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
-    public Vector3 m_CharacterVelocity = new Vector3(0, 0, 0);
-    public bool isGrounded = true; // { get; private set; }
-    public bool isDead; // { get; private set; }
-    public float m_LastTimeJumped = 0f;
-    public float RotationMultiplier
+    public Vector3 m_CharacterVelocity;
+    public bool isGrounded; // { get; private set; }
+    bool isDead; // { get; private set; }
+    float m_LastTimeJumped = 0f;
+    float RotationMultiplier
     {
         get
         {
@@ -72,44 +67,51 @@ public class PlayerCharacterController : MonoBehaviour
             return 1f;
         }
     }
-
-    //bool hasJumpedThisFrame;
     float m_CameraVerticalAngle = 0f;
     float m_TargetCharacterHeight;
-    public Vector3 m_GroundNormal;
-    public float m_footstepDistanceCounter;
+    Vector3 m_GroundNormal;
+    float m_footstepDistanceCounter;
     const float k_JumpGroundingPreventionTime = 0.2f;
     const float k_GroundCheckDistanceInAir = 0.07f;
 
+    // [Header("References")]
+    // [Tooltip("Audio source for footsteps, jump, etc...")]
+    AudioSource audioSource;
     Camera playerCamera;
     CharacterController m_Controller;
-    PlayerInputHandler m_InputHandler;
-    PlayerWeaponsManager m_WeaponsManager;
-    PlayerHelperMethods m_helperMethods;
+    PlayerInputHandler m_PlayerInputHandler;
+    PlayerWeaponsManager m_PlayerWeaponsManager;
+    PlayerVault m_PlayerVault
+    {
+        get => default;
+        set
+        {
+        }
+    }
+    PlayerSliding m_PlayerSliding
+    {
+        get => default;
+        set
+        {
+        }
+    }
     Actor m_Actor;
     Health m_Health;
 
     void Start()
     {
+        // Set the main camera of the scene as the playerCamera
         playerCamera = Camera.main;
-
-        // Get the character controller
+        // Set the character controller
         m_Controller = GetComponent<CharacterController>();
         m_Controller.enableOverlapRecovery = true;
-
-        // Get the input handler of the character, used to handle player input
-        m_InputHandler = GetComponent<PlayerInputHandler>();
-
-        // Get the weapons manager, used for managing weapons
-        m_WeaponsManager = GetComponent<PlayerWeaponsManager>();
-
-        // Get helper methods
-        m_helperMethods = GetComponent<PlayerHelperMethods>();
-
-        // Get actor
+        // Set the input handler of the character, used to handle player input
+        m_PlayerInputHandler = GetComponent<PlayerInputHandler>();
+        // Set the weapons manager, used for managing weapons
+        m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
+        // Set actor
         m_Actor = GetComponent<Actor>();
-
-        // Get the health, used for tracking health
+        // Set the health, used for tracking health
         m_Health = GetComponent<Health>();
     }
 
@@ -142,14 +144,14 @@ public class PlayerCharacterController : MonoBehaviour
         HandleCharacterMovement();
     }
 
-    public void HandleCharacterMovement()
+    void HandleCharacterMovement()
     {
-        RotateCharacter(m_InputHandler);
+        RotateCharacter(m_PlayerInputHandler);
 
-        float speedModifier = m_InputHandler.isSprinting ? sprintSpeedModifier : 1f;
+        float speedModifier = m_PlayerInputHandler.isSprinting ? sprintSpeedModifier : 1f;
 
         // converts move input to a worldspace vector based on our character's transform orientation
-        Vector3 worldspaceMoveInput = transform.TransformVector(m_InputHandler.GetMoveInput());
+        Vector3 worldspaceMoveInput = transform.TransformVector(m_PlayerInputHandler.GetMoveInput());
 
         // handle grounded movement
         if (isGrounded)
@@ -162,8 +164,8 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         // apply the final calculated velocity value as a character movement
-        Vector3 capsuleBottomBeforeMove = m_helperMethods.GetCapsuleBottomHemisphere(m_Controller.radius);
-        Vector3 capsuleTopBeforeMove = m_helperMethods.GetCapsuleTopHemisphere(m_Controller.height, m_Controller.radius);
+        Vector3 capsuleBottomBeforeMove = GetCapsuleBottomHemisphere();
+        Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(m_Controller.height);
 
         // detect obstructions to adjust velocity accordingly
         if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, m_CharacterVelocity.normalized, out RaycastHit hit, m_CharacterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
@@ -174,15 +176,15 @@ public class PlayerCharacterController : MonoBehaviour
         m_Controller.Move(m_CharacterVelocity * Time.deltaTime);
     }
 
-    public void SnapToGround(bool wasGrounded)
+    void SnapToGround(bool wasGrounded)
     {
         // This function sets the isGrounded variable to true or false depending on whether the character is touching the ground.
         // Make sure that the ground check distance while already in air is very small, to prevent suddenly snapping to ground
         float chosenGroundCheckDistance = wasGrounded ? (m_Controller.skinWidth + groundCheckDistance) : k_GroundCheckDistanceInAir;
 
         if (Physics.CapsuleCast(
-            m_helperMethods.GetCapsuleBottomHemisphere(m_Controller.radius),
-            m_helperMethods.GetCapsuleTopHemisphere(m_Controller.height, m_Controller.radius),
+            GetCapsuleBottomHemisphere(),
+            GetCapsuleTopHemisphere(m_Controller.height),
             m_Controller.radius,
             Vector3.down,
             out RaycastHit hit,
@@ -195,7 +197,7 @@ public class PlayerCharacterController : MonoBehaviour
 
             // Only consider this a valid ground hit if the ground normal goes in the same direction as the character up
             // and if the slope angle is lower than the character controller's limit
-            if (Vector3.Dot(hit.normal, transform.up) > 0f && m_helperMethods.IsNormalUnderSlopeLimit(m_GroundNormal, m_Controller.slopeLimit))
+            if (Vector3.Dot(hit.normal, transform.up) > 0f && IsNormalUnderSlopeLimit(m_GroundNormal))
             {
                 isGrounded = true;
 
@@ -208,7 +210,7 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
-    public void RotateCharacter(PlayerInputHandler InputHandler)
+    void RotateCharacter(PlayerInputHandler InputHandler)
     {
         // horizontal character rotation
         {
@@ -233,13 +235,13 @@ public class PlayerCharacterController : MonoBehaviour
     {
         // character movement handling
 
-        if (m_InputHandler.isSprinting)
+        if (m_PlayerInputHandler.isSprinting)
         {
-            m_InputHandler.isSprinting = SetCrouchingState(false, false);
+            m_PlayerInputHandler.isSprinting = SetCrouchingState(false, false);
         }
         else
         {
-            SetCrouchingState(m_InputHandler.isCrouching, false);
+            SetCrouchingState(m_PlayerInputHandler.isCrouching, false);
         }
 
         // Update the character height (but do not force it)
@@ -248,15 +250,15 @@ public class PlayerCharacterController : MonoBehaviour
         // calculate the desired velocity from inputs, max speed, and current slope
         Vector3 targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
         // reduce speed if crouching by crouch speed ratio
-        if (m_InputHandler.isCrouching) { targetVelocity *= maxSpeedCrouchedRatio; }
+        if (m_PlayerInputHandler.isCrouching) { targetVelocity *= maxSpeedCrouchedRatio; }
 
-        targetVelocity = m_helperMethods.GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) * targetVelocity.magnitude;
+        targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) * targetVelocity.magnitude;
 
         // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
         m_CharacterVelocity = Vector3.Lerp(m_CharacterVelocity, targetVelocity, movementSharpnessOnGround * Time.deltaTime);
 
         // jumping
-        if (isGrounded && m_InputHandler.GetJumpInputDown())
+        if (isGrounded && m_PlayerInputHandler.GetJumpInputDown())
         {
             // force the crouch state to false
             if (SetCrouchingState(false, false))
@@ -322,8 +324,8 @@ public class PlayerCharacterController : MonoBehaviour
             {
                 // Get all the overlapped colliders
                 Collider[] standingOverlaps = Physics.OverlapCapsule(
-                    m_helperMethods.GetCapsuleBottomHemisphere(m_Controller.radius),
-                    m_helperMethods.GetCapsuleTopHemisphere(capsuleHeightStanding, m_Controller.radius),
+                    GetCapsuleBottomHemisphere(),
+                    GetCapsuleTopHemisphere(capsuleHeightStanding),
                     m_Controller.radius,
                     -1,
                     QueryTriggerInteraction.Ignore);
@@ -342,7 +344,7 @@ public class PlayerCharacterController : MonoBehaviour
 
             m_TargetCharacterHeight = capsuleHeightStanding;
         }
-        m_InputHandler.isCrouching = crouched;
+        m_PlayerInputHandler.isCrouching = crouched;
         return true;
     }
 
@@ -365,5 +367,30 @@ public class PlayerCharacterController : MonoBehaviour
             playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, Vector3.up * m_TargetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime);
             m_Actor.aimPoint.transform.localPosition = m_Controller.center;
         }
+    }
+
+    // Gets the center point of the bottom hemisphere of the character controller capsule    
+    Vector3 GetCapsuleBottomHemisphere()
+    {
+        return transform.position + (transform.up * m_Controller.radius);
+    }
+
+    // Gets the center point of the top hemisphere of the character controller capsule    
+    Vector3 GetCapsuleTopHemisphere(float atHeight)
+    {
+        return transform.position + (transform.up * (atHeight - m_Controller.radius));
+    }
+
+    // Gets a reoriented direction that is tangent to a given slope
+    Vector3 GetDirectionReorientedOnSlope(Vector3 direction, Vector3 slopeNormal)
+    {
+        Vector3 directionRight = Vector3.Cross(direction, transform.up);
+        return Vector3.Cross(slopeNormal, directionRight).normalized;
+    }
+
+    // Returns true if the slope angle represented by the given normal is under the slope angle limit of the character controller
+    bool IsNormalUnderSlopeLimit(Vector3 normal)
+    {
+        return Vector3.Angle(transform.up, normal) <= m_Controller.slopeLimit;
     }
 }

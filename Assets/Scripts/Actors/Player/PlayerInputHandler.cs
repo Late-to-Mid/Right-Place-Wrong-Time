@@ -22,15 +22,22 @@ public class PlayerInputHandler : MonoBehaviour
     public bool sprintIsToggle = false;
 
     // GameFlowManager m_GameFlowManager;
-    PlayerCharacterController m_PlayerCharacterController;
     bool m_FireInputWasHeld;
     public bool isSprinting;
     public bool isCrouching;
 
+    public PlayerCharacterController m_PlayerCharacterController
+    {
+        get => default;
+        set
+        {
+            m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
         // m_GameFlowManager = FindObjectOfType<GameFlowManager>();
 
         Cursor.lockState = CursorLockMode.Locked;

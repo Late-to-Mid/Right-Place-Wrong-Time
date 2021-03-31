@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Comment CommentText="PlayerCharacterController controlls information about the character.">
+    <Position X="2.063" Y="2.219" Height="1.333" Width="2.075" />
+  </Comment>
+  <Comment CommentText="PlayerSliding and PlayerVault are temporary files to be used to add specific movement methods to the player. Later, they will be moved to PlayerCharacterController.">
+    <Position X="6.907" Y="12.229" Height="1.427" Width="1.773" />
+  </Comment>
+  <Class Name="PlayerCharacterController">
+    <Position X="4.25" Y="2.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>ESSQPABAAOAYYA6qAUCABQAQCBgANGBKAEBICCAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Actors\Player\PlayerCharacterController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_Actor" />
+      <Field Name="m_Health" />
+      <Field Name="m_PlayerWeaponsManager" />
+      <Field Name="m_PlayerInputHandler" />
+      <Property Name="m_PlayerVault" />
+      <Property Name="m_PlayerSliding" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PlayerInputHandler">
+    <Position X="10.5" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQQCBEMAACIAAEAQCQAAIAAACopAAMQAAIAFAAAwIQI=</HashCode>
+      <FileName>Assets\Scripts\Actors\Player\PlayerInputHandler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="m_PlayerCharacterController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="PlayerSliding" Collapsed="true">
+    <Position X="8.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Actors\Player\PlayerSliding.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerVault" Collapsed="true">
+    <Position X="8.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAADAACAAAAAAAAAAAAAAAAAAAoAAwAAAACAAgAA=</HashCode>
+      <FileName>Assets\Scripts\Actors\Player\PlayerVault.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerWeaponsManager">
+    <Position X="13" Y="2.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>BAQABQJSAOQAIhCIDAEBIIIACJACEagBAAgBWCoECKA=</HashCode>
+      <FileName>Assets\Scripts\Actors\Player\PlayerWeaponsManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="m_PlayerCharacterController" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Actor" Collapsed="true">
+    <Position X="8.75" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAACAAEAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Actors\Actor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Health" Collapsed="true">
+    <Position X="8.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAFAAIKAGAAAACAAAgQAAAAAAAEAAAKAAAAgAAAgBA=</HashCode>
+      <FileName>Assets\Scripts\Actors\Health.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
