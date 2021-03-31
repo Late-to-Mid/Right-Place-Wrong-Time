@@ -18,7 +18,7 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Max movement speed when grounded (when not sprinting)")]
     public float maxSpeedOnGround = 10f;
     [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
-    public float movementSharpnessOnGround = 15;
+    public float movementSharpnessOnGround = 15f;
     [Tooltip("Max movement speed when crouching")]
     [Range(0, 1)]
     public float maxSpeedCrouchedRatio = 0.5f;
@@ -28,6 +28,10 @@ public class PlayerCharacterController : MonoBehaviour
     public float accelerationSpeedInAir = 25f;
     [Tooltip("Multiplicator for the sprint speed (based on grounded speed)")]
     public float sprintSpeedModifier = 2f;
+    [Tooltip("Minimum speed player must be going in order to slide")]
+    public float slideSpeedMinimum = 15f;
+    [Tooltip("Sliding deceleration value. Lower value means slower deleceration")]
+    public float slidingDeceleration = 1f;
 
     [Header("Jump")]
     [Tooltip("Force applied upward when jumping")]
@@ -52,8 +56,9 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
     public Vector3 m_CharacterVelocity;
-    public bool isGrounded; // { get; private set; }
-    bool isDead; // { get; private set; }
+    public bool isGrounded;
+    public bool isSliding;
+    public bool isDead;
     float m_LastTimeJumped = 0f;
     float RotationMultiplier
     {
@@ -82,13 +87,6 @@ public class PlayerCharacterController : MonoBehaviour
     PlayerInputHandler m_PlayerInputHandler;
     PlayerWeaponsManager m_PlayerWeaponsManager;
     PlayerVault m_PlayerVault
-    {
-        get => default;
-        set
-        {
-        }
-    }
-    PlayerSliding m_PlayerSliding
     {
         get => default;
         set
@@ -240,28 +238,52 @@ public class PlayerCharacterController : MonoBehaviour
     void HandleGroundedMovement(Vector3 worldspaceMoveInput, float speedModifier)
     {
         // character movement handling
-
-        if (m_PlayerInputHandler.isSprinting)
+        if (isSliding && m_CharacterVelocity.magnitude > 5f)
         {
-            m_PlayerInputHandler.isSprinting = SetCrouchingState(false, false);
+            SetCrouchingState(true, false);
+        }
+        else if (m_PlayerInputHandler.isSprinting)
+        {
+            if (m_CharacterVelocity.magnitude > slideSpeedMinimum && m_PlayerInputHandler.isCrouching)
+            {
+                SetCrouchingState(true, false);
+                isSliding = true;
+            }
+            else
+            {
+                m_PlayerInputHandler.isSprinting = SetCrouchingState(false, false);
+                isSliding = false;
+            }
         }
         else
         {
             SetCrouchingState(m_PlayerInputHandler.isCrouching, false);
+            isSliding = false;
         }
 
         // Update the character height (but do not force it)
         UpdateCharacterHeight(false);
 
+        Vector3 targetVelocity = new Vector3(0, 0, 0);
+        float accelerationRate;
+        if (!isSliding)
+        {
+            targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
+            accelerationRate = movementSharpnessOnGround;
+        }
+        else
+        {
+            accelerationRate = slidingDeceleration;
+        }
+
         // calculate the desired velocity from inputs, max speed, and current slope
-        Vector3 targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
         // reduce speed if crouching by crouch speed ratio
         if (m_PlayerInputHandler.isCrouching) { targetVelocity *= maxSpeedCrouchedRatio; }
 
         targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) * targetVelocity.magnitude;
 
         // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
-        m_CharacterVelocity = Vector3.Lerp(m_CharacterVelocity, targetVelocity, movementSharpnessOnGround * Time.deltaTime);
+        m_CharacterVelocity = Vector3.Lerp(m_CharacterVelocity, targetVelocity, accelerationRate * Time.deltaTime);
 
         // jumping
         if (isGrounded && m_PlayerInputHandler.GetJumpInputDown())
