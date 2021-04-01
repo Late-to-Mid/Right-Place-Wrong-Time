@@ -91,9 +91,9 @@ public class PlayerVault : MonoBehaviour
     {
         //Get vector between the two objects
 
-        m_Controller.characterVelocity.y = 0;
+        m_Controller.m_CharacterVelocity.y = 0;
         m_Controller.isGrounded = false;
-        m_Controller.characterVelocity += Vector3.up * vaultForce;
+        m_Controller.m_CharacterVelocity += Vector3.up * vaultForce;
 
 
 
