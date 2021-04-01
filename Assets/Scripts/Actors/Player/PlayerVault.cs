@@ -8,7 +8,8 @@ public class PlayerVault : MonoBehaviour
     public Camera playerCamera;
 
     //Boolean to be changed to see if player is in a trigger or not
-    public bool inCollider;
+    bool inCollider;
+    bool isVaulting;
 
     //These are to be changed to the co-ordinates of the object the player enters the trigger for
     Transform objectToBeVaulted;
@@ -16,20 +17,11 @@ public class PlayerVault : MonoBehaviour
 
     //These are the objects for getting the size of the collider
     Collider m_Collider;
-    Vector3 m_Center;
-    Vector3 m_Size, m_Min, m_Max;
-    CharacterController m_Controller;
-
-    float count;
 
 
-    BoxCollider m_box_Collider;
 
-
-    /*
-    A Vector 3 is a set of 3 numbers. X,Y,Z Example: (1, 3, 5) A Transform is a game 
-    objects position, rotation, and scale in the scene, and can be seen in the inspector when you have the object selected. 
-    */
+    PlayerCharacterController m_Controller;
+    public float vaultForce = 0; 
 
     // Start is called before the first frame update
     void Start()
@@ -38,10 +30,9 @@ public class PlayerVault : MonoBehaviour
         playerCamera = Camera.main;
         // Set check if inside trigger to false
         inCollider = false;
-        m_Controller = GetComponent<CharacterController>();        
+        m_Controller = GetComponent<PlayerCharacterController>();
 
-
-
+        isVaulting = false;
     }
 
     // Update is called once per frame
@@ -51,26 +42,22 @@ public class PlayerVault : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && inCollider)
         {
             LookingAtTrigger();
-            Debug.Log("Vault key pressed");
         }
-
-
+        if (isVaulting)
+        {
+            Vault();
+        }
     }
 
-
+// ========================= TRIGGER ==============================
     private void OnTriggerEnter(Collider collider)
     {
         //This class is to check if player is colliding with vaultable walls
 
         //Getting sizes of the vault wall the player collides with
         m_Collider = collider;
-        m_Size = m_Collider.bounds.size;
-        m_Min = m_Collider.bounds.min;
-        m_Max = m_Collider.bounds.max;        
-        //Fetch the center of the Collider volume
-        //m_Center = m_Collider.bounds.center;
 
-        //Getting 
+        //Getting position of vaultable object
         directionToVault = collider.transform.position;
         objectToBeVaulted = collider.transform;
 
@@ -78,19 +65,16 @@ public class PlayerVault : MonoBehaviour
         {
             //Sets boolean to true confirming we are in a trigger
             inCollider = true;
-
-            
-
-
         }
     }
 
     void OnTriggerExit(Collider other)
     {
         inCollider = false;
-        count = 0;
+        isVaulting = false;
     }
 
+//==================== END TRIGGER ===================
     void LookingAtTrigger()
     {
 
@@ -98,24 +82,20 @@ public class PlayerVault : MonoBehaviour
 
         if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15)
         {
+            isVaulting = true;
             Vault();
         }
     }
 
     void Vault()
     {
-        Debug.Log("The player should vault now");
-
         //Get vector between the two objects
-        while (count < m_Size.y)
-        {
-            m_Controller.Move(Vector3.up);
-            count++;
-        }
-            
+
+        m_Controller.characterVelocity.y = 0;
+        m_Controller.isGrounded = false;
+        m_Controller.characterVelocity += Vector3.up * vaultForce;
 
 
 
     }
-
 }
