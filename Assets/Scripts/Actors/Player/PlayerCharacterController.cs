@@ -98,13 +98,6 @@ public class PlayerCharacterController : MonoBehaviour
     CharacterController m_Controller;
     PlayerInputHandler m_PlayerInputHandler;
     PlayerWeaponsManager m_PlayerWeaponsManager;
-    PlayerVault m_PlayerVault
-    {
-        get => default;
-        set
-        {
-        }
-    }
     Actor m_Actor;
     Health m_Health;
 
