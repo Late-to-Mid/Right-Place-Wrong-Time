@@ -23,8 +23,6 @@ public class PlayerInputHandler : MonoBehaviour
 
     // GameFlowManager m_GameFlowManager;
     bool m_FireInputWasHeld;
-    public bool isSprinting;
-    public bool isCrouching;
 
     public PlayerCharacterController m_PlayerCharacterController
     {
@@ -44,46 +42,35 @@ public class PlayerInputHandler : MonoBehaviour
         Cursor.visible = false;
     }
 
-    void Update()
-    {
-        GetCrouchingState();
-        GetSprintingState();
-    }
-
     private void LateUpdate()
     {
         m_FireInputWasHeld = GetFire1InputHeld();
     }
-
-    private void GetCrouchingState()
+    
+    public bool GetCrouchingState(bool isCrouching)
     {
         if (crouchIsToggle)
         {
-            if (GetCrouchInputDown())
-            {
-                isCrouching = !isCrouching;
-            }
+            if (GetCrouchInputDown()) { return !isCrouching; }
+            else { return isCrouching; }
         }
         else
         {
-            isCrouching = GetCrouchInputHeld();
+            return GetCrouchInputHeld();
         }
     }
 
-    private void GetSprintingState()
+    public bool GetSprintingState(bool isSprinting)
     {
         if (sprintIsToggle)
         {
-            if (GetSprintInputDown())
-            {
-                isSprinting = !isSprinting;
-            }
+            if (GetSprintInputDown()) { return !isSprinting; }
+            else { return isSprinting; }
         }
         else
         {
-            isSprinting = GetSprintInputHeld();
+            return GetSprintInputHeld();
         }
-
     }
 
     public bool CanProcessInput()

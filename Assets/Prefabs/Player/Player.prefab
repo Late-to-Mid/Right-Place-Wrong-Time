@@ -264,7 +264,6 @@ GameObject:
   - component: {fileID: 5552112052822374225}
   - component: {fileID: 5552112052822374224}
   - component: {fileID: 5552112052822374230}
-  - component: {fileID: 8351106147952080962}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -300,9 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6544379ef186d8b44aa54fdd8682624c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 5552112052663093884}
-  audioSource: {fileID: 0}
-  gravityDownForce: 20
+  killHeight: -50
   groundCheckLayers:
     serializedVersion: 2
     m_Bits: 769
@@ -313,17 +310,22 @@ MonoBehaviour:
   maxSpeedInAir: 10
   accelerationSpeedInAir: 25
   sprintSpeedModifier: 2
-  killHeight: -50
-  rotationSpeed: 200
+  slideSpeedMinimum: 15
+  slidingDeceleration: 1
+  vaultForce: 6
   jumpForce: 9
+  gravityDownForce: 20
+  rotationSpeed: 200
   cameraHeightRatio: 0.9
   capsuleHeightStanding: 1.8
   capsuleHeightCrouching: 0.9
   crouchingSharpness: 10
-  characterVelocity: {x: 0, y: 0, z: 0}
+  m_CharacterVelocity: {x: 0, y: 0, z: 0}
   isGrounded: 0
-  isDead: 0
+  isSprinting: 0
   isCrouching: 0
+  isSliding: 0
+  isDead: 0
 --- !u!114 &5552112052822374226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +343,8 @@ MonoBehaviour:
   triggerAxisThreshold: 0.4
   invertYAxis: 0
   invertXAxis: 0
+  crouchIsToggle: 1
+  sprintIsToggle: 0
 --- !u!143 &5552112052822374227
 CharacterController:
   m_ObjectHideFlags: 0
@@ -417,20 +421,7 @@ MonoBehaviour:
   FPSWeaponLayer:
     serializedVersion: 2
     m_Bits: 4096
---- !u!114 &8351106147952080962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5552112052822374223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c387f05c25772be49a4f913ef3e01fd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
-  inCollider: 0
+  m_PlayerCharacterController: {fileID: 0}
 --- !u!1 &5552112053116106488
 GameObject:
   m_ObjectHideFlags: 0

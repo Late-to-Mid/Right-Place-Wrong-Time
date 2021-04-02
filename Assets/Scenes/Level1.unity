@@ -1575,10 +1575,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9222333992462042840, guid: 3f790b242fc35594fb1427037266dc30,
         type: 3}
-    - target: {fileID: 8351106147952080962, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: vaultForce
-      value: 6
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd, type: 3}
