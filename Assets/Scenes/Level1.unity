@@ -1557,7 +1557,7 @@ PrefabInstance:
     - target: {fileID: 5552112052822374226, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
       propertyPath: crouchIsToggle
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5552112052822374226, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}

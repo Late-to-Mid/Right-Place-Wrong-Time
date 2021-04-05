@@ -20,4 +20,5 @@
     public const string k_ButtonNamePauseMenu = "Pause Menu";
     public const string k_ButtonNameSubmit = "Submit";
     public const string k_ButtonNameCancel = "Cancel";
+    public const string k_ButtonNameVault = "Vault";
 }

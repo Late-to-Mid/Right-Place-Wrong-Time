@@ -212,6 +212,15 @@ public class PlayerInputHandler : MonoBehaviour
         return false;
     }
 
+    public bool GetVaultInputDown()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButtonDown(GameConstants.k_ButtonNameVault);
+        }
+        return false;
+    }
+
     public int GetSwitchWeaponInput()
     {
         if (CanProcessInput())

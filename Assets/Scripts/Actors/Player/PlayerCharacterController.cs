@@ -86,8 +86,6 @@ public class PlayerCharacterController : MonoBehaviour
     const float k_GroundCheckDistanceInAir = 0.07f;
 
     // [Header("Vaulting")]
-    Transform objectToBeVaulted;
-    Vector3 directionToVault;
     // Reference for the collider of the object to be vaulted
     Collider m_Collider;
 
@@ -133,16 +131,12 @@ public class PlayerCharacterController : MonoBehaviour
     void HandleCharacterMovement()
     {
         HandleGrounding();
+        CheckForVaulting();
 
         isSprinting = m_PlayerInputHandler.GetSprintingState(isSprinting);
         isCrouching = m_PlayerInputHandler.GetCrouchingState(isCrouching);
-
-        if (Input.GetKeyDown(KeyCode.E) && inCollider)
-        {
-            LookingAtTrigger();
-        }
-
-        RotateCharacter(m_PlayerInputHandler);
+        
+        RotateCharacter();
 
         // Adjust speed modifier depending on whether or not the player is sprinting.
         float speedModifier = isSprinting ? sprintSpeedModifier : 1f;
@@ -151,18 +145,19 @@ public class PlayerCharacterController : MonoBehaviour
         Vector3 worldspaceMoveInput = transform.TransformVector(m_PlayerInputHandler.GetMoveInput());
 
         // handle grounded movement
-        if (isGrounded)
+        if (isVaulting)
+        {
+            isSliding = false;
+            HandleVaulting();
+        }
+        else if (isGrounded)
         {
             HandleGroundedMovement(worldspaceMoveInput, speedModifier);
         }
         else
         {
+            isSliding = false;
             HandleAirMovement(worldspaceMoveInput, speedModifier);
-        }
-
-        if (isVaulting)
-        {
-            Vault();
         }
 
         // apply the final calculated velocity value as a character movement
@@ -202,7 +197,7 @@ public class PlayerCharacterController : MonoBehaviour
     {
         // This function sets the isGrounded variable to true or false depending on whether the character is touching the ground.
         // Make sure that the ground check distance while already in air is very small, to prevent suddenly snapping to ground
-        float chosenGroundCheckDistance = wasGrounded ? (m_Controller.skinWidth + groundCheckDistance) : k_GroundCheckDistanceInAir;
+        float chosenGroundCheckDistance = wasGrounded ? (groundCheckDistance) : k_GroundCheckDistanceInAir;
 
         if (Physics.CapsuleCast(
             GetCapsuleBottomHemisphere(),
@@ -232,18 +227,18 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
-    void RotateCharacter(PlayerInputHandler InputHandler)
+    void RotateCharacter()
     {
         // horizontal character rotation
         {
             // rotate the transform with the input speed around its local Y axis
-            transform.Rotate(new Vector3(0f, (InputHandler.GetLookInputsHorizontal() * rotationSpeed * RotationMultiplier), 0f), Space.Self);
+            transform.Rotate(new Vector3(0f, (m_PlayerInputHandler.GetLookInputsHorizontal() * rotationSpeed * RotationMultiplier), 0f), Space.Self);
         }
 
         // vertical camera rotation
         {
             // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += InputHandler.GetLookInputsVertical() * rotationSpeed * RotationMultiplier;
+            m_CameraVerticalAngle += m_PlayerInputHandler.GetLookInputsVertical() * rotationSpeed * RotationMultiplier;
 
             // limit the camera's vertical angle to min/max
             m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
@@ -260,23 +255,17 @@ public class PlayerCharacterController : MonoBehaviour
         {
             SetCrouchingState(true, false);
         }
-        else if (isSprinting)
+        else
         {
+            SetCrouchingState(isCrouching, false);
             if (m_CharacterVelocity.magnitude > slideSpeedMinimum && isCrouching)
             {
-                SetCrouchingState(true, false);
                 isSliding = true;
             }
             else
             {
-                isSprinting = SetCrouchingState(false, false);
                 isSliding = false;
             }
-        }
-        else
-        {
-            SetCrouchingState(isCrouching, false);
-            isSliding = false;
         }
 
         // Update the character height (but do not force it)
@@ -284,14 +273,14 @@ public class PlayerCharacterController : MonoBehaviour
 
         Vector3 targetVelocity = new Vector3(0, 0, 0);
         float accelerationRate;
-        if (!isSliding)
+        if (isSliding)
         {
-            targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
-            accelerationRate = movementSharpnessOnGround;
+            accelerationRate = slidingDeceleration;
         }
         else
         {
-            accelerationRate = slidingDeceleration;
+            targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
+            accelerationRate = movementSharpnessOnGround;
         }
 
         // calculate the desired velocity from inputs, max speed, and current slope
@@ -306,26 +295,24 @@ public class PlayerCharacterController : MonoBehaviour
         // jumping
         if (isGrounded && m_PlayerInputHandler.GetJumpInputDown())
         {
-            // force the crouch state to false
-            if (SetCrouchingState(false, false))
-            {
-                // start by canceling out the vertical component of our velocity
-                m_CharacterVelocity = new Vector3(m_CharacterVelocity.x, 0f, m_CharacterVelocity.z);
+            isCrouching = false;
 
-                // then, add the jumpSpeed value upwards
-                m_CharacterVelocity += Vector3.up * jumpForce;
+            // start by canceling out the vertical component of our velocity
+            m_CharacterVelocity = new Vector3(m_CharacterVelocity.x, 0f, m_CharacterVelocity.z);
 
-                // play sound
-                // audioSource.PlayOneShot(jumpSFX);
+            // then, add the jumpSpeed value upwards
+            m_CharacterVelocity += Vector3.up * jumpForce;
 
-                // remember last time we jumped because we need to prevent snapping to ground for a short time
-                m_LastTimeJumped = Time.time;
-                //hasJumpedThisFrame = true;
+            // play sound
+            // audioSource.PlayOneShot(jumpSFX);
 
-                // Force grounding to false
-                isGrounded = false;
-                m_GroundNormal = Vector3.up;
-            }
+            // remember last time we jumped because we need to prevent snapping to ground for a short time
+            m_LastTimeJumped = Time.time;
+            //hasJumpedThisFrame = true;
+
+            // Force grounding to false
+            isGrounded = false;
+            m_GroundNormal = Vector3.up;
         }
 
         // footsteps sound
@@ -353,6 +340,25 @@ public class PlayerCharacterController : MonoBehaviour
 
         // apply the gravity to the velocity
         m_CharacterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
+    }
+
+    void CheckForVaulting()
+    {
+        if (m_PlayerInputHandler.GetVaultInputDown() && inCollider)
+        {
+            Vector3 directionToVault = m_Collider.transform.position - transform.position;
+            if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15)
+            {
+                isVaulting = true;
+            }
+        }
+    }
+
+    void HandleVaulting()
+    {
+        Vector3 directionToVault = Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
+        m_CharacterVelocity = directionToVault * 4.0f;
+        m_CharacterVelocity += Vector3.up * vaultForce;
     }
 
     // returns false if there was an obstruction
@@ -414,33 +420,12 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
-    void LookingAtTrigger()
-    {
-        directionToVault = objectToBeVaulted.position - playerCamera.transform.position;
-        if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15)
-        {
-            isVaulting = true;
-            Vault();
-        }
-    }
-
-    void Vault()
-    {
-        m_CharacterVelocity.y = 0;
-        isGrounded = false;
-        m_CharacterVelocity += Vector3.up * vaultForce;
-    }
-
-    private void OnTriggerEnter(Collider collider)
+    void OnTriggerEnter(Collider collider)
     {
         //This class is to check if player is colliding with vaultable walls
 
         //Getting sizes of the vault wall the player collides with
         m_Collider = collider;
-
-        //Getting position of vaultable object
-        directionToVault = collider.transform.position;
-        objectToBeVaulted = collider.transform;
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Mount"))
         {
