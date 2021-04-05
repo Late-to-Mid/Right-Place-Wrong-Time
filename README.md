@@ -1,12 +1,14 @@
 # Right-Place-Wrong-Time
 
 ## TO-DO Barrett
-1. Get a sprint working
-2. Get a slide working
+2. Clean up scripts
 3. Kill plane and reset button
 4. Menu(?)
 5. Hud
 
 ## TO-DO Jesse
-1. Vault
-2. Documentation
+1. Documentation
+2. Art (Gun)
+	*Animation
+	*Rigging
+
