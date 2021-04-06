@@ -541,19 +541,7 @@ PrefabInstance:
     - target: {fileID: 8727588905923180680, guid: 854b28dd78b11e540ab222c3f64a90dc,
         type: 3}
       propertyPath: m_RootOrder
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      value: 5
-=======
-      value: 1
->>>>>>> origin/master
-=======
       value: 6
->>>>>>> parent of ce302c2 (Updates to weapons)
-=======
-      value: 6
->>>>>>> parent of ce302c2 (Updates to weapons)
       objectReference: {fileID: 0}
     - target: {fileID: 8727588905923180680, guid: 854b28dd78b11e540ab222c3f64a90dc,
         type: 3}
@@ -807,13 +795,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1408155584}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of ce302c2 (Updates to weapons)
-=======
->>>>>>> parent of ce302c2 (Updates to weapons)
 --- !u!1001 &1461942910
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -829,15 +810,7 @@ PrefabInstance:
     - target: {fileID: 8727588905923180680, guid: 854b28dd78b11e540ab222c3f64a90dc,
         type: 3}
       propertyPath: m_RootOrder
-<<<<<<< HEAD
-<<<<<<< HEAD
-      value: 4
-=======
       value: 5
->>>>>>> parent of ce302c2 (Updates to weapons)
-=======
-      value: 5
->>>>>>> parent of ce302c2 (Updates to weapons)
       objectReference: {fileID: 0}
     - target: {fileID: 8727588905923180680, guid: 854b28dd78b11e540ab222c3f64a90dc,
         type: 3}
@@ -891,14 +864,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 854b28dd78b11e540ab222c3f64a90dc, type: 3}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> origin/master
-=======
->>>>>>> parent of ce302c2 (Updates to weapons)
-=======
->>>>>>> parent of ce302c2 (Updates to weapons)
 --- !u!1 &1478935515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,9 +1250,6 @@ Transform:
   m_Father: {fileID: 681781005}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 --- !u!1001 &473844261163039232
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1368,15 +1330,6 @@ PrefabInstance:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 338b1ce7f4a5a81498b71aaf188b505d, type: 3}
 --- !u!1001 &3291092227891518510
-=======
---- !u!1001 &7492009391676997587
->>>>>>> origin/master
-=======
---- !u!1001 &3291092227891518510
->>>>>>> parent of ce302c2 (Updates to weapons)
-=======
---- !u!1001 &3291092227891518510
->>>>>>> parent of ce302c2 (Updates to weapons)
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1391,19 +1344,7 @@ PrefabInstance:
     - target: {fileID: 8727588905923180680, guid: 854b28dd78b11e540ab222c3f64a90dc,
         type: 3}
       propertyPath: m_RootOrder
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-      value: 6
-=======
-      value: 3
->>>>>>> origin/master
-=======
       value: 7
->>>>>>> parent of ce302c2 (Updates to weapons)
-=======
-      value: 7
->>>>>>> parent of ce302c2 (Updates to weapons)
       objectReference: {fileID: 0}
     - target: {fileID: 8727588905923180680, guid: 854b28dd78b11e540ab222c3f64a90dc,
         type: 3}
@@ -1523,7 +1464,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Player
-<<<<<<< HEAD
       objectReference: {fileID: 0}
     - target: {fileID: 5552112052822374226, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
@@ -1532,7 +1472,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5552112052822374226, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
-=======
       objectReference: {fileID: 0}
     - target: {fileID: 5552112052822374226, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
@@ -1541,7 +1480,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5552112052822374226, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
->>>>>>> parent of ce302c2 (Updates to weapons)
       propertyPath: sprintIsToggle
       value: 0
       objectReference: {fileID: 0}
