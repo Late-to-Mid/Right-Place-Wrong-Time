@@ -12,7 +12,7 @@ public class Health : MonoBehaviour
     public UnityAction<float> onHealed;
     public UnityAction onDie;
 
-    public float currentHealth { get; set; }
+    public float currentHealth;
     public bool invincible { get; set; }
     public bool canPickup() => currentHealth < maxHealth;
 
