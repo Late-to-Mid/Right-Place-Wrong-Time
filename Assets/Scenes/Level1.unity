@@ -234,7 +234,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 86407309}
-  - {fileID: 500508757}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -331,27 +330,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 464882300}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
--- !u!4 &500508757 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1874124757744689686, guid: 338b1ce7f4a5a81498b71aaf188b505d,
-    type: 3}
-  m_PrefabInstance: {fileID: 473844261163039232}
--- !u!1 &681781004
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 681781005}
-  m_Layer: 0
-  m_Name: Obstacles
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &681781005
 Transform:
   m_ObjectHideFlags: 0
