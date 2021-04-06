@@ -66,6 +66,7 @@ public class PlayerCharacterController : MonoBehaviour
     bool inCollider;
     bool isVaulting;
     float m_LastTimeJumped = 0f;
+    public UnityAction<bool> onStanceChanged;
     float RotationMultiplier
     {
         get
@@ -396,6 +397,12 @@ public class PlayerCharacterController : MonoBehaviour
 
             m_TargetCharacterHeight = capsuleHeightStanding;
         }
+
+        if (onStanceChanged != null)
+        {
+            onStanceChanged.Invoke(crouched);
+        }
+
         return true;
     }
 
