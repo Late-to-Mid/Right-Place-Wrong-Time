@@ -14,7 +14,6 @@ public class WeaponHUDManager : MonoBehaviour
     void Start()
     {
         m_PlayerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
-        DebugUtility.HandleErrorIfNullFindObject<PlayerWeaponsManager, WeaponHUDManager>(m_PlayerWeaponsManager, this);
 
         WeaponController activeWeapon = m_PlayerWeaponsManager.GetActiveWeapon();
         if (activeWeapon)
@@ -32,7 +31,6 @@ public class WeaponHUDManager : MonoBehaviour
     {
         GameObject ammoCounterInstance = Instantiate(ammoCounterPrefab, ammosPanel);
         AmmoCounter newAmmoCounter = ammoCounterInstance.GetComponent<AmmoCounter>();
-        DebugUtility.HandleErrorIfNullGetComponent<AmmoCounter, WeaponHUDManager>(newAmmoCounter, this, ammoCounterInstance.gameObject);
 
         newAmmoCounter.Initialize(newWeapon, weaponIndex);
 
