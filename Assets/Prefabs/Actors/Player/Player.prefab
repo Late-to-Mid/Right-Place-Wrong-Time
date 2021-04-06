@@ -243,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5552112052820566088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.24, y: -1.5, z: 0.231}
+  m_LocalPosition: {x: 0.24, y: -1.296, z: 0.231}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5552112053116106489}
@@ -404,8 +404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingWeapons:
-  - {fileID: 8069438010486203154, guid: 3e6ae93789c54e64b91c8e7baec95e86, type: 3}
-  - {fileID: 7433640211429157634, guid: 85f5e6b2e537ca64c91e5817ac09c25b, type: 3}
+  - {fileID: 9222333992462042840, guid: 3f790b242fc35594fb1427037266dc30, type: 3}
   weaponCamera: {fileID: 5552112052694867481}
   weaponParentSocket: {fileID: 5552112052769761495}
   defaultWeaponPosition: {fileID: 5552112053244942891}
