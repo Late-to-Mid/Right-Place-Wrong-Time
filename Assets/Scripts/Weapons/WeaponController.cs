@@ -9,6 +9,13 @@ public enum WeaponShootType
     Charge,
 }
 
+public enum WeaponReloadType
+{
+    Bullet,
+    Clip,
+    Charge,
+}
+
 [System.Serializable]
 public struct CrosshairData
 {
@@ -43,6 +50,8 @@ public class WeaponController : MonoBehaviour
     [Header("Shoot Parameters")]
     [Tooltip("The type of weapon wil affect how it shoots")]
     public WeaponShootType shootType;
+    [Tooltip("How the weapon will reload")]
+    public WeaponReloadType reloadType;
     [Tooltip("The projectile prefab")]
     public ProjectileBase projectilePrefab;
     [Tooltip("Minimum duration between two shots")]
@@ -265,8 +274,17 @@ public class WeaponController : MonoBehaviour
 
     public bool HandleShootInputs(bool inputDown, bool inputHeld, bool inputUp)
     {
+        if (reloadType == WeaponReloadType.Clip && isReloading)
+        {
+            return false;
+        }
+        
         m_wantsToShoot = inputDown || inputHeld;
-        if (m_wantsToShoot) { m_wantsToReload = false; }
+        if (m_wantsToShoot) 
+        { 
+            m_wantsToReload = false;
+            isReloading = false;
+        }
         switch (shootType)
         {
             case WeaponShootType.Manual:

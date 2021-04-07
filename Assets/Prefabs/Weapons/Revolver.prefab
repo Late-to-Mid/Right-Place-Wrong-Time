@@ -154,12 +154,15 @@ MonoBehaviour:
   weaponRoot: {fileID: 576182878731362291}
   weaponMuzzle: {fileID: 277985196977048791}
   shootType: 0
+  reloadType: 1
   projectilePrefab: {fileID: 4614180992596399313, guid: d15e21a601f599f4b94d650465300188,
     type: 3}
   delayBetweenShots: 0.25
   bulletSpreadAngle: 0
   bulletsPerShot: 1
   recoilForce: 1.5
+  aimZoomRatio: 1
+  aimOffset: {x: 0, y: 0, z: 0}
   ammoReloadRate: 1
   ammoReloadDelay: 0
   maxAmmo: 6
