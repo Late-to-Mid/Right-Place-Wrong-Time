@@ -78,6 +78,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     float m_TimeStartedWeaponSwitch;
     WeaponSwitchState m_WeaponSwitchState;
     int m_WeaponSwitchNewWeaponIndex;
+    public bool m_WantsToReload { get; private set; }
 
     private void Start()
     {
@@ -123,6 +124,12 @@ public class PlayerWeaponsManager : MonoBehaviour
                 m_AccumulatedRecoil = Vector3.ClampMagnitude(m_AccumulatedRecoil, maxRecoilDistance);
             }
         }
+
+        if (activeWeapon != null && !activeWeapon.isCharging && m_InputHandler.GetReloadInputDown())
+        {
+            m_WantsToReload = true;
+        }
+        else { m_WantsToReload = false; }
 
         // weapon switch handling
         if (!isAiming &&

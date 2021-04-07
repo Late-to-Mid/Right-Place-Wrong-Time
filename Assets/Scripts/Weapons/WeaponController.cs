@@ -115,6 +115,7 @@ public class WeaponController : MonoBehaviour
     public float currentCharge { get; private set; }
     public Vector3 muzzleWorldVelocity { get; private set; }
     public float GetAmmoNeededToShoot() => (shootType != WeaponShootType.Charge ? 1f : Mathf.Max(1f, ammoUsedOnStartCharge)) / (maxAmmo * bulletsPerShot);
+    public PlayerWeaponsManager m_WeaponsManager;
 
     AudioSource m_ShootAudioSource;
 
@@ -152,7 +153,11 @@ public class WeaponController : MonoBehaviour
 
     void UpdateAmmo()
     {
-        if (m_LastTimeShot + ammoReloadDelay < Time.time && m_CurrentAmmo < maxAmmo && !isCharging)
+        if (m_LastTimeShot + ammoReloadDelay < Time.time && 
+            m_CurrentAmmo < maxAmmo && 
+            !isCharging &&
+            m_WeaponsManager.m_WantsToReload
+            )
         {
             // reloads weapon over time
             m_CurrentAmmo += ammoReloadRate * Time.deltaTime;

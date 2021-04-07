@@ -248,6 +248,15 @@ public class PlayerInputHandler : MonoBehaviour
         return false;
     }
 
+    public bool GetReloadInputDown()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButtonDown(GameConstants.k_ButtonNameReload);
+        }
+        return false;
+    }
+
     public int GetSwitchWeaponInput()
     {
         if (CanProcessInput())
