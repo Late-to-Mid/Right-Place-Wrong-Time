@@ -12,7 +12,7 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Physic layers checked to consider the player grounded")]
     public LayerMask groundCheckLayers = -1;
     [Tooltip("distance from the bottom of the character controller capsule to test for grounded")]
-    public float groundCheckDistance = 0.05f;
+    public float groundCheckDistance = 0.06f;
 
     [Header("Movement")]
     [Tooltip("Max movement speed when grounded (when not sprinting)")]
@@ -45,6 +45,8 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Rotation speed for moving the camera")]
     public float rotationSpeed = 200f;
     [Range(0.1f, 1f)]
+    [Tooltip("Rotation speed multiplier when aiming")]
+    public float aimingRotationMultiplier = 0.4f;
 
     [Header("Stance")]
     [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
@@ -71,10 +73,10 @@ public class PlayerCharacterController : MonoBehaviour
     {
         get
         {
-            // if (m_WeaponsManager.isAiming)
-            // {
-            //     return aimingRotationMultiplier;
-            // }
+            if (m_PlayerWeaponsManager.isAiming)
+            {
+                return aimingRotationMultiplier;
+            }
 
             return 1f;
         }
@@ -115,6 +117,12 @@ public class PlayerCharacterController : MonoBehaviour
         m_Actor = GetComponent<Actor>();
         // Set the health, used for tracking health
         m_Health = GetComponent<Health>();
+
+        m_Health.onDie += OnDie;
+
+        // force the crouch state to false when starting
+        SetCrouchingState(false, true);
+        UpdateCharacterHeight(true);
     }
 
     void Update()
@@ -198,7 +206,7 @@ public class PlayerCharacterController : MonoBehaviour
     {
         // This function sets the isGrounded variable to true or false depending on whether the character is touching the ground.
         // Make sure that the ground check distance while already in air is very small, to prevent suddenly snapping to ground
-        float chosenGroundCheckDistance = wasGrounded ? (groundCheckDistance) : k_GroundCheckDistanceInAir;
+        float chosenGroundCheckDistance = wasGrounded ? groundCheckDistance : k_GroundCheckDistanceInAir;
 
         if (Physics.CapsuleCast(
             GetCapsuleBottomHemisphere(),
@@ -360,6 +368,14 @@ public class PlayerCharacterController : MonoBehaviour
         Vector3 directionToVault = Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
         m_CharacterVelocity = directionToVault * 4.0f;
         m_CharacterVelocity += Vector3.up * vaultForce;
+    }
+
+    void OnDie()
+    {
+        isDead = true;
+
+        // Tell the weapons manager to switch to a non-existing weapon in order to lower the weapon
+        m_PlayerWeaponsManager.SwitchToWeaponIndex(-1, true);
     }
 
     // returns false if there was an obstruction
