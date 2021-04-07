@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4338698701550096538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3640541950716977394}
+  m_Layer: 0
+  m_Name: AimingWeaponSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3640541950716977394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4338698701550096538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.347, z: 0.465}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5552112053116106489}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5552112052349844232
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +247,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5552112053116106489}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5552112052820566088
 GameObject:
@@ -247,7 +277,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5552112053116106489}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5552112052822374223
 GameObject:
@@ -326,6 +356,7 @@ MonoBehaviour:
   isCrouching: 0
   isSliding: 0
   isDead: 0
+  playerCamera: {fileID: 5552112052663093884}
 --- !u!114 &5552112052822374226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,6 +422,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   criticalHealthRatio: 0.3
+  currentHealth: 0
 --- !u!114 &5552112052822374230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,20 +441,22 @@ MonoBehaviour:
   weaponCamera: {fileID: 5552112052694867481}
   weaponParentSocket: {fileID: 5552112052769761495}
   defaultWeaponPosition: {fileID: 5552112053244942891}
+  aimingWeaponPosition: {fileID: 3640541950716977394}
   downWeaponPosition: {fileID: 5552112052820566089}
   bobFrequency: 10
   bobSharpness: 10
   defaultBobAmount: 0.05
+  aimingBobAmount: 0.02
   recoilSharpness: 50
   maxRecoilDistance: 0.5
   recoilRestitutionSharpness: 10
+  aimingAnimationSpeed: 10
   defaultFOV: 60
   weaponFOVMultiplier: 1
   weaponSwitchDelay: 1
   FPSWeaponLayer:
     serializedVersion: 2
     m_Bits: 4096
-  m_PlayerCharacterController: {fileID: 0}
 --- !u!1 &5552112053116106488
 GameObject:
   m_ObjectHideFlags: 0
@@ -450,9 +484,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5552112053244942891}
-  - {fileID: 5552112052820566089}
   - {fileID: 5552112052769761495}
+  - {fileID: 5552112053244942891}
+  - {fileID: 3640541950716977394}
+  - {fileID: 5552112052820566089}
   m_Father: {fileID: 5552112052663093885}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -484,5 +519,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5552112053116106489}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -20,6 +20,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool crouchIsToggle = true;
     [Tooltip("Make sprinting a toggle (default false)")]
     public bool sprintIsToggle = false;
+    [Tooltip("Make aiming a toggle (default true)")]
+    public bool aimIsToggle = true;
 
     // GameFlowManager m_GameFlowManager;
     bool m_FireInputWasHeld;
@@ -44,7 +46,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private void LateUpdate()
     {
-        m_FireInputWasHeld = GetFire1InputHeld();
+        m_FireInputWasHeld = GetFireInputHeld();
     }
     
     public bool GetCrouchingState(bool isCrouching)
@@ -70,6 +72,19 @@ public class PlayerInputHandler : MonoBehaviour
         else
         {
             return GetSprintInputHeld();
+        }
+    }
+
+    public bool GetAimingState(bool isAiming)
+    {
+        if (aimIsToggle)
+        {
+            if (GetAimInputDown()) { return !isAiming; }
+            else { return isAiming; }
+        }
+        else
+        {
+            return GetAimInputHeld();
         }
     }
 
@@ -135,17 +150,17 @@ public class PlayerInputHandler : MonoBehaviour
         return false;
     }
 
-    public bool GetFire1InputDown()
+    public bool GetFireInputDown()
     {
-        return GetFire1InputHeld() && !m_FireInputWasHeld;
+        return GetFireInputHeld() && !m_FireInputWasHeld;
     }
 
-    public bool GetFire1InputReleased()
+    public bool GetFireInputReleased()
     {
-        return !GetFire1InputHeld() && m_FireInputWasHeld;
+        return !GetFireInputHeld() && m_FireInputWasHeld;
     }
 
-    public bool GetFire1InputHeld()
+    public bool GetFireInputHeld()
     {
         if (CanProcessInput())
         {
@@ -156,22 +171,34 @@ public class PlayerInputHandler : MonoBehaviour
             //}
             //else
             {
-                return Input.GetButton(GameConstants.k_ButtonNameFire1);
+                return Input.GetButton(GameConstants.k_ButtonNameFire);
             }
         }
 
         return false;
     }
 
-    public bool GetFire2InputHeld()
+    public bool GetAimInputHeld()
     {
         if (CanProcessInput())
         {
-            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadFire2) != 0f;
-            bool i = isGamepad ? (Input.GetAxis(GameConstants.k_ButtonNameGamepadFire2) > 0f) : Input.GetButton(GameConstants.k_ButtonNameFire2);
+            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) != 0f;
+            bool i = isGamepad ? (Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) > 0f) : Input.GetButton(GameConstants.k_ButtonNameAim);
             return i;
         }
     
+        return false;
+    }
+
+    public bool GetAimInputDown()
+    {
+        if (CanProcessInput())
+        {
+            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) != 0f;
+            bool i = isGamepad ? (Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) > 0f) : Input.GetButtonDown(GameConstants.k_ButtonNameAim);
+            return i;
+        }
+
         return false;
     }
 
@@ -217,6 +244,15 @@ public class PlayerInputHandler : MonoBehaviour
         if (CanProcessInput())
         {
             return Input.GetButtonDown(GameConstants.k_ButtonNameVault);
+        }
+        return false;
+    }
+
+    public bool GetReloadInputDown()
+    {
+        if (CanProcessInput())
+        {
+            return Input.GetButtonDown(GameConstants.k_ButtonNameReload);
         }
         return false;
     }

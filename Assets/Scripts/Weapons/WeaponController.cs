@@ -9,6 +9,13 @@ public enum WeaponShootType
     Charge,
 }
 
+public enum WeaponReloadType
+{
+    Bullet,
+    Clip,
+    Charge,
+}
+
 [System.Serializable]
 public struct CrosshairData
 {
@@ -43,6 +50,8 @@ public class WeaponController : MonoBehaviour
     [Header("Shoot Parameters")]
     [Tooltip("The type of weapon wil affect how it shoots")]
     public WeaponShootType shootType;
+    [Tooltip("How the weapon will reload")]
+    public WeaponReloadType reloadType;
     [Tooltip("The projectile prefab")]
     public ProjectileBase projectilePrefab;
     [Tooltip("Minimum duration between two shots")]
@@ -54,11 +63,11 @@ public class WeaponController : MonoBehaviour
     [Tooltip("Force that will push back the weapon after each shot")]
     [Range(0f, 2f)]
     public float recoilForce = 1;
-    // [Tooltip("Ratio of the default FOV that this weapon applies while aiming")]
-    // [Range(0f, 1f)]
-    // public float aimZoomRatio = 1f;
-    // [Tooltip("Translation to apply to weapon arm when aiming with this weapon")]
-    // public Vector3 aimOffset;
+    [Tooltip("Ratio of the default FOV that this weapon applies while aiming")]
+    [Range(0f, 1f)]
+    public float aimZoomRatio = 1f;
+    [Tooltip("Translation to apply to weapon arm when aiming with this weapon")]
+    public Vector3 aimOffset;
 
     [Header("Ammo Parameters")]
     [Tooltip("Amount of ammo reloaded per second")]
@@ -97,6 +106,7 @@ public class WeaponController : MonoBehaviour
     public AudioClip continuousShootEndSFX;
     private AudioSource m_continuousShootAudioSource = null;
     private bool m_wantsToShoot = false;
+    private bool m_wantsToReload = false;
 
     public UnityAction onShoot;
     public event Action OnShootProcessed;
@@ -111,7 +121,7 @@ public class WeaponController : MonoBehaviour
     public bool isCharging { get; private set; }
     public float currentAmmoRatio { get; private set; }
     public bool isWeaponActive { get; private set; }
-    public bool isCooling { get; private set; }
+    public bool isReloading { get; private set; }
     public float currentCharge { get; private set; }
     public Vector3 muzzleWorldVelocity { get; private set; }
     public float GetAmmoNeededToShoot() => (shootType != WeaponShootType.Charge ? 1f : Mathf.Max(1f, ammoUsedOnStartCharge)) / (maxAmmo * bulletsPerShot);
@@ -152,19 +162,30 @@ public class WeaponController : MonoBehaviour
 
     void UpdateAmmo()
     {
-        if (m_LastTimeShot + ammoReloadDelay < Time.time && m_CurrentAmmo < maxAmmo && !isCharging)
+        if (isReloading || 
+            (m_LastTimeShot + ammoReloadDelay < Time.time && 
+            m_CurrentAmmo < maxAmmo && 
+            !isCharging &&
+            m_wantsToReload))
         {
             // reloads weapon over time
             m_CurrentAmmo += ammoReloadRate * Time.deltaTime;
 
             // limits ammo to max value
+            if (m_CurrentAmmo >= maxAmmo) 
+            {
+                isReloading = false;
+                m_wantsToReload = false;
+            }
+            else
+            {
+                isReloading = true;
+            }
             m_CurrentAmmo = Mathf.Clamp(m_CurrentAmmo, 0, maxAmmo);
-
-            isCooling = true;
         }
         else
         {
-            isCooling = false;
+            isReloading = false;
         }
 
         if (maxAmmo == Mathf.Infinity)
@@ -253,7 +274,17 @@ public class WeaponController : MonoBehaviour
 
     public bool HandleShootInputs(bool inputDown, bool inputHeld, bool inputUp)
     {
+        if (reloadType == WeaponReloadType.Clip && isReloading)
+        {
+            return false;
+        }
+        
         m_wantsToShoot = inputDown || inputHeld;
+        if (m_wantsToShoot) 
+        { 
+            m_wantsToReload = false;
+            isReloading = false;
+        }
         switch (shootType)
         {
             case WeaponShootType.Manual:
@@ -379,6 +410,14 @@ public class WeaponController : MonoBehaviour
         }
 
         OnShootProcessed?.Invoke();
+    }
+
+    public void Reload()
+    {
+        if (!isCharging && !m_wantsToShoot)
+        {
+            m_wantsToReload = true;
+        }
     }
 
     public Vector3 GetShotDirectionWithinSpread(Transform shootTransform)

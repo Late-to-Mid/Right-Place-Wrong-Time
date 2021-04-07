@@ -90,10 +90,10 @@ public class PlayerCharacterController : MonoBehaviour
     // Reference for the collider of the object to be vaulted
     Collider m_Collider;
 
-    // [Header("References")]
-    // [Tooltip("Audio source for footsteps, jump, etc...")]
+    [Header("References")]
+    [Tooltip("Audio source for footsteps, jump, etc...")]
+    public Camera playerCamera;
     AudioSource audioSource;
-    Camera playerCamera;
     CharacterController m_Controller;
     PlayerInputHandler m_PlayerInputHandler;
     PlayerWeaponsManager m_PlayerWeaponsManager;
@@ -103,7 +103,7 @@ public class PlayerCharacterController : MonoBehaviour
     void Start()
     {
         // Set the main camera of the scene as the playerCamera
-        playerCamera = Camera.main;
+        // playerCamera = Camera.main;
         // Set the character controller
         m_Controller = GetComponent<CharacterController>();
         m_Controller.enableOverlapRecovery = true;
