@@ -123,6 +123,11 @@ public class PlayerWeaponsManager : MonoBehaviour
                 m_AccumulatedRecoil += Vector3.back * activeWeapon.recoilForce;
                 m_AccumulatedRecoil = Vector3.ClampMagnitude(m_AccumulatedRecoil, maxRecoilDistance);
             }
+
+            if (!hasFired && m_InputHandler.GetReloadInputDown())
+            {
+                activeWeapon.Reload();
+            }
         }
 
         if (activeWeapon != null && !activeWeapon.isCharging && m_InputHandler.GetReloadInputDown())
