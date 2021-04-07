@@ -54,11 +54,11 @@ public class WeaponController : MonoBehaviour
     [Tooltip("Force that will push back the weapon after each shot")]
     [Range(0f, 2f)]
     public float recoilForce = 1;
-    // [Tooltip("Ratio of the default FOV that this weapon applies while aiming")]
-    // [Range(0f, 1f)]
-    // public float aimZoomRatio = 1f;
-    // [Tooltip("Translation to apply to weapon arm when aiming with this weapon")]
-    // public Vector3 aimOffset;
+    [Tooltip("Ratio of the default FOV that this weapon applies while aiming")]
+    [Range(0f, 1f)]
+    public float aimZoomRatio = 1f;
+    [Tooltip("Translation to apply to weapon arm when aiming with this weapon")]
+    public Vector3 aimOffset;
 
     [Header("Ammo Parameters")]
     [Tooltip("Amount of ammo reloaded per second")]

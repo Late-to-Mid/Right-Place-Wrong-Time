@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(PlayerInputHandler))]
+[RequireComponent(typeof(PlayerInputHandler), typeof(PlayerCharacterController))]
 public class PlayerWeaponsManager : MonoBehaviour
 {
     public enum WeaponSwitchState
@@ -23,6 +23,8 @@ public class PlayerWeaponsManager : MonoBehaviour
     public Transform weaponParentSocket;
     [Tooltip("Position for weapons when active")]
     public Transform defaultWeaponPosition;
+    [Tooltip("Position for weapons when aiming")]
+    public Transform aimingWeaponPosition;
     [Tooltip("Position for innactive weapons")]
     public Transform downWeaponPosition;
 
@@ -33,6 +35,8 @@ public class PlayerWeaponsManager : MonoBehaviour
     public float bobSharpness = 10f;
     [Tooltip("Distance the weapon bobs when not aiming")]
     public float defaultBobAmount = 0.05f;
+    [Tooltip("Distance the weapon bobs when aiming")]
+    public float aimingBobAmount = 0.02f;
 
     [Header("Weapon Recoil")]
     [Tooltip("This will affect how fast the recoil moves the weapon, the bigger the value, the fastest")]
@@ -43,8 +47,10 @@ public class PlayerWeaponsManager : MonoBehaviour
     public float recoilRestitutionSharpness = 10f;
 
     [Header("Misc")]
+    [Tooltip("Speed at which the aiming animatoin is played")]
+    public float aimingAnimationSpeed = 10f;
     [Tooltip("Field of view when not aiming")]
-    public float defaultFOV = 60f;
+    public float defaultFOV = 90f;
     [Tooltip("Portion of the regular FOV to apply to the weapon camera")]
     public float weaponFOVMultiplier = 1f;
     [Tooltip("Delay before switching weapon a second time, to avoid recieving multiple inputs from mouse wheel")]
@@ -52,6 +58,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     [Tooltip("Layer to set FPS weapon gameObjects to")]
     public LayerMask FPSWeaponLayer;
 
+    public bool isAiming { get; private set; }
     public bool isPointingAtEnemy { get; private set; }
     public int activeWeaponIndex { get; private set; }
 
@@ -61,7 +68,7 @@ public class PlayerWeaponsManager : MonoBehaviour
 
     WeaponController[] m_WeaponSlots = new WeaponController[9]; // 9 available weapon slots
     PlayerInputHandler m_InputHandler;
-    Camera playerCamera;
+    PlayerCharacterController m_PlayerCharacterController;
     float m_WeaponBobFactor;
     Vector3 m_LastCharacterPosition;
     Vector3 m_WeaponMainLocalPosition;
@@ -71,13 +78,9 @@ public class PlayerWeaponsManager : MonoBehaviour
     float m_TimeStartedWeaponSwitch;
     WeaponSwitchState m_WeaponSwitchState;
     int m_WeaponSwitchNewWeaponIndex;
-    public PlayerCharacterController m_PlayerCharacterController;
 
     private void Start()
     {
-        // Set the camera to the main camera in the scene
-        playerCamera = Camera.main;
-
         activeWeaponIndex = -1;
         m_WeaponSwitchState = WeaponSwitchState.Down;
 
@@ -104,11 +107,14 @@ public class PlayerWeaponsManager : MonoBehaviour
 
         if (activeWeapon && m_WeaponSwitchState == WeaponSwitchState.Up)
         {
+            // handle aiming down sights
+            isAiming = m_InputHandler.GetAimingState(isAiming);
+
             // handle shooting
             bool hasFired = activeWeapon.HandleShootInputs(
-                m_InputHandler.GetFire1InputDown(),
-                m_InputHandler.GetFire1InputHeld(),
-                m_InputHandler.GetFire1InputReleased());
+                m_InputHandler.GetFireInputDown(),
+                m_InputHandler.GetFireInputHeld(),
+                m_InputHandler.GetFireInputReleased());
 
             // Handle accumulating recoil
             if (hasFired)
@@ -119,7 +125,8 @@ public class PlayerWeaponsManager : MonoBehaviour
         }
 
         // weapon switch handling
-        if ((activeWeapon == null || !activeWeapon.isCharging) &&
+        if (!isAiming &&
+            (activeWeapon == null || !activeWeapon.isCharging) &&
             (m_WeaponSwitchState == WeaponSwitchState.Up || m_WeaponSwitchState == WeaponSwitchState.Down))
         {
             int switchWeaponInput = m_InputHandler.GetSwitchWeaponInput();
@@ -157,6 +164,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     // Update various animated features in LateUpdate because it needs to override the animated arm position
     private void LateUpdate()
     {
+        UpdateWeaponAiming();
         UpdateWeaponBob();
         UpdateWeaponRecoil();
         UpdateWeaponSwitching();
@@ -168,7 +176,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     // Sets the FOV of the main camera and the weapon camera simultaneously
     public void SetFOV(float fov)
     {
-        playerCamera.fieldOfView = fov;
+        m_PlayerCharacterController.playerCamera.fieldOfView = fov;
         weaponCamera.fieldOfView = fov * weaponFOVMultiplier;
     }
 
@@ -239,6 +247,25 @@ public class PlayerWeaponsManager : MonoBehaviour
         }
 
         return false;
+    }
+
+    // Updates weapon position and camera FoV for the aiming transition
+    void UpdateWeaponAiming()
+    {
+        if (m_WeaponSwitchState == WeaponSwitchState.Up)
+        {
+            WeaponController activeWeapon = GetActiveWeapon();
+            if (isAiming && activeWeapon)
+            {
+                m_WeaponMainLocalPosition = Vector3.Lerp(m_WeaponMainLocalPosition, aimingWeaponPosition.localPosition + activeWeapon.aimOffset, aimingAnimationSpeed * Time.deltaTime);
+                SetFOV(Mathf.Lerp(m_PlayerCharacterController.playerCamera.fieldOfView, activeWeapon.aimZoomRatio * defaultFOV, aimingAnimationSpeed * Time.deltaTime));
+            }
+            else
+            {
+                m_WeaponMainLocalPosition = Vector3.Lerp(m_WeaponMainLocalPosition, defaultWeaponPosition.localPosition, aimingAnimationSpeed * Time.deltaTime);
+                SetFOV(Mathf.Lerp(m_PlayerCharacterController.playerCamera.fieldOfView, defaultFOV, aimingAnimationSpeed * Time.deltaTime));
+            }
+        }
     }
 
     // Updates the weapon bob animation based on character speed
