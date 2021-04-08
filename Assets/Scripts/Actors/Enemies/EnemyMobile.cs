@@ -97,14 +97,22 @@ public class EnemyMobile : MonoBehaviour
             case AIState.Patrol:
                 m_EnemyController.UpdatePathDestination();
                 m_EnemyController.SetNavDestination(m_EnemyController.GetDestinationOnPath());
+                if (m_EnemyController.m_CurrentWeapon.currentAmmoRatio < 1f)
+                {
+                    m_EnemyController.TryReload();
+                }
                 break;
             case AIState.Follow:
                 m_EnemyController.SetNavDestination(m_EnemyController.knownDetectedTarget.transform.position);
                 m_EnemyController.OrientTowards(m_EnemyController.knownDetectedTarget.transform.position);
                 m_EnemyController.OrientWeaponsTowards(m_EnemyController.knownDetectedTarget.transform.position);
+                if (m_EnemyController.m_CurrentWeapon.currentAmmoRatio < 1f)
+                {
+                    m_EnemyController.TryReload();
+                }
                 break;
             case AIState.Attack:
-                if (Vector3.Distance(m_EnemyController.knownDetectedTarget.transform.position, m_EnemyController.m_DetectionModule.detectionSourcePoint.position) 
+                if (Vector3.Distance(m_EnemyController.knownDetectedTarget.transform.position, m_EnemyController.m_DetectionModule.detectionSourcePoint.position)
                     >= (attackStopDistanceRatio * m_EnemyController.m_DetectionModule.attackRange))
                 {
                     m_EnemyController.SetNavDestination(m_EnemyController.knownDetectedTarget.transform.position);
@@ -114,7 +122,14 @@ public class EnemyMobile : MonoBehaviour
                     m_EnemyController.SetNavDestination(transform.position);
                 }
                 m_EnemyController.OrientTowards(m_EnemyController.knownDetectedTarget.transform.position);
-                m_EnemyController.TryAtack(m_EnemyController.knownDetectedTarget.transform.position);
+                if (m_EnemyController.m_CurrentWeapon.currentAmmoRatio > 0 && !m_EnemyController.m_CurrentWeapon.isReloading)
+                {
+                    m_EnemyController.TryAtack(m_EnemyController.knownDetectedTarget.transform.position);
+                }
+                else
+                {
+                    m_EnemyController.TryReload();
+                }
                 break;
         }
     }

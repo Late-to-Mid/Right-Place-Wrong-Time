@@ -29,21 +29,20 @@ public class EnemyController : MonoBehaviour
     [Tooltip("Delay after death where the GameObject is destroyed (to allow for animation)")]
     public float deathDuration = 0f;
 
+    // [Header("Weapons Parameters")]
+    // [Tooltip("Allow weapon swapping for this enemy")]
+    // public bool swapToNextWeapon = false;
+    // [Tooltip("Time delay between a weapon swap and the next attack")]
+    // public float delayAfterWeaponSwap = 0f;
 
-    [Header("Weapons Parameters")]
-    [Tooltip("Allow weapon swapping for this enemy")]
-    public bool swapToNextWeapon = false;
-    [Tooltip("Time delay between a weapon swap and the next attack")]
-    public float delayAfterWeaponSwap = 0f;
-
-    [Header("Flash on hit")]
-    [Tooltip("The material used for the body of the hoverbot")]
-    public Material bodyMaterial;
-    [Tooltip("The gradient representing the color of the flash on hit")]
-    [GradientUsageAttribute(true)]
-    public Gradient onHitBodyGradient;
-    [Tooltip("The duration of the flash on hit")]
-    public float flashOnHitDuration = 0.5f;
+    // [Header("Flash on hit")]
+    // [Tooltip("The material used for the body of the hoverbot")]
+    // public Material bodyMaterial;
+    // [Tooltip("The gradient representing the color of the flash on hit")]
+    // [GradientUsageAttribute(true)]
+    // public Gradient onHitBodyGradient;
+    // [Tooltip("The duration of the flash on hit")]
+    // public float flashOnHitDuration = 0.5f;
 
     // [Header("Sounds")]
     // [Tooltip("Sound played when recieving damages")]
@@ -94,10 +93,7 @@ public class EnemyController : MonoBehaviour
     Actor m_Actor;
     Collider[] m_SelfColliders;
     // GameFlowManager m_GameFlowManager;
-    float m_LastTimeWeaponSwapped = Mathf.NegativeInfinity;
-    int m_CurrentWeaponIndex;
-    WeaponController m_CurrentWeapon;
-    WeaponController[] m_Weapons;
+    public WeaponController m_CurrentWeapon { get; private set; }
     NavigationModule m_NavigationModule;
 
     void Start()
@@ -121,10 +117,8 @@ public class EnemyController : MonoBehaviour
         m_Health.onDie += OnDie;
         m_Health.onDamaged += OnDamaged;
 
-        // Find and initialize all weapons
-        FindAndInitializeAllWeapons();
-        var weapon = GetCurrentWeapon();
-        weapon.ShowWeapon(true);
+        // Find and initialize weapon
+        FindAndInitializeWeapon();
 
         var detectionModules = GetComponentsInChildren<DetectionModule>();
 
@@ -287,12 +281,9 @@ public class EnemyController : MonoBehaviour
 
     public void OrientWeaponsTowards(Vector3 lookPosition)
     {
-        for (int i = 0; i < m_Weapons.Length; i++)
-        {
-            // orient weapon towards player
-            Vector3 weaponForward = (lookPosition - m_Weapons[i].weaponRoot.transform.position).normalized;
-            m_Weapons[i].transform.forward = weaponForward;
-        }
+        // orient weapon towards player
+        Vector3 weaponForward = (lookPosition - m_CurrentWeapon.weaponRoot.transform.position).normalized;
+        m_CurrentWeapon.transform.forward = weaponForward;
     }
 
     public bool TryAtack(Vector3 enemyPosition)
@@ -302,64 +293,31 @@ public class EnemyController : MonoBehaviour
 
         OrientWeaponsTowards(enemyPosition);
 
-        if ((m_LastTimeWeaponSwapped + delayAfterWeaponSwap) >= Time.time)
-            return false;
-
         // Shoot the weapon
-        bool didFire = GetCurrentWeapon().HandleShootInputs(false, true, false);
+        bool didFire = m_CurrentWeapon.HandleShootInputs(false, true, false);
 
         if (didFire && onAttack != null)
         {
             onAttack.Invoke();
-
-            if (swapToNextWeapon && m_Weapons.Length > 1)
-            {
-                int nextWeaponIndex = (m_CurrentWeaponIndex + 1) % m_Weapons.Length;
-                SetCurrentWeapon(nextWeaponIndex);
-            }
         }
 
         return didFire;
     }
 
-    void FindAndInitializeAllWeapons()
+    public void TryReload()
+    {
+        m_CurrentWeapon.HandleShootInputs(false, false, false);
+        m_CurrentWeapon.Reload();
+    }
+
+    void FindAndInitializeWeapon()
     {
         // Check if we already found and initialized the weapons
-        if (m_Weapons == null)
-        {
-            m_Weapons = GetComponentsInChildren<WeaponController>();
-
-            for (int i = 0; i < m_Weapons.Length; i++)
-            {
-                m_Weapons[i].owner = gameObject;
-            }
-        }
-    }
-
-    public WeaponController GetCurrentWeapon()
-    {
-        FindAndInitializeAllWeapons();
-        // Check if no weapon is currently selected
         if (m_CurrentWeapon == null)
         {
-            // Set the first weapon of the weapons list as the current weapon
-            SetCurrentWeapon(0);
-        }
-
-        return m_CurrentWeapon;
-    }
-
-    void SetCurrentWeapon(int index)
-    {
-        m_CurrentWeaponIndex = index;
-        m_CurrentWeapon = m_Weapons[m_CurrentWeaponIndex];
-        if (swapToNextWeapon)
-        {
-            m_LastTimeWeaponSwapped = Time.time;
-        }
-        else
-        {
-            m_LastTimeWeaponSwapped = Mathf.NegativeInfinity;
+            m_CurrentWeapon = GetComponentInChildren<WeaponController>();
+            m_CurrentWeapon.owner = gameObject;
+            m_CurrentWeapon.ShowWeapon(true);
         }
     }
 }
