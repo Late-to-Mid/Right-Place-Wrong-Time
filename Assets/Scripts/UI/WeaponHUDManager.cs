@@ -29,7 +29,6 @@ public class WeaponHUDManager : MonoBehaviour
 
     void AddWeapon(WeaponController newWeapon, int weaponIndex)
     {
-        Debug.Log("Tried to create ammocounter");
         GameObject ammoCounterInstance = Instantiate(ammoCounterPrefab, ammosPanel);
         AmmoCounter newAmmoCounter = ammoCounterInstance.GetComponent<AmmoCounter>();
 

@@ -418,12 +418,7 @@ public class PlayerWeaponsManager : MonoBehaviour
 
                 m_WeaponSlots[i] = weaponInstance;
 
-                Debug.Log("Ran");
-                if (onAddedWeapon != null)
-                {
-                    Debug.Log("onAddedWeapon invoked");
-                    onAddedWeapon.Invoke(weaponInstance, i);
-                }
+                onAddedWeapon.Invoke(weaponInstance, i);
 
                 return true;
             }
