@@ -70,7 +70,6 @@ public class PlayerWeaponsManager : MonoBehaviour
     PlayerInputHandler m_InputHandler;
     PlayerCharacterController m_PlayerCharacterController;
     float m_WeaponBobFactor;
-    Vector3 m_LastCharacterPosition;
     Vector3 m_WeaponMainLocalPosition;
     Vector3 m_WeaponBobLocalPosition;
     Vector3 m_WeaponRecoilLocalPosition;
@@ -302,8 +301,6 @@ public class PlayerWeaponsManager : MonoBehaviour
             // Apply weapon bob
             m_WeaponBobLocalPosition.x = hBobValue;
             m_WeaponBobLocalPosition.y = Mathf.Abs(vBobValue);
-
-            m_LastCharacterPosition = m_PlayerCharacterController.transform.position;
         }
     }
 
@@ -421,8 +418,10 @@ public class PlayerWeaponsManager : MonoBehaviour
 
                 m_WeaponSlots[i] = weaponInstance;
 
-                if(onAddedWeapon != null)
+                Debug.Log("Ran");
+                if (onAddedWeapon != null)
                 {
+                    Debug.Log("onAddedWeapon invoked");
                     onAddedWeapon.Invoke(weaponInstance, i);
                 }
 

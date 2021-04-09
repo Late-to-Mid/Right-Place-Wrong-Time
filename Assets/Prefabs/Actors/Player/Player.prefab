@@ -446,6 +446,7 @@ MonoBehaviour:
   - {fileID: 8069438010486203154, guid: 3e6ae93789c54e64b91c8e7baec95e86, type: 3}
   - {fileID: 7433640211429157634, guid: 85f5e6b2e537ca64c91e5817ac09c25b, type: 3}
   - {fileID: 9222333992462042840, guid: 3f790b242fc35594fb1427037266dc30, type: 3}
+  - {fileID: 8069438010486203154, guid: 3e6ae93789c54e64b91c8e7baec95e86, type: 3}
   weaponCamera: {fileID: 6334903112888455210}
   weaponParentSocket: {fileID: 6334903113902778084}
   defaultWeaponPosition: {fileID: 6334903113436435480}
