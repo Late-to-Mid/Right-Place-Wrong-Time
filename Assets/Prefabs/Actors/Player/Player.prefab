@@ -89,7 +89,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 1000
-  field of view: 11
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -298,6 +298,7 @@ GameObject:
   - component: {fileID: 6334903113817078114}
   - component: {fileID: 6334903113817078115}
   - component: {fileID: 6334903113817078117}
+  - component: {fileID: 1382138602179490097}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -444,6 +445,8 @@ MonoBehaviour:
   startingWeapons:
   - {fileID: 8069438010486203154, guid: 3e6ae93789c54e64b91c8e7baec95e86, type: 3}
   - {fileID: 7433640211429157634, guid: 85f5e6b2e537ca64c91e5817ac09c25b, type: 3}
+  - {fileID: 9222333992462042840, guid: 3f790b242fc35594fb1427037266dc30, type: 3}
+  - {fileID: 8069438010486203154, guid: 3e6ae93789c54e64b91c8e7baec95e86, type: 3}
   weaponCamera: {fileID: 6334903112888455210}
   weaponParentSocket: {fileID: 6334903113902778084}
   defaultWeaponPosition: {fileID: 6334903113436435480}
@@ -463,6 +466,20 @@ MonoBehaviour:
   FPSWeaponLayer:
     serializedVersion: 2
     m_Bits: 4096
+--- !u!114 &1382138602179490097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334903113817078140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31b0c77754d398541b632d1dc81a9919, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageMultiplier: 1
+  sensibilityToSelfdamage: 0.5
 --- !u!1 &6334903113819467387
 GameObject:
   m_ObjectHideFlags: 0
