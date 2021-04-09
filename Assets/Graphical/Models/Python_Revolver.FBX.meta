@@ -2,8 +2,21 @@ fileFormatVersion: 2
 guid: 2c908731b301c124da761d50b4014231
 ModelImporter:
   serializedVersion: 19301
-  internalIDToNameTable: []
-  externalObjects: {}
+  internalIDToNameTable:
+  - first:
+      74: 1827226128182048838
+    second: Take 001
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: 46fca7354634e8e4499a3a62c9692aa5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Cylinder
+    second: {fileID: 2100000, guid: da5e358c2549d674997f8345413ce5ad, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
