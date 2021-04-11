@@ -129,6 +129,7 @@ public class WeaponController : MonoBehaviour
     AudioSource m_ShootAudioSource;
 
     const string k_AnimAttackParameter = "Attack";
+    const string k_AnimReloadParameter = "Reload";
 
     void Awake()
     {
@@ -170,6 +171,11 @@ public class WeaponController : MonoBehaviour
         {
             // reloads weapon over time
             m_CurrentAmmo += ammoReloadRate * Time.deltaTime;
+
+            if (weaponAnimator)
+            {
+                weaponAnimator.SetTrigger(k_AnimReloadParameter);
+            }
 
             // limits ammo to max value
             if (m_CurrentAmmo >= maxAmmo) 
