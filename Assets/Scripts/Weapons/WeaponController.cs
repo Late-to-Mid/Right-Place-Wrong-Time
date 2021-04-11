@@ -401,6 +401,7 @@ public class WeaponController : MonoBehaviour
         if (weaponAnimator)
         {
             weaponAnimator.SetTrigger(k_AnimAttackParameter);
+
         }
 
         // Callback on shoot

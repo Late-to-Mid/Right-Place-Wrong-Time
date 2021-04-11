@@ -170,7 +170,7 @@ MonoBehaviour:
   maxChargeDuration: 2
   ammoUsedOnStartCharge: 1
   ammoUsageRateWhileCharging: 1
-  weaponAnimator: {fileID: 0}
+  weaponAnimator: {fileID: 7980118780623969002}
   muzzleFlashPrefab: {fileID: 0}
   unparentMuzzleFlash: 0
   shootSFX: {fileID: 0}
@@ -179,6 +179,25 @@ MonoBehaviour:
   continuousShootStartSFX: {fileID: 0}
   continuousShootLoopSFX: {fileID: 0}
   continuousShootEndSFX: {fileID: 0}
+--- !u!95 &7980118780623969002
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5550124671466141591}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e22faaf47a240514a8d60faa6b3ca663, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &4739872763984202438
 PrefabInstance:
   m_ObjectHideFlags: 0
