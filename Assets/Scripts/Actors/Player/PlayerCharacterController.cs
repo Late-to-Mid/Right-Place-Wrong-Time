@@ -260,7 +260,7 @@ public class PlayerCharacterController : MonoBehaviour
     void HandleGroundedMovement(Vector3 worldspaceMoveInput, float speedModifier)
     {
         // character movement handling
-        if (isSliding && m_CharacterVelocity.magnitude > 5f)
+        if (isSliding && m_CharacterVelocity.magnitude > 5f && isCrouching)
         {
             SetCrouchingState(true, false);
         }

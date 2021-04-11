@@ -380,8 +380,8 @@ MonoBehaviour:
   triggerAxisThreshold: 0.4
   invertYAxis: 0
   invertXAxis: 0
-  crouchIsToggle: 1
-  sprintIsToggle: 0
+  crouchIsToggle: 0
+  sprintIsToggle: 1
   aimIsToggle: 1
 --- !u!143 &6334903113817078112
 CharacterController:
