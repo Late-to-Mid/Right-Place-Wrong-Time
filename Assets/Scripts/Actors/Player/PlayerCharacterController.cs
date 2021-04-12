@@ -32,12 +32,12 @@ public class PlayerCharacterController : MonoBehaviour
     public float slideSpeedMinimum = 15f;
     [Tooltip("Sliding deceleration value. Lower value means slower deleceration")]
     public float slidingDeceleration = 1f;
-    [Tooltip("Upward force given to character every frame when vaulting")]
-    public float vaultForce = 6f;
 
-    [Header("Jump")]
+    [Header("Force")]
     [Tooltip("Force applied upward when jumping")]
     public float jumpForce = 9f;
+    [Tooltip("Force applied downward when vaulting")]
+    public float vaultForce = 6f;
     [Tooltip("Force applied downward when in the air")]
     public float gravityDownForce = 20f;
 
