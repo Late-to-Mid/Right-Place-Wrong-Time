@@ -142,7 +142,6 @@ public class PlayerCharacterController : MonoBehaviour
         HandleGrounding();
         CheckForVaulting();
 
-        isSprinting = m_PlayerInputHandler.GetSprintingState(isSprinting);
         isCrouching = m_PlayerInputHandler.GetCrouchingState(isCrouching);
         
         RotateCharacter();
@@ -150,8 +149,18 @@ public class PlayerCharacterController : MonoBehaviour
         // Adjust speed modifier depending on whether or not the player is sprinting.
         float speedModifier = isSprinting ? sprintSpeedModifier : 1f;
 
+        Vector3 moveInput = m_PlayerInputHandler.GetMoveInput();
+        if (moveInput.z > 0 && m_PlayerInputHandler.GetSprintingState(isSprinting))
+        {
+            isSprinting = true;
+        }
+        else
+        {
+            isSprinting = false;
+        }
+
         // converts move input to a worldspace vector based on our character's transform orientation
-        Vector3 worldspaceMoveInput = transform.TransformVector(m_PlayerInputHandler.GetMoveInput());
+        Vector3 worldspaceMoveInput = transform.TransformVector(moveInput);
 
         // handle grounded movement
         if (isVaulting)
