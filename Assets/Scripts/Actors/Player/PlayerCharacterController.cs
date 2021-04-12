@@ -16,20 +16,23 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Movement")]
     [Tooltip("Max movement speed when grounded (when not sprinting)")]
-    public float maxSpeedOnGround = 10f;
-    [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
-    public float movementSharpnessOnGround = 15f;
+    public float walkSpeed = 8f;
     [Tooltip("Max movement speed when crouching")]
     [Range(0, 1)]
-    public float maxSpeedCrouchedRatio = 0.5f;
-    [Tooltip("Max movement speed when not grounded")]
-    public float maxSpeedInAir = 10f;
-    [Tooltip("Acceleration speed when in the air")]
-    public float accelerationSpeedInAir = 25f;
+    public float crouchedSpeedRatio = 0.6f;
     [Tooltip("Multiplicator for the sprint speed (based on grounded speed)")]
-    public float sprintSpeedModifier = 2f;
+    [Range(1, 2)]
+    public float sprintSpeedRatio = 1.5f;
+    [Tooltip("Max movement speed when not grounded")]
+    public float airSpeed = 8f;
     [Tooltip("Minimum speed player must be going in order to slide")]
-    public float slideSpeedMinimum = 15f;
+    public float slideSpeedMinimum = 10f;
+
+    [Header("Acceleration")]
+    [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
+    public float accelerationSpeedOnGround = 15f;
+    [Tooltip("Acceleration speed when in the air")]
+    public float accelerationSpeedInAir = 15f;
     [Tooltip("Sliding deceleration value. Lower value means slower deleceration")]
     public float slidingDeceleration = 1f;
 
@@ -65,8 +68,8 @@ public class PlayerCharacterController : MonoBehaviour
     public bool isCrouching;
     public bool isSliding;
     public bool isDead;
-    bool inCollider;
-    bool isVaulting;
+    public bool inCollider;
+    public bool isVaulting;
     float m_LastTimeJumped = 0f;
     public UnityAction<bool> onStanceChanged;
     float RotationMultiplier
@@ -139,32 +142,33 @@ public class PlayerCharacterController : MonoBehaviour
 
     void HandleCharacterMovement()
     {
+        // Ground the player
         HandleGrounding();
-        CheckForVaulting();
 
-        isSprinting = m_PlayerInputHandler.GetSprintingState(isSprinting);
-        isCrouching = m_PlayerInputHandler.GetCrouchingState(isCrouching);
-        
+        // Handle rotation (mostly for the camera and weapon)
         RotateCharacter();
 
+        // Get inputs of crouching and sprinting
+        // if the user has either of these set to toggle
+        // we need to know the previous state so we can change it accordingly
+        isSprinting = m_PlayerInputHandler.GetSprintingState(isSprinting);
+        isCrouching = m_PlayerInputHandler.GetCrouchingState(isCrouching);        
+
         // Adjust speed modifier depending on whether or not the player is sprinting.
-        float speedModifier = isSprinting ? sprintSpeedModifier : 1f;
+        float speedModifier = isSprinting ? sprintSpeedRatio : 1f;
 
         // converts move input to a worldspace vector based on our character's transform orientation
         Vector3 worldspaceMoveInput = transform.TransformVector(m_PlayerInputHandler.GetMoveInput());
 
         // handle grounded movement
-        if (isVaulting)
-        {
-            isSliding = false;
-            HandleVaulting();
-        }
-        else if (isGrounded)
+        if (isGrounded)
         {
             HandleGroundedMovement(worldspaceMoveInput, speedModifier);
         }
         else
+        // handle air movement
         {
+            // Stop sliding (in case we were)
             isSliding = false;
             HandleAirMovement(worldspaceMoveInput, speedModifier);
         }
@@ -288,13 +292,13 @@ public class PlayerCharacterController : MonoBehaviour
         }
         else
         {
-            targetVelocity = worldspaceMoveInput * maxSpeedOnGround * speedModifier;
-            accelerationRate = movementSharpnessOnGround;
+            targetVelocity = worldspaceMoveInput * walkSpeed * speedModifier;
+            accelerationRate = accelerationSpeedOnGround;
         }
 
         // calculate the desired velocity from inputs, max speed, and current slope
         // reduce speed if crouching by crouch speed ratio
-        if (isCrouching) { targetVelocity *= maxSpeedCrouchedRatio; }
+        if (isCrouching) { targetVelocity *= crouchedSpeedRatio; }
 
         targetVelocity = GetDirectionReorientedOnSlope(targetVelocity.normalized, m_GroundNormal) * targetVelocity.magnitude;
 
@@ -305,6 +309,8 @@ public class PlayerCharacterController : MonoBehaviour
         if (isGrounded && m_PlayerInputHandler.GetJumpInputDown())
         {
             isCrouching = false;
+            SetCrouchingState(false, false);
+            UpdateCharacterHeight(false);
 
             // start by canceling out the vertical component of our velocity
             m_CharacterVelocity = new Vector3(m_CharacterVelocity.x, 0f, m_CharacterVelocity.z);
@@ -338,36 +344,39 @@ public class PlayerCharacterController : MonoBehaviour
 
     void HandleAirMovement(Vector3 worldspaceMoveInput, float speedModifier)
     {
+        isVaulting = CheckForVaulting(isVaulting, worldspaceMoveInput);
+        if (isVaulting)
+        {
+            //Vector3 directionToVault = Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
+            //m_CharacterVelocity = directionToVault * 4.0f;
+            m_CharacterVelocity.y = vaultForce;
+        }
+
         // add air acceleration
         m_CharacterVelocity += worldspaceMoveInput * accelerationSpeedInAir * Time.deltaTime;
 
         // limit air speed to a maximum, but only horizontally
         float verticalVelocity = m_CharacterVelocity.y;
         Vector3 horizontalVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, Vector3.up);
-        horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, maxSpeedInAir * speedModifier);
+        horizontalVelocity = Vector3.ClampMagnitude(horizontalVelocity, airSpeed * speedModifier);
         m_CharacterVelocity = horizontalVelocity + (Vector3.up * verticalVelocity);
 
         // apply the gravity to the velocity
         m_CharacterVelocity += Vector3.down * gravityDownForce * Time.deltaTime;
     }
 
-    void CheckForVaulting()
+    bool CheckForVaulting(bool isVaulting, Vector3 worldspaceMoveInput)
     {
-        if (m_PlayerInputHandler.GetVaultInputDown() && inCollider)
+        if (isVaulting) { return true; }
+        if (inCollider && worldspaceMoveInput.magnitude > 0)
         {
             Vector3 directionToVault = m_Collider.transform.position - transform.position;
             if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15)
             {
-                isVaulting = true;
+                return true;
             }
         }
-    }
-
-    void HandleVaulting()
-    {
-        Vector3 directionToVault = Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
-        m_CharacterVelocity = directionToVault * 4.0f;
-        m_CharacterVelocity += Vector3.up * vaultForce;
+        return false;
     }
 
     void OnDie()
@@ -445,7 +454,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        //This class is to check if player is colliding with vaultable walls
+        //This method is to check if player is colliding with vaultable walls
 
         //Getting sizes of the vault wall the player collides with
         m_Collider = collider;
@@ -461,6 +470,8 @@ public class PlayerCharacterController : MonoBehaviour
     {
         inCollider = false;
         isVaulting = false;
+        m_CharacterVelocity.y = 2f;
+        //m_Controller.Move((m_Collider.transform.position - transform.position) * 0.1f);
     }
 
     // Gets the center point of the bottom hemisphere of the character controller capsule    
