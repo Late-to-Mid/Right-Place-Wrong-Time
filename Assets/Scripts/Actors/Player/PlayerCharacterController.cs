@@ -136,6 +136,11 @@ public class PlayerCharacterController : MonoBehaviour
             m_Health.Kill();
         }
 
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            m_Controller.Move(new Vector3(0, 10, 0));
+        }
+
         // Call movement method
         HandleCharacterMovement();
     }
@@ -370,10 +375,13 @@ public class PlayerCharacterController : MonoBehaviour
     bool CheckForVaulting(bool isVaulting, Vector3 worldspaceMoveInput)
     {
         if (isVaulting) { return true; }
-        if (inCollider && worldspaceMoveInput.magnitude > 0)
+        
+        if (inCollider)
         {
             Vector3 directionToVault = m_Collider.transform.position - transform.position;
-            if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15)
+            // Check that we're looking at and moving toward the wall
+            if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15 &&
+                Vector3.Dot(directionToVault, worldspaceMoveInput) > 0f)
             {
                 return true;
             }
@@ -473,7 +481,7 @@ public class PlayerCharacterController : MonoBehaviour
         inCollider = false;
         isVaulting = false;
         m_CharacterVelocity.y = 2f;
-        //m_Controller.Move((m_Collider.transform.position - transform.position) * 0.1f);
+        // m_CharacterVelocity += Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
     }
 
     // Gets the center point of the bottom hemisphere of the character controller capsule    
