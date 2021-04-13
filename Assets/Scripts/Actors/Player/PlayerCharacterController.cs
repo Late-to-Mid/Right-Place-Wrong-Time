@@ -478,10 +478,13 @@ public class PlayerCharacterController : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        if (isVaulting)
+        {
+            m_CharacterVelocity.y = 2f;
+            m_CharacterVelocity += Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
+        }
         inCollider = false;
         isVaulting = false;
-        m_CharacterVelocity.y = 2f;
-        // m_CharacterVelocity += Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
     }
 
     // Gets the center point of the bottom hemisphere of the character controller capsule    
