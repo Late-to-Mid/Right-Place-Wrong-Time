@@ -16,8 +16,8 @@ public class PlayerInputHandler : MonoBehaviour
     public bool invertXAxis = false;
 
     [Header("Movement Options")]
-    [Tooltip("Make crouching a toggle (default true)")]
-    public bool crouchIsToggle = true;
+    [Tooltip("Make crouching a toggle (default false)")]
+    public bool crouchIsToggle = false;
     [Tooltip("Make sprinting a toggle (default false)")]
     public bool sprintIsToggle = false;
     [Tooltip("Make aiming a toggle (default true)")]

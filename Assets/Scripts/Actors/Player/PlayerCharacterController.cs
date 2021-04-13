@@ -30,19 +30,19 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Acceleration")]
     [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
-    public float accelerationSpeedOnGround = 15f;
+    public float accelerationSpeedOnGround = 20f;
     [Tooltip("Acceleration speed when in the air")]
     public float accelerationSpeedInAir = 15f;
     [Tooltip("Sliding deceleration value. Lower value means slower deleceration")]
-    public float slidingDeceleration = 1f;
+    public float slidingDeceleration = 1.25f;
 
     [Header("Force")]
     [Tooltip("Force applied upward when jumping")]
     public float jumpForce = 9f;
     [Tooltip("Force applied downward when vaulting")]
-    public float vaultForce = 6f;
+    public float vaultForce = 7.5f;
     [Tooltip("Force applied downward when in the air")]
-    public float gravityDownForce = 20f;
+    public float gravityDownForce = 25f;
 
     [Header("Rotation")]
     [Tooltip("Rotation speed for moving the camera")]
@@ -63,6 +63,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
     public Vector3 m_CharacterVelocity;
+    public float horizontalCharacterVelocity;
     public bool isGrounded;
     public bool isSprinting;
     public bool isCrouching;
@@ -136,8 +137,14 @@ public class PlayerCharacterController : MonoBehaviour
             m_Health.Kill();
         }
 
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            m_Controller.Move(new Vector3(0, 10, 0));
+        }
+
         // Call movement method
         HandleCharacterMovement();
+        horizontalCharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, Vector3.up).magnitude;
     }
 
     void HandleCharacterMovement()
@@ -157,8 +164,10 @@ public class PlayerCharacterController : MonoBehaviour
         // Adjust speed modifier depending on whether or not the player is sprinting.
         float speedModifier = isSprinting ? sprintSpeedRatio : 1f;
 
+        Vector3 moveInput = m_PlayerInputHandler.GetMoveInput();
+
         // converts move input to a worldspace vector based on our character's transform orientation
-        Vector3 worldspaceMoveInput = transform.TransformVector(m_PlayerInputHandler.GetMoveInput());
+        Vector3 worldspaceMoveInput = transform.TransformVector(moveInput);
 
         // handle grounded movement
         if (isGrounded)
@@ -264,7 +273,7 @@ public class PlayerCharacterController : MonoBehaviour
     void HandleGroundedMovement(Vector3 worldspaceMoveInput, float speedModifier)
     {
         // character movement handling
-        if (isSliding && m_CharacterVelocity.magnitude > 5f)
+        if (isSliding && m_CharacterVelocity.magnitude > 5f && isCrouching)
         {
             SetCrouchingState(true, false);
         }
@@ -368,10 +377,13 @@ public class PlayerCharacterController : MonoBehaviour
     bool CheckForVaulting(bool isVaulting, Vector3 worldspaceMoveInput)
     {
         if (isVaulting) { return true; }
-        if (inCollider && worldspaceMoveInput.magnitude > 0)
+        
+        if (inCollider)
         {
             Vector3 directionToVault = m_Collider.transform.position - transform.position;
-            if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15)
+            // Check that we're looking at and moving toward the wall
+            if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15 &&
+                Vector3.Dot(directionToVault, worldspaceMoveInput) > 0f)
             {
                 return true;
             }
@@ -468,10 +480,13 @@ public class PlayerCharacterController : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        if (isVaulting)
+        {
+            m_CharacterVelocity.y = 2f;
+            m_CharacterVelocity += transform.forward * 3f;
+        }
         inCollider = false;
         isVaulting = false;
-        m_CharacterVelocity.y = 2f;
-        //m_Controller.Move((m_Collider.transform.position - transform.position) * 0.1f);
     }
 
     // Gets the center point of the bottom hemisphere of the character controller capsule    
