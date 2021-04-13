@@ -30,19 +30,19 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Acceleration")]
     [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
-    public float accelerationSpeedOnGround = 15f;
+    public float accelerationSpeedOnGround = 20f;
     [Tooltip("Acceleration speed when in the air")]
     public float accelerationSpeedInAir = 15f;
     [Tooltip("Sliding deceleration value. Lower value means slower deleceration")]
-    public float slidingDeceleration = 1f;
+    public float slidingDeceleration = 1.25f;
 
     [Header("Force")]
     [Tooltip("Force applied upward when jumping")]
     public float jumpForce = 9f;
     [Tooltip("Force applied downward when vaulting")]
-    public float vaultForce = 6f;
+    public float vaultForce = 7.5f;
     [Tooltip("Force applied downward when in the air")]
-    public float gravityDownForce = 20f;
+    public float gravityDownForce = 25f;
 
     [Header("Rotation")]
     [Tooltip("Rotation speed for moving the camera")]
@@ -63,6 +63,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
     public Vector3 m_CharacterVelocity;
+    public float horizontalCharacterVelocity;
     public bool isGrounded;
     public bool isSprinting;
     public bool isCrouching;
@@ -143,6 +144,7 @@ public class PlayerCharacterController : MonoBehaviour
 
         // Call movement method
         HandleCharacterMovement();
+        horizontalCharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, Vector3.up).magnitude;
     }
 
     void HandleCharacterMovement()
