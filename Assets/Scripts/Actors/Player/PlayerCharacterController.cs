@@ -481,7 +481,7 @@ public class PlayerCharacterController : MonoBehaviour
         if (isVaulting)
         {
             m_CharacterVelocity.y = 2f;
-            m_CharacterVelocity += Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
+            m_CharacterVelocity += transform.forward * 3f;
         }
         inCollider = false;
         isVaulting = false;
