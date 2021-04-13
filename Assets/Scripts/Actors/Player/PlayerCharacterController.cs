@@ -158,14 +158,6 @@ public class PlayerCharacterController : MonoBehaviour
         float speedModifier = isSprinting ? sprintSpeedRatio : 1f;
 
         Vector3 moveInput = m_PlayerInputHandler.GetMoveInput();
-        if (moveInput.z > 0 && m_PlayerInputHandler.GetSprintingState(isSprinting))
-        {
-            isSprinting = true;
-        }
-        else
-        {
-            isSprinting = false;
-        }
 
         // converts move input to a worldspace vector based on our character's transform orientation
         Vector3 worldspaceMoveInput = transform.TransformVector(moveInput);
