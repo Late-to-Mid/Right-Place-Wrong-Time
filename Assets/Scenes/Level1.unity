@@ -121,6 +121,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 4e54405bd569da34e87ca5c8f1d43dff, type: 2}
+--- !u!114 &285260900 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3245484632455032087, guid: 83d5a2a4a0cb952408e3b6419ef175a6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1555942610}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb1fb511b5d8c6d408375189eb7f9ee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &443846105 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4533278928640405134, guid: 83d5a2a4a0cb952408e3b6419ef175a6,
@@ -890,6 +902,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 880050495}
     m_Modifications:
+    - target: {fileID: 74035648184923898, guid: 83d5a2a4a0cb952408e3b6419ef175a6,
+        type: 3}
+      propertyPath: orientationSpeed
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 74035648184923898, guid: 83d5a2a4a0cb952408e3b6419ef175a6,
+        type: 3}
+      propertyPath: m_DetectionModule
+      value: 
+      objectReference: {fileID: 285260900}
+    - target: {fileID: 3245484632455032087, guid: 83d5a2a4a0cb952408e3b6419ef175a6,
+        type: 3}
+      propertyPath: attackRange
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3245484632455032087, guid: 83d5a2a4a0cb952408e3b6419ef175a6,
+        type: 3}
+      propertyPath: detectionRange
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 4533278928640405134, guid: 83d5a2a4a0cb952408e3b6419ef175a6,
         type: 3}
       propertyPath: m_RootOrder
