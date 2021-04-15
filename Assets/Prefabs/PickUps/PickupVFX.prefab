@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8786442336593693387}
   - component: {fileID: 1448940809830641358}
   - component: {fileID: 6510035074120846202}
+  - component: {fileID: -681192842694363336}
   m_Layer: 0
-  m_Name: HealthPickUpVFX
+  m_Name: PickupVFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4821,3 +4822,16 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &-681192842694363336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924942133156105059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a54bfaa987c3004db4c15df1c10d966, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 5

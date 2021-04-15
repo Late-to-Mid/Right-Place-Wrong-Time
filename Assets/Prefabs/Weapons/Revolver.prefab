@@ -163,7 +163,7 @@ MonoBehaviour:
   recoilForce: 1.5
   aimZoomRatio: 0.52
   aimOffset: {x: 0, y: 0, z: 0}
-  ammoReloadRate: 100
+  ammoReloadRate: 5
   ammoReloadDelay: 0
   maxAmmo: 100
   automaticReleaseOnCharged: 0
@@ -179,6 +179,8 @@ MonoBehaviour:
   continuousShootStartSFX: {fileID: 0}
   continuousShootLoopSFX: {fileID: 0}
   continuousShootEndSFX: {fileID: 0}
+  m_CurrentAmmo: 0
+  currentAmmoRatio: 0
 --- !u!95 &7980118780623969002
 Animator:
   serializedVersion: 3
