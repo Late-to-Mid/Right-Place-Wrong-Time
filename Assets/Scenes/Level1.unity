@@ -265,7 +265,7 @@ PrefabInstance:
     - target: {fileID: 6334903113817078142, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
       propertyPath: airSpeed
-      value: 16
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6334903113817078142, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
