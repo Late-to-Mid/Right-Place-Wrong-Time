@@ -243,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6334903113436435481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.279, y: -0.347, z: 0.465}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6334903113573939402}
@@ -339,16 +339,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 769
   groundCheckDistance: 0.05
-  maxSpeedOnGround: 10
-  movementSharpnessOnGround: 15
-  maxSpeedCrouchedRatio: 0.5
-  maxSpeedInAir: 10
-  accelerationSpeedInAir: 25
-  sprintSpeedModifier: 2
+  walkSpeed: 8
+  crouchedSpeedRatio: 0.6
+  sprintSpeedRatio: 1.5
+  airSpeed: 8
   slideSpeedMinimum: 15
+  accelerationSpeedOnGround: 20
+  accelerationSpeedInAir: 25
   slidingDeceleration: 1
-  vaultForce: 6
   jumpForce: 9
+  vaultForce: 6
   gravityDownForce: 20
   rotationSpeed: 200
   aimingRotationMultiplier: 0.4
@@ -357,11 +357,14 @@ MonoBehaviour:
   capsuleHeightCrouching: 0.9
   crouchingSharpness: 10
   m_CharacterVelocity: {x: 0, y: 0, z: 0}
+  horizontalCharacterVelocity: 0
   isGrounded: 0
   isSprinting: 0
   isCrouching: 0
   isSliding: 0
   isDead: 0
+  inCollider: 0
+  isVaulting: 0
   playerCamera: {fileID: 6334903112852522063}
 --- !u!114 &6334903113817078113
 MonoBehaviour:
@@ -443,7 +446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingWeapons:
-  - {fileID: 8069438010486203154, guid: 3e6ae93789c54e64b91c8e7baec95e86, type: 3}
+  - {fileID: 9016403051290134451, guid: 0909d70706a0d9241a9a8877f1c8e059, type: 3}
   - {fileID: 7433640211429157634, guid: 85f5e6b2e537ca64c91e5817ac09c25b, type: 3}
   - {fileID: 9222333992462042840, guid: 3f790b242fc35594fb1427037266dc30, type: 3}
   - {fileID: 8069438010486203154, guid: 3e6ae93789c54e64b91c8e7baec95e86, type: 3}
