@@ -436,4 +436,10 @@ public class WeaponController : MonoBehaviour
 
         return spreadWorldDirection;
     }
+
+    public void IncreaseDamage(float amt)
+    {
+        ProjectileStandard projectile = projectilePrefab.GetComponent<ProjectileStandard>();
+        projectile.damage += amt;
+    }
 }
