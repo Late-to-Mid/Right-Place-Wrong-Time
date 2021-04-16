@@ -46,7 +46,6 @@ public class Health : MonoBehaviour
             return;
 
         float healthBefore = currentHealth;
-        Debug.Log(damage);
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 

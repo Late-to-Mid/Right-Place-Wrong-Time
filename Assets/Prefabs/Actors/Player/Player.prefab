@@ -299,6 +299,7 @@ GameObject:
   - component: {fileID: 6334903113817078115}
   - component: {fileID: 6334903113817078117}
   - component: {fileID: 1382138602179490097}
+  - component: {fileID: 5590805953635055263}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -339,16 +340,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 769
   groundCheckDistance: 0.05
-  maxSpeedOnGround: 10
-  movementSharpnessOnGround: 15
-  maxSpeedCrouchedRatio: 0.5
-  maxSpeedInAir: 10
-  accelerationSpeedInAir: 25
-  sprintSpeedModifier: 2
+  walkSpeed: 8
+  crouchedSpeedRatio: 0.6
+  sprintSpeedRatio: 1.5
+  airSpeed: 8
   slideSpeedMinimum: 15
+  accelerationSpeedOnGround: 20
+  accelerationSpeedInAir: 25
   slidingDeceleration: 1
-  vaultForce: 6
   jumpForce: 9
+  vaultForce: 6
   gravityDownForce: 20
   rotationSpeed: 200
   aimingRotationMultiplier: 0.4
@@ -357,11 +358,14 @@ MonoBehaviour:
   capsuleHeightCrouching: 0.9
   crouchingSharpness: 10
   m_CharacterVelocity: {x: 0, y: 0, z: 0}
+  horizontalCharacterVelocity: 0
   isGrounded: 0
   isSprinting: 0
   isCrouching: 0
   isSliding: 0
   isDead: 0
+  inCollider: 0
+  isVaulting: 0
   playerCamera: {fileID: 6334903112852522063}
 --- !u!114 &6334903113817078113
 MonoBehaviour:
@@ -480,6 +484,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageMultiplier: 1
   sensibilityToSelfdamage: 0.5
+  armor: 0
+--- !u!114 &5590805953635055263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334903113817078140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7266d328a5594eb44a1255aebd2665f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwForce: 600
+  grenade: {fileID: 2429262466265052374, guid: 15b5f2551715bcf449b2f7c961994a4e, type: 3}
 --- !u!1 &6334903113819467387
 GameObject:
   m_ObjectHideFlags: 0
