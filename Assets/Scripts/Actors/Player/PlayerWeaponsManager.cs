@@ -132,6 +132,7 @@ public class PlayerWeaponsManager : MonoBehaviour
         if (activeWeapon != null && !activeWeapon.isCharging && m_InputHandler.GetReloadInputDown())
         {
             m_WantsToReload = true;
+            // isAiming = false;
         }
         else { m_WantsToReload = false; }
 
@@ -169,6 +170,8 @@ public class PlayerWeaponsManager : MonoBehaviour
         //         }
         //     }
         // }
+
+        activeWeapon.SetAnimAimParameter(isAiming);
     }
 
 

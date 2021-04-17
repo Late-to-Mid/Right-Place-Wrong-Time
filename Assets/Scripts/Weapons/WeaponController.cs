@@ -130,6 +130,7 @@ public class WeaponController : MonoBehaviour
 
     const string k_AnimAttackParameter = "Attack";
     const string k_AnimReloadParameter = "Reload";
+    const string k_AnimAimParameter = "Aiming";
 
     public bool FullAmmo() { return (currentAmmoRatio >= 1); }
 
@@ -165,11 +166,7 @@ public class WeaponController : MonoBehaviour
 
     void UpdateAmmo()
     {
-        if (isReloading || 
-            (m_LastTimeShot + ammoReloadDelay < Time.time && 
-            m_CurrentAmmo < maxAmmo && 
-            !isCharging &&
-            m_wantsToReload))
+        if (isReloading || m_wantsToReload)
         {
             // reloads weapon over time
             m_CurrentAmmo += ammoReloadRate * Time.deltaTime;
@@ -418,7 +415,9 @@ public class WeaponController : MonoBehaviour
 
     public void Reload()
     {
-        if (!isCharging && !m_wantsToShoot)
+        if (!isCharging && !m_wantsToShoot &&
+            m_CurrentAmmo < maxAmmo && 
+            m_LastTimeShot + ammoReloadDelay < Time.time)
         {
             m_wantsToReload = true;
 
@@ -441,5 +440,10 @@ public class WeaponController : MonoBehaviour
     {
         ProjectileStandard projectile = projectilePrefab.GetComponent<ProjectileStandard>();
         projectile.damage += amt;
+    }
+
+    public void SetAnimAimParameter(bool aiming)
+    {
+        weaponAnimator.SetBool(k_AnimAimParameter, aiming);
     }
 }

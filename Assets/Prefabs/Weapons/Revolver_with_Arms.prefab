@@ -559,7 +559,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6299c09d3533ce04dac2327900f9164a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponName: 
+  weaponName: Revolver
   weaponIcon: {fileID: 0}
   crosshairDataDefault:
     crosshairSprite: {fileID: 0}
@@ -597,6 +597,8 @@ MonoBehaviour:
   continuousShootStartSFX: {fileID: 0}
   continuousShootLoopSFX: {fileID: 0}
   continuousShootEndSFX: {fileID: 0}
+  m_CurrentAmmo: 0
+  currentAmmoRatio: 0
 --- !u!95 &5219633996449774945
 Animator:
   serializedVersion: 3
