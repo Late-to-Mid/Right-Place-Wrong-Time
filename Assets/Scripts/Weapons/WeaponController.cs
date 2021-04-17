@@ -172,11 +172,6 @@ public class WeaponController : MonoBehaviour
             // reloads weapon over time
             m_CurrentAmmo += ammoReloadRate * Time.deltaTime;
 
-            if (weaponAnimator)
-            {
-                weaponAnimator.SetTrigger(k_AnimReloadParameter);
-            }
-
             // limits ammo to max value
             if (m_CurrentAmmo >= maxAmmo) 
             {
@@ -373,7 +368,14 @@ public class WeaponController : MonoBehaviour
     void HandleShoot()
     {
         int bulletsPerShotFinal = shootType == WeaponShootType.Charge ? Mathf.CeilToInt(currentCharge * bulletsPerShot) : bulletsPerShot;
-        
+
+        // Trigger attack animation if there is any
+        if (weaponAnimator)
+        {
+            weaponAnimator.SetTrigger(k_AnimAttackParameter);
+
+        }
+
         // spawn all bullets with random direction
         for (int i = 0; i < bulletsPerShotFinal; i++)
         {
@@ -403,13 +405,6 @@ public class WeaponController : MonoBehaviour
             m_ShootAudioSource.PlayOneShot(shootSFX);
         }
 
-        // Trigger attack animation if there is any
-        if (weaponAnimator)
-        {
-            weaponAnimator.SetTrigger(k_AnimAttackParameter);
-
-        }
-
         // Callback on shoot
         if (onShoot != null)
         {
@@ -424,6 +419,11 @@ public class WeaponController : MonoBehaviour
         if (!isCharging && !m_wantsToShoot)
         {
             m_wantsToReload = true;
+
+            if (weaponAnimator)
+            {
+                weaponAnimator.SetTrigger(k_AnimReloadParameter);
+            }
         }
     }
 
