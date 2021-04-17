@@ -292,12 +292,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6334903113817078143}
+  - component: {fileID: 6334903113817078112}
   - component: {fileID: 6334903113817078142}
   - component: {fileID: 6334903113817078113}
-  - component: {fileID: 6334903113817078112}
+  - component: {fileID: 6334903113817078117}
   - component: {fileID: 6334903113817078114}
   - component: {fileID: 6334903113817078115}
-  - component: {fileID: 6334903113817078117}
   - component: {fileID: 1382138602179490097}
   - component: {fileID: 5590805953635055263}
   m_Layer: 0
@@ -323,6 +323,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &6334903113817078112
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334903113817078140}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.8
+  m_Radius: 0.35
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.001
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &6334903113817078142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -387,53 +405,6 @@ MonoBehaviour:
   crouchIsToggle: 0
   sprintIsToggle: 1
   aimIsToggle: 1
---- !u!143 &6334903113817078112
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6334903113817078140}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.8
-  m_Radius: 0.35
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.001
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &6334903113817078114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6334903113817078140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0af3e43124d100a408da56e8f488a36e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  affiliation: 1
-  aimPoint: {fileID: 6334903113208263994}
---- !u!114 &6334903113817078115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6334903113817078140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dad9ad0cadbebd43ac49609f4e8a990, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  criticalHealthRatio: 0.3
-  currentHealth: 0
 --- !u!114 &6334903113817078117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +441,35 @@ MonoBehaviour:
   FPSWeaponLayer:
     serializedVersion: 2
     m_Bits: 4096
+--- !u!114 &6334903113817078114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334903113817078140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af3e43124d100a408da56e8f488a36e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  affiliation: 1
+  aimPoint: {fileID: 6334903113208263994}
+--- !u!114 &6334903113817078115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334903113817078140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dad9ad0cadbebd43ac49609f4e8a990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  criticalHealthRatio: 0.3
+  currentHealth: 0
 --- !u!114 &1382138602179490097
 MonoBehaviour:
   m_ObjectHideFlags: 0
