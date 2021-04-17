@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7137670949480878846}
   - component: {fileID: 2216356925512517648}
   - component: {fileID: 3737154119901811175}
+  - component: {fileID: 3078373673104713593}
   m_Layer: 0
   m_Name: Bomb
   m_TagString: Untagged
@@ -81,8 +82,51 @@ MonoBehaviour:
   lifetime: 3
   explosionRadius: 5
   explosionForce: 100
+  damage: 100
+  hittableLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   explosionEffect: {fileID: 1000011128802252, guid: 96730f8640590934eacb6f860058e7f9,
     type: 3}
+  areaOfDamage: {fileID: 3078373673104713593}
+--- !u!114 &3078373673104713593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2429262466265052374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02890a657a1c10d4e85b986d5246e60d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaOfEffectDistance: 1000
+  damageRatioOverDistance:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -0.0018610444
+      outSlope: -0.0018610444
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.99997616
+      value: 0.49917775
+      inSlope: -0.0011457368
+      outSlope: -0.0011457368
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  areaOfEffectColor: {r: 0.5, g: 0, b: 0, a: 0.5}
 --- !u!1 &4475538838260880373
 GameObject:
   m_ObjectHideFlags: 0
