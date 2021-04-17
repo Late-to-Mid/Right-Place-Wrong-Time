@@ -111,7 +111,7 @@ public class WeaponController : MonoBehaviour
     public UnityAction onShoot;
     public event Action OnShootProcessed;
 
-    float m_CurrentAmmo;
+    public float m_CurrentAmmo;
     float m_LastTimeShot = Mathf.NegativeInfinity;
     public float LastChargeTriggerTimestamp { get; private set; }
     Vector3 m_LastMuzzlePosition;
@@ -119,7 +119,7 @@ public class WeaponController : MonoBehaviour
     public GameObject owner { get; set; }
     public GameObject sourcePrefab { get; set; }
     public bool isCharging { get; private set; }
-    public float currentAmmoRatio { get; private set; }
+    public float currentAmmoRatio; // { get; private set; }
     public bool isWeaponActive { get; private set; }
     public bool isReloading { get; private set; }
     public float currentCharge { get; private set; }
@@ -130,6 +130,8 @@ public class WeaponController : MonoBehaviour
 
     const string k_AnimAttackParameter = "Attack";
     const string k_AnimReloadParameter = "Reload";
+
+    public bool FullAmmo() { return (currentAmmoRatio >= 1); }
 
     void Awake()
     {
@@ -433,5 +435,11 @@ public class WeaponController : MonoBehaviour
         Vector3 spreadWorldDirection = Vector3.Slerp(shootTransform.forward, UnityEngine.Random.insideUnitSphere, spreadAngleRatio);
 
         return spreadWorldDirection;
+    }
+
+    public void IncreaseDamage(float amt)
+    {
+        ProjectileStandard projectile = projectilePrefab.GetComponent<ProjectileStandard>();
+        projectile.damage += amt;
     }
 }

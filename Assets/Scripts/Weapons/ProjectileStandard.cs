@@ -201,7 +201,14 @@ public class ProjectileStandard : MonoBehaviour
     }
 
     void OnHit(Vector3 point, Vector3 normal, Collider collider)
-    { 
+    {
+        Rigidbody rb = collider.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            rb.AddForce(m_Velocity);
+        }
+
         // damage
         if (areaOfDamage)
         {
