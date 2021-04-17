@@ -344,13 +344,13 @@ MonoBehaviour:
   crouchedSpeedRatio: 0.6
   sprintSpeedRatio: 1.5
   airSpeed: 8
-  slideSpeedMinimum: 15
+  slideSpeedMinimum: 10
   accelerationSpeedOnGround: 20
-  accelerationSpeedInAir: 25
-  slidingDeceleration: 1
+  accelerationSpeedInAir: 15
+  slidingDeceleration: 1.25
   jumpForce: 9
-  vaultForce: 6
-  gravityDownForce: 20
+  vaultForce: 7.5
+  gravityDownForce: 25
   rotationSpeed: 200
   aimingRotationMultiplier: 0.4
   cameraHeightRatio: 0.9
