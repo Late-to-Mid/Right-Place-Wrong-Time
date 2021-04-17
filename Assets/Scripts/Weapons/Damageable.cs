@@ -7,6 +7,8 @@ public class Damageable : MonoBehaviour
     [Range(0, 1)]
     [Tooltip("Multiplier to apply to self damage")]
     public float sensibilityToSelfdamage = 0.5f;
+    [Tooltip("Amount of Armor")]
+    public int armor = 0;
 
     public Health health { get; private set; }
 
@@ -23,9 +25,11 @@ public class Damageable : MonoBehaviour
     public void InflictDamage(float damage, bool isExplosionDamage, GameObject damageSource)
     {
 
-        if(health)
+        if (health)
         {
             var totalDamage = damage;
+
+            totalDamage *= 100f / (100f + armor);
 
             // skip the crit multiplier if it's from an explosion
             if (!isExplosionDamage)
@@ -42,5 +46,10 @@ public class Damageable : MonoBehaviour
             // apply the damages
             health.TakeDamage(totalDamage, damageSource);
         }
+    }
+
+    public void increaseArmor(int amount)
+    {
+        armor += amount;
     }
 }

@@ -61,13 +61,13 @@ public class EnemyController : MonoBehaviour
     // [Range(0, 1)]
     // public float dropRate = 1f;
 
-    // [Header("Debug Display")]
-    // [Tooltip("Color of the sphere gizmo representing the path reaching range")]
-    // public Color pathReachingRangeColor = Color.yellow;
-    // [Tooltip("Color of the sphere gizmo representing the attack range")]
-    // public Color attackRangeColor = Color.red;
-    // [Tooltip("Color of the sphere gizmo representing the detection range")]
-    // public Color detectionRangeColor = Color.blue;
+    [Header("Debug Display")]
+    [Tooltip("Color of the sphere gizmo representing the path reaching range")]
+    public Color pathReachingRangeColor = Color.yellow;
+    [Tooltip("Color of the sphere gizmo representing the attack range")]
+    public Color attackRangeColor = Color.red;
+    [Tooltip("Color of the sphere gizmo representing the detection range")]
+    public Color detectionRangeColor = Color.blue;
 
     public UnityAction onAttack;
     public UnityAction onDetectedTarget;
@@ -84,7 +84,7 @@ public class EnemyController : MonoBehaviour
     public bool isSeeingTarget => m_DetectionModule.isSeeingTarget;
     public bool hadKnownTarget => m_DetectionModule.hadKnownTarget;
     public NavMeshAgent m_NavMeshAgent { get; private set; }
-    public DetectionModule m_DetectionModule { get; private set; }
+    public DetectionModule m_DetectionModule;
 
     int m_PathDestinationNodeIndex;
     EnemyManager m_EnemyManager;
@@ -120,10 +120,7 @@ public class EnemyController : MonoBehaviour
         // Find and initialize weapon
         FindAndInitializeWeapon();
 
-        var detectionModules = GetComponentsInChildren<DetectionModule>();
-
         // Initialize detection module
-        m_DetectionModule = detectionModules[0];
         m_DetectionModule.onDetectedTarget += OnDetectedTarget;
         m_DetectionModule.onLostTarget += OnLostTarget;
         onAttack += m_DetectionModule.OnAttack;
@@ -319,5 +316,20 @@ public class EnemyController : MonoBehaviour
             m_CurrentWeapon.owner = gameObject;
             m_CurrentWeapon.ShowWeapon(true);
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        // Path reaching range
+        Gizmos.color = pathReachingRangeColor;
+        Gizmos.DrawWireSphere(transform.position, pathReachingRadius);
+
+        // Detection range
+        Gizmos.color = detectionRangeColor;
+        Gizmos.DrawWireSphere(transform.position, m_DetectionModule.detectionRange);
+
+        // Attack range
+        Gizmos.color = attackRangeColor;
+        Gizmos.DrawWireSphere(transform.position, m_DetectionModule.attackRange);
     }
 }

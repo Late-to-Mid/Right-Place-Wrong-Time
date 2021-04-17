@@ -214,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageMultiplier: 1
   sensibilityToSelfdamage: 0.5
+  armor: 0
 --- !u!1 &5660294555500097201
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +232,7 @@ GameObject:
   - component: {fileID: 8467499123790873054}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -337,6 +338,10 @@ MonoBehaviour:
   pathReachingRadius: 2
   orientationSpeed: 10
   deathDuration: 0
+  pathReachingRangeColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  attackRangeColor: {r: 1, g: 0, b: 0, a: 1}
+  detectionRangeColor: {r: 0, g: 0, b: 1, a: 1}
+  m_DetectionModule: {fileID: 3245484632455032087}
 --- !u!114 &8467499123790873054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,8 +508,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionSourcePoint: {fileID: 2252355583903648138}
-  detectionRange: 20
-  attackRange: 10
+  detectionRange: 100
+  attackRange: 50
   knownTargetTimeout: 4
   animator: {fileID: 0}
 --- !u!1 &9200921119386219024
