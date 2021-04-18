@@ -53,7 +53,7 @@ ModelImporter:
       name: HipFireShoot
       takeName: Take 001
       internalID: 0
-      firstFrame: 200
+      firstFrame: 202
       lastFrame: 220
       wrapMode: 0
       orientationOffsetY: 0
@@ -140,8 +140,8 @@ ModelImporter:
       name: ADS Idle
       takeName: Take 001
       internalID: 0
-      firstFrame: 310
-      lastFrame: 370
+      firstFrame: 320
+      lastFrame: 390
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -169,8 +169,8 @@ ModelImporter:
       name: ADS Shoot
       takeName: Take 001
       internalID: 0
-      firstFrame: 375
-      lastFrame: 390
+      firstFrame: 395
+      lastFrame: 407
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

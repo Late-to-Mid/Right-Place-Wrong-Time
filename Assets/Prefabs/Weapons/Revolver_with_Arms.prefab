@@ -578,7 +578,7 @@ MonoBehaviour:
   delayBetweenShots: 0.25
   bulletSpreadAngle: 0
   bulletsPerShot: 1
-  recoilForce: 1
+  recoilForce: 0
   aimZoomRatio: 1
   aimOffset: {x: 0, y: 0, z: 0}
   ammoReloadRate: 3
@@ -1881,6 +1881,7 @@ SkinnedMeshRenderer:
   m_Materials:
   - {fileID: 2100000, guid: 46fca7354634e8e4499a3a62c9692aa5, type: 2}
   - {fileID: 2100000, guid: da5e358c2549d674997f8345413ce5ad, type: 2}
+  - {fileID: 2100000, guid: 59022f7550577da4d96af697405b5a68, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
