@@ -14,12 +14,8 @@ public class Actor : MonoBehaviour
     private void Start()
     {
         m_ActorsManager = GameObject.FindObjectOfType<ActorsManager>();
-
-        // Register as an actor
-        if (!m_ActorsManager.actors.Contains(this))
-        {
-            m_ActorsManager.actors.Add(this); 
-        }
+    
+        m_ActorsManager.RegisterActor(this); 
     }
 
     private void OnDestroy()
@@ -27,7 +23,7 @@ public class Actor : MonoBehaviour
         // Unregister as an actor
         if (m_ActorsManager)
         {
-            m_ActorsManager.actors.Remove(this);
+            m_ActorsManager.UnregisterActor(this);
         }
     }
 }
