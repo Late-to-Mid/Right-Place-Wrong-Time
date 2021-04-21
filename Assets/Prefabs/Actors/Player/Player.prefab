@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2910105128819617473}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AimingWeaponSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 6789416209751053573}
   - component: {fileID: 381580566095777169}
   - component: {fileID: 1345831712098164016}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 6334903112852522062}
   - component: {fileID: 6334903112852522063}
   - component: {fileID: 6334903112852522060}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3895
+    m_Bits: 1073745719
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -195,7 +195,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6334903112888455211}
   - component: {fileID: 6334903112888455210}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WeaponCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -268,7 +268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6334903113208263994}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Aimpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -298,7 +298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6334903113436435480}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DefaultWeaponPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -328,7 +328,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6334903113573939402}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FirstPersonSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -370,7 +370,7 @@ GameObject:
   - component: {fileID: 6334903113817078115}
   - component: {fileID: 5590805953635055263}
   - component: {fileID: 5138014119724375689}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -567,7 +567,6 @@ MonoBehaviour:
   playerDummyObject: {fileID: 7759714358863529581, guid: 1fa97897db96eb44293c0dc215655392,
     type: 3}
   timeLength: 5
-  playerHitbox: {fileID: 5595850097430639017}
 --- !u!1 &6334903113819467387
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,7 +576,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6334903113819467386}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: DownWeaponPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -607,7 +606,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6334903113902778084}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: WeaponParentSocket
   m_TagString: Untagged
   m_Icon: {fileID: 0}

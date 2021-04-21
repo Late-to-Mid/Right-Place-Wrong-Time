@@ -9,4 +9,18 @@ public class ActorsManager : MonoBehaviour
     {
         actors = new List<Actor>();
     }
+
+    public void RegisterActor(Actor actor)
+    {
+        if (!actors.Contains(actor))
+        {
+            actors.Add(actor);
+        }
+
+    }
+
+    public void UnregisterActor(Actor actor)
+    {
+        actors.Remove(actor);
+    }
 }

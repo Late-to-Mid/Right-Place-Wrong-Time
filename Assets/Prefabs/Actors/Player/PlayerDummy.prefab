@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5272277490255954464}
   - component: {fileID: 6582946596844685427}
   - component: {fileID: 6258917609913471774}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 1195685395586278752}
   - component: {fileID: 1938837902133239500}
   - component: {fileID: 2225726952903711110}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: ImageFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 1568524362999130524}
   - component: {fileID: 243399923090899012}
   - component: {fileID: 8350083651600331838}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: ImageBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -257,7 +257,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6279720441976602797}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: Aimpoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4237210369433112326}
-  m_Layer: 0
+  m_Layer: 30
   m_Name: HealthBarPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,10 +319,10 @@ GameObject:
   m_Component:
   - component: {fileID: 3578601197036062967}
   - component: {fileID: 5981095742907292028}
-  - component: {fileID: 2609622543272132012}
   - component: {fileID: 8496864784132595043}
   - component: {fileID: 8779102810295868283}
-  m_Layer: 0
+  - component: {fileID: -4155682833425051452}
+  m_Layer: 30
   m_Name: PlayerDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +337,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7759714358863529581}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6279720441976602797}
@@ -360,19 +360,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   affiliation: 1
   aimPoint: {fileID: 6279720441976602797}
---- !u!114 &2609622543272132012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7759714358863529581}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a54bfaa987c3004db4c15df1c10d966, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: 5
 --- !u!114 &8496864784132595043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -404,6 +391,19 @@ MonoBehaviour:
   healthBarImage: {fileID: 2225726952903711110}
   healthBarPivot: {fileID: 4237210369433112326}
   hideFullHealthBar: 0
+--- !u!114 &-4155682833425051452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7759714358863529581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16031389dcfa25f40ad7c08ede4ede76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 0
 --- !u!1 &8190554211042399535
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,9 +415,9 @@ GameObject:
   - component: {fileID: 6574941502124631008}
   - component: {fileID: 5305073349212989035}
   - component: {fileID: 3114821555514877079}
-  - component: {fileID: 1251111549276840749}
   - component: {fileID: 3061717782814585086}
-  m_Layer: 0
+  - component: {fileID: 9023774660119288782}
+  m_Layer: 30
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -485,20 +485,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &1251111549276840749
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8190554211042399535}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3061717782814585086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,3 +500,17 @@ MonoBehaviour:
   damageMultiplier: 2
   sensibilityToSelfdamage: 0.5
   armor: 0
+--- !u!136 &9023774660119288782
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8190554211042399535}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

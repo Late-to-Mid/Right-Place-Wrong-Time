@@ -109,6 +109,7 @@ public class PlayerWeaponsManager : MonoBehaviour
         {
             // handle aiming down sights
             isAiming = m_InputHandler.GetAimingState(isAiming);
+            activeWeapon.SetAnimAimParameter(isAiming);
 
             // handle shooting
             bool hasFired = activeWeapon.HandleShootInputs(
@@ -132,7 +133,6 @@ public class PlayerWeaponsManager : MonoBehaviour
         if (activeWeapon != null && !activeWeapon.isCharging && m_InputHandler.GetReloadInputDown())
         {
             m_WantsToReload = true;
-            // isAiming = false;
         }
         else { m_WantsToReload = false; }
 
@@ -170,8 +170,6 @@ public class PlayerWeaponsManager : MonoBehaviour
         //         }
         //     }
         // }
-
-        activeWeapon.SetAnimAimParameter(isAiming);
     }
 
 
@@ -421,7 +419,10 @@ public class PlayerWeaponsManager : MonoBehaviour
 
                 m_WeaponSlots[i] = weaponInstance;
 
-                onAddedWeapon.Invoke(weaponInstance, i);
+                if (onAddedWeapon != null)
+                {
+                    onAddedWeapon.Invoke(weaponInstance, i);
+                }
 
                 return true;
             }
