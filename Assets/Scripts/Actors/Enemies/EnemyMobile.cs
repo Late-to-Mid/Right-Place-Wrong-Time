@@ -55,7 +55,10 @@ public class EnemyMobile : MonoBehaviour
     void Update()
     {
         UpdateAIStateTransitions();
-        UpdateCurrentAIState();
+        if (m_EnemyController.knownDetectedTarget)
+        {
+            UpdateCurrentAIState();
+        }
 
         float moveSpeed = m_EnemyController.m_NavMeshAgent.velocity.magnitude;
 
@@ -91,7 +94,7 @@ public class EnemyMobile : MonoBehaviour
 
     void UpdateCurrentAIState()
     {
-        // Handle logic 
+        // Handle logic
         switch (aiState)
         {
             case AIState.Patrol:
