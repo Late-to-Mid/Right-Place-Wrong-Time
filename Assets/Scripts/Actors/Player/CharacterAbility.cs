@@ -43,7 +43,6 @@ public class CharacterAbility : MonoBehaviour
         switch (m_State)
         {
             case AbilityState.Ready:
-                CheckForAbilityUse();
                 break;
             case AbilityState.Cooldown:
                 OnCooldown();
@@ -54,31 +53,36 @@ public class CharacterAbility : MonoBehaviour
         }
     }
 
-    void CheckForAbilityUse()
+    public void CheckToUseAbility()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (m_State == AbilityState.Ready)
         {
-            m_TimeActivated = Time.time;
-            GameObject dummy = Instantiate(playerDummyObject, transform.position + Vector3.up, transform.rotation);
-            dummyController = dummy.GetComponent<DummyController>();
-            dummyController.lifeTime = timeLength;
-            m_State = AbilityState.Active;
-            actorsManager.UnregisterActor(m_Actor);
-        }
+            UseAbility();
+        }        
+    }
+
+    void UseAbility()
+    {
+        m_TimeActivated = Time.time;
+        GameObject dummy = Instantiate(playerDummyObject, transform.position + Vector3.up, transform.rotation);
+        dummyController = dummy.GetComponent<DummyController>();
+        dummyController.lifeTime = timeLength;
+        m_State = AbilityState.Active;
+        actorsManager.UnregisterActor(m_Actor);
     }
 
     void CheckToEndAbility()
     {
-        // if (Time.time > m_TimeActivated + timeLength || m_PlayerInputHandler.GetFireInputHeld() || dummyController == null)
-        // {
-        //     actorsManager.RegisterActor(m_Actor);
-        //     m_State = AbilityState.Cooldown;
-        //     if (dummyController != null)
-        //     {
-        //         dummyController.Kill();
-        //         dummyController = null;
-        //     }
-        // }
+        if (Time.time > m_TimeActivated + timeLength || m_PlayerInputHandler.GetFireInputHeld() || dummyController == null)
+        {
+            actorsManager.RegisterActor(m_Actor);
+            m_State = AbilityState.Cooldown;
+            if (dummyController != null)
+            {
+                dummyController.Kill();
+                dummyController = null;
+            }
+        }
     }
 
     void OnCooldown()
