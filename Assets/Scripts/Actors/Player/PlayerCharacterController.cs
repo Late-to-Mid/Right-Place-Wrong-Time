@@ -1,9 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(CharacterController), typeof(PlayerInput), typeof(PlayerInputHandler))]
 public class PlayerCharacterController : MonoBehaviour
 {
     [Header("General")]
@@ -26,7 +25,9 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Max movement speed when not grounded")]
     public float airSpeed = 8f;
     [Tooltip("Minimum speed player must be going in order to slide")]
-    public float slideSpeedMinimum = 10f;
+    public float requiredSpeedForSliding = 10f;
+    [Tooltip("Speed the player stops sliding at (and begins to crouch-walk at)")]
+    public float slideSpeedMinimum = 4f;
 
     [Header("Acceleration")]
     [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
@@ -46,7 +47,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Rotation")]
     [Tooltip("Rotation speed for moving the camera")]
-    public float rotationSpeed = 200f;
+    public float rotationSpeed = 1f;
     [Range(0.1f, 1f)]
     [Tooltip("Rotation speed multiplier when aiming")]
     public float aimingRotationMultiplier = 0.4f;
@@ -101,32 +102,40 @@ public class PlayerCharacterController : MonoBehaviour
     public Camera playerCamera;
     AudioSource audioSource;
     CharacterController m_Controller;
-    PlayerInputHandler m_PlayerInputHandler;
     PlayerWeaponsManager m_PlayerWeaponsManager;
+    PlayerInputHandler m_PlayerInputHandler;
     Actor m_Actor;
     Health m_Health;
 
     void Start()
     {
-        // Set the main camera of the scene as the playerCamera
-        // playerCamera = Camera.main;
         // Set the character controller
         m_Controller = GetComponent<CharacterController>();
         m_Controller.enableOverlapRecovery = true;
-        // Set the input handler of the character, used to handle player input
+
+        // Get the input handler
         m_PlayerInputHandler = GetComponent<PlayerInputHandler>();
+
         // Set the weapons manager, used for managing weapons
         m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
+
         // Set actor
         m_Actor = GetComponent<Actor>();
+
         // Set the health, used for tracking health
         m_Health = GetComponent<Health>();
 
+        // Subscribe to OnDie
         m_Health.onDie += OnDie;
 
         // force the crouch state to false when starting
+        // If this is commented out, the sliding bug occurs.
         SetCrouchingState(false, true);
         UpdateCharacterHeight(true);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
     }
 
     void Update()
@@ -137,37 +146,26 @@ public class PlayerCharacterController : MonoBehaviour
             m_Health.Kill();
         }
 
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            m_Controller.Move(new Vector3(0, 10, 0));
-        }
-
-        // Call movement method
-        HandleCharacterMovement();
-        horizontalCharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, Vector3.up).magnitude;
+        Move();
+        Look();
     }
 
-    void HandleCharacterMovement()
+    void Move()
     {
         // Ground the player
         HandleGrounding();
 
-        // Handle rotation (mostly for the camera and weapon)
-        RotateCharacter();
+        // converts move input to a worldspace vector based on our character's transform orientation
+        Vector3 worldspaceMoveInput = transform.TransformVector(m_PlayerInputHandler.moveInput);
 
-        // Get inputs of crouching and sprinting
-        // if the user has either of these set to toggle
-        // we need to know the previous state so we can change it accordingly
-        isSprinting = m_PlayerInputHandler.GetSprintingState(isSprinting);
-        isCrouching = m_PlayerInputHandler.GetCrouchingState(isCrouching);        
+        horizontalCharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, Vector3.up).magnitude;
+
+        // apply the final calculated velocity value as a character movement
+        Vector3 capsuleBottomBeforeMove = GetCapsuleBottomHemisphere();
+        Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(m_Controller.height);
 
         // Adjust speed modifier depending on whether or not the player is sprinting.
         float speedModifier = isSprinting ? sprintSpeedRatio : 1f;
-
-        Vector3 moveInput = m_PlayerInputHandler.GetMoveInput();
-
-        // converts move input to a worldspace vector based on our character's transform orientation
-        Vector3 worldspaceMoveInput = transform.TransformVector(moveInput);
 
         // handle grounded movement
         if (isGrounded)
@@ -182,10 +180,6 @@ public class PlayerCharacterController : MonoBehaviour
             HandleAirMovement(worldspaceMoveInput, speedModifier);
         }
 
-        // apply the final calculated velocity value as a character movement
-        Vector3 capsuleBottomBeforeMove = GetCapsuleBottomHemisphere();
-        Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(m_Controller.height);
-
         // detect obstructions to adjust velocity accordingly
         if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, m_CharacterVelocity.normalized, out RaycastHit hit, m_CharacterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
         {
@@ -193,6 +187,27 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         m_Controller.Move(m_CharacterVelocity * Time.deltaTime);
+    }
+
+    void Look()
+    {
+        // horizontal character rotation
+        {
+            // rotate the transform with the input speed around its local Y axis
+            transform.Rotate(new Vector3(0f, (m_PlayerInputHandler.lookInput.x * rotationSpeed * RotationMultiplier), 0f), Space.Self);
+        }
+
+        // vertical camera rotation
+        {
+            // add vertical inputs to the camera's vertical angle
+            m_CameraVerticalAngle += -m_PlayerInputHandler.lookInput.y * rotationSpeed * RotationMultiplier;
+
+            // limit the camera's vertical angle to min/max
+            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
+
+            // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
+            playerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
+        }
     }
 
     void HandleGrounding()
@@ -249,49 +264,18 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
-    void RotateCharacter()
-    {
-        // horizontal character rotation
-        {
-            // rotate the transform with the input speed around its local Y axis
-            transform.Rotate(new Vector3(0f, (m_PlayerInputHandler.GetLookInputsHorizontal() * rotationSpeed * RotationMultiplier), 0f), Space.Self);
-        }
-
-        // vertical camera rotation
-        {
-            // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += m_PlayerInputHandler.GetLookInputsVertical() * rotationSpeed * RotationMultiplier;
-
-            // limit the camera's vertical angle to min/max
-            m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
-
-            // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
-            playerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
-        }
-    }
-
     void HandleGroundedMovement(Vector3 worldspaceMoveInput, float speedModifier)
     {
-        // character movement handling
-        if (isSliding && m_CharacterVelocity.magnitude > 5f && isCrouching)
+        // Set sliding
+        if (m_CharacterVelocity.magnitude > requiredSpeedForSliding && isCrouching)
         {
-            SetCrouchingState(true, false);
+            isSliding = true;
         }
-        else
+        else if (isSliding && 
+                (m_CharacterVelocity.magnitude < slideSpeedMinimum || !isCrouching))
         {
-            SetCrouchingState(isCrouching, false);
-            if (m_CharacterVelocity.magnitude > slideSpeedMinimum && isCrouching)
-            {
-                isSliding = true;
-            }
-            else
-            {
-                isSliding = false;
-            }
+            isSliding = false;
         }
-
-        // Update the character height (but do not force it)
-        UpdateCharacterHeight(false);
 
         Vector3 targetVelocity = new Vector3(0, 0, 0);
         float accelerationRate;
@@ -314,30 +298,9 @@ public class PlayerCharacterController : MonoBehaviour
         // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
         m_CharacterVelocity = Vector3.Lerp(m_CharacterVelocity, targetVelocity, accelerationRate * Time.deltaTime);
 
-        // jumping
-        if (isGrounded && m_PlayerInputHandler.GetJumpInputDown())
-        {
-            isCrouching = false;
-            SetCrouchingState(false, false);
-            UpdateCharacterHeight(false);
-
-            // start by canceling out the vertical component of our velocity
-            m_CharacterVelocity = new Vector3(m_CharacterVelocity.x, 0f, m_CharacterVelocity.z);
-
-            // then, add the jumpSpeed value upwards
-            m_CharacterVelocity += Vector3.up * jumpForce;
-
-            // play sound
-            // audioSource.PlayOneShot(jumpSFX);
-
-            // remember last time we jumped because we need to prevent snapping to ground for a short time
-            m_LastTimeJumped = Time.time;
-            //hasJumpedThisFrame = true;
-
-            // Force grounding to false
-            isGrounded = false;
-            m_GroundNormal = Vector3.up;
-        }
+        // Update the character height (but do not force it)
+        SetCrouchingState(isCrouching, false);
+        UpdateCharacterHeight(false);
 
         // footsteps sound
         // float chosenFootstepSFXFrequency = (isSprinting ? footstepSFXFrequencyWhileSprinting : footstepSFXFrequency);
@@ -391,12 +354,35 @@ public class PlayerCharacterController : MonoBehaviour
         return false;
     }
 
+    public void Jump()
+    {
+        // jumping
+        if (isGrounded)
+        {
+            isCrouching = false;
+
+            // start by canceling out the vertical component of our velocity
+            m_CharacterVelocity = new Vector3(m_CharacterVelocity.x, 0f, m_CharacterVelocity.z);
+
+            // then, add the jumpSpeed value upwards
+            m_CharacterVelocity += Vector3.up * jumpForce;
+
+            // play sound
+            // audioSource.PlayOneShot(jumpSFX);
+
+            // remember last time we jumped because we need to prevent snapping to ground for a short time
+            m_LastTimeJumped = Time.time;
+            //hasJumpedThisFrame = true;
+
+            // Force grounding to false
+            isGrounded = false;
+            m_GroundNormal = Vector3.up;
+        }
+    }
+
     void OnDie()
     {
         isDead = true;
-
-        // Tell the weapons manager to switch to a non-existing weapon in order to lower the weapon
-        m_PlayerWeaponsManager.SwitchToWeaponIndex(-1, true);
     }
 
     // returns false if there was an obstruction

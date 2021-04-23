@@ -15,48 +15,15 @@ public class WeaponHUDManager : MonoBehaviour
     {
         m_PlayerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
 
-        WeaponController activeWeapon = m_PlayerWeaponsManager.GetActiveWeapon();
-        if (activeWeapon)
-        {
-            AddWeapon(activeWeapon, m_PlayerWeaponsManager.activeWeaponIndex);
-            ChangeWeapon(activeWeapon);
-        }
+        WeaponController activeWeapon = m_PlayerWeaponsManager.weapon;
 
-        m_PlayerWeaponsManager.onAddedWeapon += AddWeapon;
-        m_PlayerWeaponsManager.onRemovedWeapon += RemoveWeapon;
-        m_PlayerWeaponsManager.onSwitchedToWeapon += ChangeWeapon;
-    }
-
-    void AddWeapon(WeaponController newWeapon, int weaponIndex)
-    {
         GameObject ammoCounterInstance = Instantiate(ammoCounterPrefab, ammosPanel);
         AmmoCounter newAmmoCounter = ammoCounterInstance.GetComponent<AmmoCounter>();
 
-        newAmmoCounter.Initialize(newWeapon, weaponIndex);
+        newAmmoCounter.Initialize(activeWeapon, 1);
 
         m_AmmoCounters.Add(newAmmoCounter);
-    }
 
-    void RemoveWeapon(WeaponController newWeapon, int weaponIndex)
-    {
-        int foundCounterIndex = -1;
-        for (int i = 0; i < m_AmmoCounters.Count; i++)
-        {
-            if(m_AmmoCounters[i].weaponCounterIndex == weaponIndex)
-            {
-                foundCounterIndex = i;
-                Destroy(m_AmmoCounters[i].gameObject);
-            }
-        }
-
-        if(foundCounterIndex >= 0)
-        {
-            m_AmmoCounters.RemoveAt(foundCounterIndex);
-        }
-    }
-
-    void ChangeWeapon(WeaponController weapon)
-    {
         UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(ammosPanel);
     }
 }

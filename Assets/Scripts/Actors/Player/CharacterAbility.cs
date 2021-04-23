@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Actor), typeof(PlayerInputHandler))]
+[RequireComponent(typeof(Actor))]
 public class CharacterAbility : MonoBehaviour
 {
     public enum AbilityState
@@ -69,16 +69,16 @@ public class CharacterAbility : MonoBehaviour
 
     void CheckToEndAbility()
     {
-        if (Time.time > m_TimeActivated + timeLength || m_PlayerInputHandler.GetFireInputHeld() || dummyController == null)
-        {
-            actorsManager.RegisterActor(m_Actor);
-            m_State = AbilityState.Cooldown;
-            if (dummyController != null)
-            {
-                dummyController.Kill();
-                dummyController = null;
-            }
-        }
+        // if (Time.time > m_TimeActivated + timeLength || m_PlayerInputHandler.GetFireInputHeld() || dummyController == null)
+        // {
+        //     actorsManager.RegisterActor(m_Actor);
+        //     m_State = AbilityState.Cooldown;
+        //     if (dummyController != null)
+        //     {
+        //         dummyController.Kill();
+        //         dummyController = null;
+        //     }
+        // }
     }
 
     void OnCooldown()

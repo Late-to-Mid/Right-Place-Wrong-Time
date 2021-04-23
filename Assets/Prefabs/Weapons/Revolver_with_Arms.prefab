@@ -571,7 +571,7 @@ MonoBehaviour:
     crosshairColor: {r: 0, g: 0, b: 0, a: 0}
   weaponRoot: {fileID: 1461419661759897370}
   weaponMuzzle: {fileID: 4523787361538226915}
-  shootType: 0
+  shootType: 1
   reloadType: 0
   projectilePrefab: {fileID: 4614180992596399313, guid: d15e21a601f599f4b94d650465300188,
     type: 3}
