@@ -22,6 +22,7 @@ public class PlayerInputHandler : MonoBehaviour
     // [Tooltip("Make aiming a toggle (default true)")]
     // public bool aimIsToggle = true;
 
+    bool Firing;
     bool m_FireInputWasHeld;
     public Vector3 moveInput { get; private set; }
     public Vector2 lookInput { get; private set; }
@@ -40,6 +41,11 @@ public class PlayerInputHandler : MonoBehaviour
 
         m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
         m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
+    }
+
+    private void LateUpdate()
+    {
+        m_FireInputWasHeld = Firing;
     }
     
     public void OnLook(InputAction.CallbackContext context)
@@ -90,16 +96,32 @@ public class PlayerInputHandler : MonoBehaviour
         switch (context.phase)
         {
             case InputActionPhase.Started:
+            Firing = true;
             break;
 
             case InputActionPhase.Performed:
-            m_PlayerWeaponsManager.Fire(true, true, false);
+            Firing = true;
             break;
 
             case InputActionPhase.Canceled:
-            m_PlayerWeaponsManager.Fire(false, false, true);
+            Firing = false;
             break;
         }
+    }
+
+    public bool GetFireInputHeld()
+    {
+        return Firing;
+    }
+
+    public bool GetFireInputDown()
+    {
+        return Firing && !m_FireInputWasHeld;
+    }
+
+    public bool GetFireInputReleased()
+    {
+        return !Firing && m_FireInputWasHeld;
     }
 
     public void OnReload(InputAction.CallbackContext context)

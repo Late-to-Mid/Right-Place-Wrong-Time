@@ -41,6 +41,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     public LayerMask FPSWeaponLayer;
 
     public bool isAiming;
+    public bool isFiring;
     public bool isPointingAtEnemy { get; private set; }
 
     PlayerInputHandler m_InputHandler;
@@ -70,6 +71,11 @@ public class PlayerWeaponsManager : MonoBehaviour
     {
         // handle aiming down sights
         weapon.SetAnimAimParameter(isAiming);
+
+        weapon.HandleShootInputs(
+            m_InputHandler.GetFireInputDown(),
+            m_InputHandler.GetFireInputHeld(),
+            m_InputHandler.GetFireInputReleased());
 
         // // Pointing at enemy handling
         // isPointingAtEnemy = false;
@@ -187,10 +193,5 @@ public class PlayerWeaponsManager : MonoBehaviour
     public void Reload()
     {
         weapon.Reload();
-    }
-
-    public void Fire(bool inputDown, bool inputHeld, bool inputReleased)
-    {
-        weapon.HandleShootInputs(inputDown, inputHeld, inputReleased);
     }
 }
