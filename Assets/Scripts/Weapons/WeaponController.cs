@@ -320,10 +320,6 @@ public class WeaponController : MonoBehaviour
 
     bool TryShoot()
     {
-        Debug.Log("Tried to shoot");
-        Debug.Log(m_CurrentAmmo);
-        m_CurrentAmmo = 6f;
-
         if (m_CurrentAmmo >= 1f 
             && m_LastTimeShot + delayBetweenShots < Time.time)
         {
@@ -419,8 +415,6 @@ public class WeaponController : MonoBehaviour
 
     public void Reload()
     {
-        Debug.Log("Reload");
-
         if (!isCharging && !m_wantsToShoot &&
             m_CurrentAmmo < maxAmmo && 
             m_LastTimeShot + ammoReloadDelay < Time.time)

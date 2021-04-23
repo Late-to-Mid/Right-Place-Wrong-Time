@@ -39,7 +39,7 @@ public class AmmoCounter : MonoBehaviour
     {
         m_Weapon = weapon;
         weaponCounterIndex = weaponIndex;
-        weaponImage.sprite = weapon.weaponIcon;
+        // weaponImage.sprite = weapon.weaponIcon;
 
         m_PlayerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
 

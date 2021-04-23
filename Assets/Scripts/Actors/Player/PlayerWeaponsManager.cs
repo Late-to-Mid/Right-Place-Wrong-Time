@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class PlayerWeaponsManager : MonoBehaviour
 {
     [Tooltip("Weapon the player will start with")]
-    public WeaponController weapon;
+    public WeaponController weaponPrefab;
 
     [Header("References")]
     [Tooltip("Secondary camera used to avoid seeing weapon go through geometries")]
@@ -50,6 +50,9 @@ public class PlayerWeaponsManager : MonoBehaviour
     Vector3 m_WeaponBobLocalPosition;
     Vector3 m_WeaponRecoilLocalPosition;
     Vector3 m_AccumulatedRecoil;
+    public WeaponController weapon { get; private set; }
+
+    public UnityAction<WeaponController> onAddedWeapon;
 
     private void Start()
     {
@@ -60,7 +63,7 @@ public class PlayerWeaponsManager : MonoBehaviour
         SetFOV(defaultFOV);
 
         // Add starting weapons
-        AddWeapon(weapon);
+        AddWeapon(weaponPrefab);
     }
 
     private void Update()
@@ -156,23 +159,28 @@ public class PlayerWeaponsManager : MonoBehaviour
     }
 
     // Adds a weapon to our inventory
-    public void AddWeapon(WeaponController weaponPrefab)
+    void AddWeapon(WeaponController weaponPrefab)
     {
         // spawn the weapon prefab as child of the weapon socket
-        WeaponController weaponInstance = Instantiate(weaponPrefab, weaponParentSocket);
-        weaponInstance.transform.localPosition = Vector3.zero;
-        weaponInstance.transform.localRotation = Quaternion.identity;
+        weapon = Instantiate(weaponPrefab, weaponParentSocket);
+        weapon.transform.localPosition = Vector3.zero;
+        weapon.transform.localRotation = Quaternion.identity;
 
         // Set owner to this gameObject so the weapon can alter projectile/damage logic accordingly
-        weaponInstance.owner = gameObject;
-        weaponInstance.sourcePrefab = weaponPrefab.gameObject;
-        weaponInstance.ShowWeapon(true);
+        weapon.owner = gameObject;
+        weapon.sourcePrefab = weaponPrefab.gameObject;
+        weapon.ShowWeapon(true);
 
         // Assign the first person layer to the weapon
         int layerIndex = Mathf.RoundToInt(Mathf.Log(FPSWeaponLayer.value, 2)); // This function converts a layermask to a layer index
-        foreach (Transform t in weaponInstance.gameObject.GetComponentsInChildren<Transform>(true))
+        foreach (Transform t in weapon.gameObject.GetComponentsInChildren<Transform>(true))
         {
             t.gameObject.layer = layerIndex;
+        }
+
+        if(onAddedWeapon != null)
+        {
+            onAddedWeapon.Invoke(weapon);
         }
     }
 

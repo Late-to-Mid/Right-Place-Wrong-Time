@@ -560,7 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Revolver
-  weaponIcon: {fileID: 0}
+  weaponIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   crosshairDataDefault:
     crosshairSprite: {fileID: 0}
     crosshairSize: 0
@@ -571,7 +571,7 @@ MonoBehaviour:
     crosshairColor: {r: 0, g: 0, b: 0, a: 0}
   weaponRoot: {fileID: 1461419661759897370}
   weaponMuzzle: {fileID: 4523787361538226915}
-  shootType: 1
+  shootType: 0
   reloadType: 0
   projectilePrefab: {fileID: 4614180992596399313, guid: d15e21a601f599f4b94d650465300188,
     type: 3}
@@ -598,7 +598,7 @@ MonoBehaviour:
   continuousShootStartSFX: {fileID: 0}
   continuousShootLoopSFX: {fileID: 0}
   continuousShootEndSFX: {fileID: 0}
-  m_CurrentAmmo: 0
+  m_CurrentAmmo: 6
   currentAmmoRatio: 0
 --- !u!95 &5219633996449774945
 Animator:

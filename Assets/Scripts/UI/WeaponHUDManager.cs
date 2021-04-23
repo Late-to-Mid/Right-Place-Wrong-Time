@@ -15,12 +15,18 @@ public class WeaponHUDManager : MonoBehaviour
     {
         m_PlayerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
 
+        m_PlayerWeaponsManager.onAddedWeapon += AddWeapon;
+
+    }
+
+    void AddWeapon(WeaponController weapon)
+    {
         WeaponController activeWeapon = m_PlayerWeaponsManager.weapon;
 
         GameObject ammoCounterInstance = Instantiate(ammoCounterPrefab, ammosPanel);
         AmmoCounter newAmmoCounter = ammoCounterInstance.GetComponent<AmmoCounter>();
 
-        newAmmoCounter.Initialize(activeWeapon, 1);
+        newAmmoCounter.Initialize(activeWeapon, 0);
 
         m_AmmoCounters.Add(newAmmoCounter);
 
