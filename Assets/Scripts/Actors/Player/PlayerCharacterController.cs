@@ -172,7 +172,7 @@ public class PlayerCharacterController : MonoBehaviour
         Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(m_Controller.height);
 
         // Adjust speed modifier depending on whether or not the player is sprinting.
-        float speedModifier = isSprinting ? sprintSpeedRatio : 1f;
+        float speedModifier = (isSprinting && !isCrouching) ? sprintSpeedRatio : 1f;
 
         // handle grounded movement
         if (isGrounded)
