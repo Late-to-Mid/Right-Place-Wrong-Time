@@ -307,6 +307,32 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[8].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 6334903113817078117, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
+        type: 3}
+      propertyPath: bobFrequency
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6334903113817078117, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
+        type: 3}
+      propertyPath: bobSharpness
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6334903113817078117, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
+        type: 3}
+      propertyPath: weaponPrefab
+      value: 
+      objectReference: {fileID: 3550575867927780074, guid: 0909d70706a0d9241a9a8877f1c8e059,
+        type: 3}
+    - target: {fileID: 6334903113817078117, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
+        type: 3}
+      propertyPath: aimingBobAmount
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 6334903113817078117, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
+        type: 3}
+      propertyPath: defaultBobAmount
+      value: 0.02
+      objectReference: {fileID: 0}
     - target: {fileID: 6334903113817078140, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
       propertyPath: m_Name
