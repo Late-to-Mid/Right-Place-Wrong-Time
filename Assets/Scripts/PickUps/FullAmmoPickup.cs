@@ -17,7 +17,7 @@ public class FullAmmoPickup : MonoBehaviour
     void OnPicked(PlayerCharacterController player)
     {
         PlayerWeaponsManager weaponManager = player.GetComponent<PlayerWeaponsManager>();
-        WeaponController currentWeapon = weaponManager.GetActiveWeapon();
+        WeaponController currentWeapon = weaponManager.weapon;
         if (currentWeapon && !currentWeapon.FullAmmo())
         {
             currentWeapon.m_CurrentAmmo = currentWeapon.maxAmmo;

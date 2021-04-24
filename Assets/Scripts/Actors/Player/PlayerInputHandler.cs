@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour
 {
@@ -15,25 +14,24 @@ public class PlayerInputHandler : MonoBehaviour
     [Tooltip("Used to flip the horizontal input axis")]
     public bool invertXAxis = false;
 
-    [Header("Movement Options")]
-    [Tooltip("Make crouching a toggle (default false)")]
-    public bool crouchIsToggle = false;
-    [Tooltip("Make sprinting a toggle (default false)")]
-    public bool sprintIsToggle = false;
-    [Tooltip("Make aiming a toggle (default true)")]
-    public bool aimIsToggle = true;
+    // [Header("Movement Options")]
+    // [Tooltip("Make crouching a toggle (default false)")]
+    // public bool crouchIsToggle = false;
+    // [Tooltip("Make sprinting a toggle (default false)")]
+    // public bool sprintIsToggle = false;
+    // [Tooltip("Make aiming a toggle (default true)")]
+    // public bool aimIsToggle = true;
+
+    bool Firing;
+    bool m_FireInputWasHeld;
+    public Vector3 moveInput { get; private set; }
+    public Vector2 lookInput { get; private set; }
 
     // GameFlowManager m_GameFlowManager;
-    bool m_FireInputWasHeld;
-
-    public PlayerCharacterController m_PlayerCharacterController
-    {
-        get => default;
-        set
-        {
-            m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
-        }
-    }
+    PlayerCharacterController m_PlayerCharacterController;
+    PlayerWeaponsManager m_PlayerWeaponsManager;
+    CharacterAbility m_CharacterAbility;
+    ThrowGrenadeAbility m_ThrowGrenade;
 
     // Start is called before the first frame update
     void Start()
@@ -42,295 +40,115 @@ public class PlayerInputHandler : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
+        m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
+        m_CharacterAbility = GetComponent<CharacterAbility>();
+        m_ThrowGrenade = GetComponent<ThrowGrenadeAbility>();
     }
 
     private void LateUpdate()
     {
-        m_FireInputWasHeld = GetFireInputHeld();
+        m_FireInputWasHeld = Firing;
     }
     
-    public bool GetCrouchingState(bool isCrouching)
+    public void OnLook(InputAction.CallbackContext context)
     {
-        if (crouchIsToggle)
+        lookInput = context.ReadValue<Vector2>();;
+    }
+
+    public void OnMove(InputAction.CallbackContext context) 
+    {
+        Vector2 moveInput2d = context.ReadValue<Vector2>();
+        moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
+    }
+
+    public void OnCouch(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
         {
-            if (GetCrouchInputDown()) { return !isCrouching; }
-            else { return isCrouching; }
-        }
-        else
-        {
-            return GetCrouchInputHeld();
+            m_PlayerCharacterController.isCrouching = !m_PlayerCharacterController.isCrouching;
         }
     }
 
-    public bool GetSprintingState(bool isSprinting)
+    public void OnSprint(InputAction.CallbackContext context) 
     {
-        if (sprintIsToggle)
+        if (context.phase == InputActionPhase.Performed)
         {
-            if (GetSprintInputDown()) { return !isSprinting; }
-            else { return isSprinting; }
-        }
-        else
-        {
-            return GetSprintInputHeld();
+            m_PlayerCharacterController.isSprinting = !m_PlayerCharacterController.isSprinting;
         }
     }
 
-    public bool GetAimingState(bool isAiming)
+    public void OnJump(InputAction.CallbackContext context)
     {
-        if (aimIsToggle)
+        if (context.phase == InputActionPhase.Performed)
         {
-            if (GetAimInputDown()) { return !isAiming; }
-            else { return isAiming; }
-        }
-        else
-        {
-            return GetAimInputHeld();
+            m_PlayerCharacterController.Jump();
         }
     }
 
-    public bool CanProcessInput()
+    public void OnAim(InputAction.CallbackContext context)
     {
-        return Cursor.lockState == CursorLockMode.Locked; // && !m_GameFlowManager.gameIsEnding;
-    }
-
-    public Vector3 GetMoveInput()
-    {
-        if (CanProcessInput())
+        if (context.phase == InputActionPhase.Performed)
         {
-            Vector3 move = new Vector3(Input.GetAxisRaw(GameConstants.k_AxisNameHorizontal), 0f, Input.GetAxisRaw(GameConstants.k_AxisNameVertical));
-
-            // constrain move input to a maximum magnitude of 1, otherwise diagonal movement might exceed the max move speed defined
-            move = Vector3.ClampMagnitude(move, 1);
-
-            return move;
-        }
-
-        return Vector3.zero;
-    }
-
-    public float GetLookInputsHorizontal()
-    {
-        if (invertXAxis)
-        {
-            return -GetMouseOrStickLookAxis(GameConstants.k_MouseAxisNameHorizontal, GameConstants.k_AxisNameJoystickLookHorizontal);
-        } else
-        {
-            return GetMouseOrStickLookAxis(GameConstants.k_MouseAxisNameHorizontal, GameConstants.k_AxisNameJoystickLookHorizontal);
+            m_PlayerWeaponsManager.isAiming = !m_PlayerWeaponsManager.isAiming;
         }
     }
 
-    public float GetLookInputsVertical()
+    public void OnShoot(InputAction.CallbackContext context)
     {
-        if (invertYAxis)
+        switch (context.phase)
         {
-            return -GetMouseOrStickLookAxis(GameConstants.k_MouseAxisNameVertical, GameConstants.k_AxisNameJoystickLookVertical);
-        } else
-        {
-            return GetMouseOrStickLookAxis(GameConstants.k_MouseAxisNameVertical, GameConstants.k_AxisNameJoystickLookVertical);
+            case InputActionPhase.Started:
+            Firing = true;
+            break;
+
+            case InputActionPhase.Performed:
+            Firing = true;
+            break;
+
+            case InputActionPhase.Canceled:
+            Firing = false;
+            break;
         }
-    }
-
-    public bool GetJumpInputDown()
-    {
-        if (CanProcessInput())
-        {
-            return Input.GetButtonDown(GameConstants.k_ButtonNameJump);
-        }
-
-        return false;
-    }
-
-    public bool GetJumpInputHeld()
-    {
-        if (CanProcessInput())
-        {
-            return Input.GetButton(GameConstants.k_ButtonNameJump);
-        }
-
-        return false;
-    }
-
-    public bool GetFireInputDown()
-    {
-        return GetFireInputHeld() && !m_FireInputWasHeld;
-    }
-
-    public bool GetFireInputReleased()
-    {
-        return !GetFireInputHeld() && m_FireInputWasHeld;
     }
 
     public bool GetFireInputHeld()
     {
-        if (CanProcessInput())
-        {
-            //bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadFire1) != 0f;
-            //if (isGamepad)
-            //{
-            //    return Input.GetAxis(GameConstants.k_ButtonNameGamepadFire1) >= triggerAxisThreshold;
-            //}
-            //else
-            {
-                return Input.GetButton(GameConstants.k_ButtonNameFire);
-            }
-        }
-
-        return false;
+        return Firing;
     }
 
-    public bool GetAimInputHeld()
+    public bool GetFireInputDown()
     {
-        if (CanProcessInput())
-        {
-            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) != 0f;
-            bool i = isGamepad ? (Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) > 0f) : Input.GetButton(GameConstants.k_ButtonNameAim);
-            return i;
-        }
-    
-        return false;
+        return Firing && !m_FireInputWasHeld;
     }
 
-    public bool GetAimInputDown()
+    public bool GetFireInputReleased()
     {
-        if (CanProcessInput())
-        {
-            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) != 0f;
-            bool i = isGamepad ? (Input.GetAxis(GameConstants.k_ButtonNameGamepadAim) > 0f) : Input.GetButtonDown(GameConstants.k_ButtonNameAim);
-            return i;
-        }
-
-        return false;
+        return !Firing && m_FireInputWasHeld;
     }
 
-    public bool GetSprintInputHeld()
+    public void OnReload(InputAction.CallbackContext context)
     {
-        if (CanProcessInput())
+        if (context.phase == InputActionPhase.Performed)
         {
-            return Input.GetButton(GameConstants.k_ButtonNameSprint);
-        }    
-        return false;
+            m_PlayerWeaponsManager.Reload();
+        }
     }
 
-    public bool GetSprintInputDown()
+    public void OnGadget(InputAction.CallbackContext context)
     {
-        if (CanProcessInput())
+        if (context.phase == InputActionPhase.Performed)
         {
-            return Input.GetButtonDown(GameConstants.k_ButtonNameSprint);
+            m_ThrowGrenade.ThrowGrenade();
         }
-        return false;
     }
 
-    public bool GetCrouchInputHeld()
+    public void OnAbility(InputAction.CallbackContext context)
     {
-        if (CanProcessInput())
+        if (context.phase == InputActionPhase.Performed)
         {
-            return Input.GetButton(GameConstants.k_ButtonNameCrouch);
+            m_CharacterAbility.CheckToUseAbility();
         }
-
-        return false;
-    }
-
-    public bool GetCrouchInputDown()
-    {
-        if (CanProcessInput())
-        {
-            return Input.GetButtonDown(GameConstants.k_ButtonNameCrouch);
-        }
-        return false;
-    }
-
-    public bool GetVaultInputDown()
-    {
-        if (CanProcessInput())
-        {
-            return Input.GetButtonDown(GameConstants.k_ButtonNameVault);
-        }
-        return false;
-    }
-
-    public bool GetReloadInputDown()
-    {
-        if (CanProcessInput())
-        {
-            return Input.GetButtonDown(GameConstants.k_ButtonNameReload);
-        }
-        return false;
-    }
-
-    public int GetSwitchWeaponInput()
-    {
-        if (CanProcessInput())
-        {
-
-            bool isGamepad = Input.GetAxis(GameConstants.k_ButtonNameGamepadSwitchWeapon) != 0f;
-            string axisName = isGamepad ? GameConstants.k_ButtonNameGamepadSwitchWeapon : GameConstants.k_ButtonNameSwitchWeapon;
-
-            if (Input.GetAxis(axisName) > 0f)
-                return -1;
-            else if (Input.GetAxis(axisName) < 0f)
-                return 1;
-            else if (Input.GetAxis(GameConstants.k_ButtonNameNextWeapon) > 0f)
-                return -1;
-            else if (Input.GetAxis(GameConstants.k_ButtonNameNextWeapon) < 0f)
-                return 1;
-        }
-
-        return 0;
-    }
-
-    public int GetSelectWeaponInput()
-    {
-        if (CanProcessInput())
-        {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                return 1;
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-                return 2;
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-                return 3;
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
-                return 4;
-            else if (Input.GetKeyDown(KeyCode.Alpha5))
-                return 5;
-            else if (Input.GetKeyDown(KeyCode.Alpha6))
-                return 6;
-            else
-                return 0;
-        }
-
-        return 0;
-    }
-
-    float GetMouseOrStickLookAxis(string mouseInputName, string stickInputName)
-    {
-        if (CanProcessInput())
-        {
-            // Check if this look input is coming from the mouse
-            // bool isGamepad = Input.GetAxis(stickInputName) != 0f;
-            // float i = isGamepad ? Input.GetAxis(stickInputName) : Input.GetAxisRaw(mouseInputName);
-            float i = Input.GetAxisRaw(mouseInputName);
-
-            // apply sensitivity multiplier
-            i *= lookSensitivity;
-
-            // if (isGamepad)
-            // {
-            //     // since mouse input is already deltaTime-dependant, only scale input with frame time if it's coming from sticks
-            //     i *= Time.deltaTime;
-            // }
-            // else
-            {
-                // reduce mouse input amount to be equivalent to stick movement
-                i *= 0.01f;
-#if UNITY_WEBGL
-                // Mouse tends to be even more sensitive in WebGL due to mouse acceleration, so reduce it even more
-                i *= webglLookSensitivityMultiplier;
-#endif
-            }
-
-            return i;
-        }
-
-        return 0f;
     }
 }

@@ -39,7 +39,7 @@ public class AmmoCounter : MonoBehaviour
     {
         m_Weapon = weapon;
         weaponCounterIndex = weaponIndex;
-        weaponImage.sprite = weapon.weaponIcon;
+        // weaponImage.sprite = weapon.weaponIcon;
 
         m_PlayerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
 
@@ -53,7 +53,7 @@ public class AmmoCounter : MonoBehaviour
         float currenFillRatio = m_Weapon.currentAmmoRatio;
         ammoFillImage.fillAmount = Mathf.Lerp(ammoFillImage.fillAmount, currenFillRatio, Time.deltaTime * ammoFillMovementSharpness);
 
-        bool isActiveWeapon = m_Weapon == m_PlayerWeaponsManager.GetActiveWeapon();
+        bool isActiveWeapon = m_Weapon == m_PlayerWeaponsManager.weapon;
 
         canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha , isActiveWeapon ? 1f : unselectedOpacity, Time.deltaTime * 10);
         transform.localScale = Vector3.Lerp(transform.localScale, isActiveWeapon ? Vector3.one : unselectedScale, Time.deltaTime * 10);

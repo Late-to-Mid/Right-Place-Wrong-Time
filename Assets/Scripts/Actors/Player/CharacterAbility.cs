@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Actor), typeof(PlayerInputHandler))]
+[RequireComponent(typeof(Actor))]
 public class CharacterAbility : MonoBehaviour
 {
     public enum AbilityState
@@ -43,7 +43,6 @@ public class CharacterAbility : MonoBehaviour
         switch (m_State)
         {
             case AbilityState.Ready:
-                CheckForAbilityUse();
                 break;
             case AbilityState.Cooldown:
                 OnCooldown();
@@ -54,17 +53,22 @@ public class CharacterAbility : MonoBehaviour
         }
     }
 
-    void CheckForAbilityUse()
+    public void CheckToUseAbility()
     {
-        if (Input.GetKeyDown(KeyCode.T))
+        if (m_State == AbilityState.Ready)
         {
-            m_TimeActivated = Time.time;
-            GameObject dummy = Instantiate(playerDummyObject, transform.position + Vector3.up, transform.rotation);
-            dummyController = dummy.GetComponent<DummyController>();
-            dummyController.lifeTime = timeLength;
-            m_State = AbilityState.Active;
-            actorsManager.UnregisterActor(m_Actor);
-        }
+            UseAbility();
+        }        
+    }
+
+    void UseAbility()
+    {
+        m_TimeActivated = Time.time;
+        GameObject dummy = Instantiate(playerDummyObject, transform.position + Vector3.up, transform.rotation);
+        dummyController = dummy.GetComponent<DummyController>();
+        dummyController.lifeTime = timeLength;
+        m_State = AbilityState.Active;
+        actorsManager.UnregisterActor(m_Actor);
     }
 
     void CheckToEndAbility()

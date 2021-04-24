@@ -560,7 +560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponName: Revolver
-  weaponIcon: {fileID: 0}
+  weaponIcon: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   crosshairDataDefault:
     crosshairSprite: {fileID: 0}
     crosshairSize: 0
@@ -598,7 +598,7 @@ MonoBehaviour:
   continuousShootStartSFX: {fileID: 0}
   continuousShootLoopSFX: {fileID: 0}
   continuousShootEndSFX: {fileID: 0}
-  m_CurrentAmmo: 0
+  m_CurrentAmmo: 6
   currentAmmoRatio: 0
 --- !u!95 &5219633996449774945
 Animator:
