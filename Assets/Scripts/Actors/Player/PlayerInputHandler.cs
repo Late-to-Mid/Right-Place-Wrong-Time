@@ -30,8 +30,6 @@ public class PlayerInputHandler : MonoBehaviour
     // GameFlowManager m_GameFlowManager;
     PlayerCharacterController m_PlayerCharacterController;
     PlayerWeaponsManager m_PlayerWeaponsManager;
-    CharacterAbility m_CharacterAbility;
-    ThrowGrenadeAbility m_ThrowGrenade;
 
     // Start is called before the first frame update
     void Start()
@@ -43,8 +41,6 @@ public class PlayerInputHandler : MonoBehaviour
 
         m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
         m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
-        m_CharacterAbility = GetComponent<CharacterAbility>();
-        m_ThrowGrenade = GetComponent<ThrowGrenadeAbility>();
     }
 
     private void LateUpdate()
@@ -140,7 +136,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            m_ThrowGrenade.ThrowGrenade();
+            m_PlayerCharacterController.UseGadget();
         }
     }
 
@@ -148,7 +144,7 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (context.phase == InputActionPhase.Performed)
         {
-            m_CharacterAbility.CheckToUseAbility();
+            m_PlayerCharacterController.UseAbility();
         }
     }
 }

@@ -106,6 +106,9 @@ public class PlayerCharacterController : MonoBehaviour
     PlayerInputHandler m_PlayerInputHandler;
     Actor m_Actor;
     Health m_Health;
+    CharacterAbility m_CharacterAbility;
+    ThrowGrenadeAbility m_ThrowGrenade;
+
 
     void Start()
     {
@@ -127,6 +130,10 @@ public class PlayerCharacterController : MonoBehaviour
 
         // Subscribe to OnDie
         m_Health.onDie += OnDie;
+
+        m_CharacterAbility = GetComponent<CharacterAbility>();
+        m_ThrowGrenade = GetComponent<ThrowGrenadeAbility>();
+
 
         // force the crouch state to false when starting
         // If this is commented out, the sliding bug occurs.
@@ -448,6 +455,16 @@ public class PlayerCharacterController : MonoBehaviour
             playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, Vector3.up * m_TargetCharacterHeight * cameraHeightRatio, crouchingSharpness * Time.deltaTime);
             m_Actor.aimPoint.transform.localPosition = m_Controller.center;
         }
+    }
+
+    public void UseAbility()
+    {
+        m_CharacterAbility.CheckToUseAbility();
+    }
+
+    public void UseGadget()
+    {
+        m_ThrowGrenade.ThrowGrenade();
     }
 
     void OnTriggerEnter(Collider collider)
