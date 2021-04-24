@@ -17,9 +17,12 @@ public class CharacterAbility : MonoBehaviour
     [Tooltip("Time stealth lasts")]
     [Range(0f, 10f)]
     public float timeLength = 5f;
+    public float cooldown = 5f;
 
 
     float m_TimeActivated;
+    float m_TimeEnded;
+    public float readyBar { get; private set; }
     AbilityState m_State = AbilityState.Ready;
 
     [Header("Internal References (DO NOT SET)")]
@@ -35,6 +38,8 @@ public class CharacterAbility : MonoBehaviour
         actorsManager = FindObjectOfType<ActorsManager>();
 
         m_PlayerInputHandler = GetComponent<PlayerInputHandler>();
+
+        readyBar = 1f;
     }
 
     // Update is called once per frame
@@ -69,6 +74,7 @@ public class CharacterAbility : MonoBehaviour
         dummyController.lifeTime = timeLength;
         m_State = AbilityState.Active;
         actorsManager.UnregisterActor(m_Actor);
+        readyBar = 0f;
     }
 
     void CheckToEndAbility()
@@ -82,14 +88,17 @@ public class CharacterAbility : MonoBehaviour
                 dummyController.Kill();
                 dummyController = null;
             }
+            m_TimeEnded = Time.time;
         }
     }
 
     void OnCooldown()
     {
-        if (Time.time > m_TimeActivated + timeLength)
+        readyBar = (Time.time - m_TimeEnded) / cooldown;
+        if (Time.time > m_TimeEnded + cooldown)
         {
             m_State = AbilityState.Ready;
+            readyBar = 1f;
         }
     }
 }
