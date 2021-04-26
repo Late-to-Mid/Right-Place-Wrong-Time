@@ -96,7 +96,9 @@ public class PlayerCharacterController : MonoBehaviour
 
 
     [Header("References")]
-    [Tooltip("Audio source for footsteps, jump, etc...")]
+    [Tooltip("Sound played when jumping")]
+    public AudioClip jumpSFX;
+
     public Camera playerCamera;
     AudioSource audioSource;
     CharacterController m_Controller;
@@ -130,6 +132,8 @@ public class PlayerCharacterController : MonoBehaviour
 
         m_CharacterAbility = GetComponent<CharacterAbility>();
         m_ThrowGrenade = GetComponent<ThrowGrenadeAbility>();
+
+        audioSource = GetComponent<AudioSource>();
 
         // force the crouch state to false when starting
         // If this is commented out, the sliding bug occurs.
@@ -376,7 +380,7 @@ public class PlayerCharacterController : MonoBehaviour
             m_CharacterVelocity += Vector3.up * jumpForce;
 
             // play sound
-            // audioSource.PlayOneShot(jumpSFX);
+            audioSource.PlayOneShot(jumpSFX);
 
             // remember last time we jumped because we need to prevent snapping to ground for a short time
             m_LastTimeJumped = Time.time;
