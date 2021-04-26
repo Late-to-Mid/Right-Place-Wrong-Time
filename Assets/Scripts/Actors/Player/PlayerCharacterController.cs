@@ -329,8 +329,6 @@ public class PlayerCharacterController : MonoBehaviour
         isVaulting = CheckForVaulting(isVaulting, worldspaceMoveInput);
         if (isVaulting)
         {
-            //Vector3 directionToVault = Vector3.ProjectOnPlane(colliderToVault.transform.position - transform.position, Vector3.up);
-            //m_CharacterVelocity = directionToVault * 4.0f;
             m_CharacterVelocity.y = vaultForce;
         }
 
@@ -382,7 +380,6 @@ public class PlayerCharacterController : MonoBehaviour
 
             // remember last time we jumped because we need to prevent snapping to ground for a short time
             m_LastTimeJumped = Time.time;
-            //hasJumpedThisFrame = true;
 
             // Force grounding to false
             isGrounded = false;
