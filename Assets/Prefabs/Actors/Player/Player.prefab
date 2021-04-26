@@ -459,7 +459,7 @@ MonoBehaviour:
     m_ActionName: Player/Reload[/Keyboard/r]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 5138014119724375689}
         m_MethodName: OnAbility
         m_Mode: 0
         m_Arguments:
@@ -474,7 +474,7 @@ MonoBehaviour:
     m_ActionName: Player/Ability[/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 5590805953635055263}
         m_MethodName: OnGadget
         m_Mode: 0
         m_Arguments:
@@ -626,6 +626,7 @@ MonoBehaviour:
   isDead: 0
   inCollider: 0
   isVaulting: 0
+  jumpSFX: {fileID: 8300000, guid: 5388ac1fc37808f449ffc6bd03c45893, type: 3}
   playerCamera: {fileID: 6334903112852522063}
 --- !u!114 &6334903113817078117
 MonoBehaviour:
@@ -741,8 +742,9 @@ AudioSource:
   m_GameObject: {fileID: 6334903113817078140}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5388ac1fc37808f449ffc6bd03c45893, type: 3}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: f290c1f6ee56a22488c8270dcb6159ba,
+    type: 2}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

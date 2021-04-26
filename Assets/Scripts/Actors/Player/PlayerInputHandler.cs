@@ -131,20 +131,4 @@ public class PlayerInputHandler : MonoBehaviour
             m_PlayerWeaponsManager.Reload();
         }
     }
-
-    public void OnGadget(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            m_PlayerCharacterController.UseGadget();
-        }
-    }
-
-    public void OnAbility(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            m_PlayerCharacterController.UseAbility();
-        }
-    }
 }

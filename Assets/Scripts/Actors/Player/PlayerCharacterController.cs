@@ -456,16 +456,6 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
-    public void UseAbility()
-    {
-        m_CharacterAbility.CheckToUseAbility();
-    }
-
-    public void UseGadget()
-    {
-        m_ThrowGrenade.ThrowGrenade();
-    }
-
     void OnTriggerEnter(Collider collider)
     {
         //This method is to check if player is colliding with vaultable walls
