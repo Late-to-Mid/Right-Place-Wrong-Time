@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController), typeof(PlayerInput), typeof(PlayerInputHandler))]
+[RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler))]
 public class PlayerCharacterController : MonoBehaviour
 {
     [Header("General")]
@@ -73,7 +73,7 @@ public class PlayerCharacterController : MonoBehaviour
     public bool inCollider;
     public bool isVaulting;
     float m_LastTimeJumped = 0f;
-    public UnityAction<bool> onStanceChanged;
+    public UnityAction<bool, bool> onStanceChanged;
     float RotationMultiplier
     {
         get
@@ -92,10 +92,8 @@ public class PlayerCharacterController : MonoBehaviour
     float m_footstepDistanceCounter;
     const float k_JumpGroundingPreventionTime = 0.2f;
     const float k_GroundCheckDistanceInAir = 0.07f;
+    Collider colliderToVault;
 
-    // [Header("Vaulting")]
-    // Reference for the collider of the object to be vaulted
-    Collider m_Collider;
 
     [Header("References")]
     [Tooltip("Audio source for footsteps, jump, etc...")]
@@ -108,7 +106,6 @@ public class PlayerCharacterController : MonoBehaviour
     Health m_Health;
     CharacterAbility m_CharacterAbility;
     ThrowGrenadeAbility m_ThrowGrenade;
-
 
     void Start()
     {
@@ -134,15 +131,10 @@ public class PlayerCharacterController : MonoBehaviour
         m_CharacterAbility = GetComponent<CharacterAbility>();
         m_ThrowGrenade = GetComponent<ThrowGrenadeAbility>();
 
-
         // force the crouch state to false when starting
         // If this is commented out, the sliding bug occurs.
         SetCrouchingState(false, true);
         UpdateCharacterHeight(true);
-
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
     }
 
     void Update()
@@ -163,7 +155,11 @@ public class PlayerCharacterController : MonoBehaviour
         HandleGrounding();
 
         // converts move input to a worldspace vector based on our character's transform orientation
-        Vector3 worldspaceMoveInput = transform.TransformVector(m_PlayerInputHandler.moveInput);
+        Vector3 moveInput = m_PlayerInputHandler.moveInput;
+
+        if (moveInput.z <= 0f) { isSprinting = false; }
+
+        Vector3 worldspaceMoveInput = transform.TransformVector(moveInput);
 
         horizontalCharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, Vector3.up).magnitude;
 
@@ -309,6 +305,13 @@ public class PlayerCharacterController : MonoBehaviour
         SetCrouchingState(isCrouching, false);
         UpdateCharacterHeight(false);
 
+        // Set UnityEvent for stance change (for hud)
+        if (onStanceChanged != null)
+        {
+            onStanceChanged.Invoke(isCrouching, isSprinting);
+        }
+
+
         // footsteps sound
         // float chosenFootstepSFXFrequency = (isSprinting ? footstepSFXFrequencyWhileSprinting : footstepSFXFrequency);
         // if (m_footstepDistanceCounter >= 1f / chosenFootstepSFXFrequency)
@@ -326,7 +329,7 @@ public class PlayerCharacterController : MonoBehaviour
         isVaulting = CheckForVaulting(isVaulting, worldspaceMoveInput);
         if (isVaulting)
         {
-            //Vector3 directionToVault = Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
+            //Vector3 directionToVault = Vector3.ProjectOnPlane(colliderToVault.transform.position - transform.position, Vector3.up);
             //m_CharacterVelocity = directionToVault * 4.0f;
             m_CharacterVelocity.y = vaultForce;
         }
@@ -350,7 +353,7 @@ public class PlayerCharacterController : MonoBehaviour
         
         if (inCollider)
         {
-            Vector3 directionToVault = m_Collider.transform.position - transform.position;
+            Vector3 directionToVault = colliderToVault.transform.position - transform.position;
             // Check that we're looking at and moving toward the wall
             if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15 &&
                 Vector3.Dot(directionToVault, worldspaceMoveInput) > 0f)
@@ -428,11 +431,6 @@ public class PlayerCharacterController : MonoBehaviour
             m_TargetCharacterHeight = capsuleHeightStanding;
         }
 
-        if (onStanceChanged != null)
-        {
-            onStanceChanged.Invoke(crouched);
-        }
-
         return true;
     }
 
@@ -472,7 +470,7 @@ public class PlayerCharacterController : MonoBehaviour
         //This method is to check if player is colliding with vaultable walls
 
         //Getting sizes of the vault wall the player collides with
-        m_Collider = collider;
+        colliderToVault = collider;
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Mount"))
         {
