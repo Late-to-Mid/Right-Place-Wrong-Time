@@ -30,8 +30,9 @@ public class Grenade : MonoBehaviour
         m_SpawnTime = Time.time;
     }
 
-    // Update is called once per frame
-    void Update()
+    // Use FixedUpdate for more accurate physics calculations as it is called
+    // on a time-basis, not a frame-basis.
+    void FixedUpdate()
     {
         if (Time.time > m_SpawnTime + lifetime)
         {
