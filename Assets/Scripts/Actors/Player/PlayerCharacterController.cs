@@ -94,7 +94,6 @@ public class PlayerCharacterController : MonoBehaviour
     const float k_GroundCheckDistanceInAir = 0.07f;
     Collider colliderToVault;
 
-
     [Header("References")]
     [Tooltip("Sound played when jumping")]
     public AudioClip jumpSFX;
@@ -161,6 +160,16 @@ public class PlayerCharacterController : MonoBehaviour
         // converts move input to a worldspace vector based on our character's transform orientation
         Vector3 moveInput = m_PlayerInputHandler.moveInput;
 
+        // Update the character height (but do not force it)
+        SetCrouchingState(isCrouching, false);
+        UpdateCharacterHeight(false);
+
+        // Set UnityEvent for stance change (for hud)
+        if (onStanceChanged != null)
+        {
+            onStanceChanged.Invoke(isCrouching, isSprinting);
+        }
+
         if (moveInput.z <= 0f) { isSprinting = false; }
 
         Vector3 worldspaceMoveInput = transform.TransformVector(moveInput);
@@ -172,7 +181,7 @@ public class PlayerCharacterController : MonoBehaviour
         Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(m_Controller.height);
 
         // Adjust speed modifier depending on whether or not the player is sprinting.
-        float speedModifier = (isSprinting && !isCrouching) ? sprintSpeedRatio : 1f;
+        float speedModifier = (isSprinting && (!isCrouching || !isGrounded)) ? sprintSpeedRatio : 1f;
 
         // handle grounded movement
         if (isGrounded)
@@ -305,17 +314,6 @@ public class PlayerCharacterController : MonoBehaviour
         // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
         m_CharacterVelocity = Vector3.Lerp(m_CharacterVelocity, targetVelocity, accelerationRate * Time.deltaTime);
 
-        // Update the character height (but do not force it)
-        SetCrouchingState(isCrouching, false);
-        UpdateCharacterHeight(false);
-
-        // Set UnityEvent for stance change (for hud)
-        if (onStanceChanged != null)
-        {
-            onStanceChanged.Invoke(isCrouching, isSprinting);
-        }
-
-
         // footsteps sound
         // float chosenFootstepSFXFrequency = (isSprinting ? footstepSFXFrequencyWhileSprinting : footstepSFXFrequency);
         // if (m_footstepDistanceCounter >= 1f / chosenFootstepSFXFrequency)
@@ -371,8 +369,6 @@ public class PlayerCharacterController : MonoBehaviour
         // jumping
         if (isGrounded)
         {
-            isCrouching = false;
-
             // start by canceling out the vertical component of our velocity
             m_CharacterVelocity = new Vector3(m_CharacterVelocity.x, 0f, m_CharacterVelocity.z);
 
