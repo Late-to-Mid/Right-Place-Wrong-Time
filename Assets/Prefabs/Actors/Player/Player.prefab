@@ -323,6 +323,7 @@ Transform:
   m_Children:
   - {fileID: 6334903112852522062}
   - {fileID: 6334903113208263994}
+  - {fileID: 444269250}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -354,7 +355,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 6334903113817078142}
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -369,7 +370,7 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 6334903113817078142}
         m_MethodName: OnLook
         m_Mode: 0
         m_Arguments:
@@ -414,7 +415,7 @@ MonoBehaviour:
     m_ActionName: Player/Aim[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 6334903113817078142}
         m_MethodName: OnCouch
         m_Mode: 0
         m_Arguments:
@@ -429,7 +430,7 @@ MonoBehaviour:
     m_ActionName: Player/Crouch[/Keyboard/c]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 6334903113817078142}
         m_MethodName: OnSprint
         m_Mode: 0
         m_Arguments:
@@ -529,7 +530,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 6334903113817078142}
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -598,25 +599,10 @@ MonoBehaviour:
   groundCheckLayers:
     serializedVersion: 2
     m_Bits: 769
-  groundCheckDistance: 0.05
   walkSpeed: 8
-  crouchedSpeedRatio: 0.6
   sprintSpeedRatio: 1.5
-  airSpeed: 8
-  requiredSpeedForSliding: 10
-  slideSpeedMinimum: 4
-  accelerationSpeedOnGround: 20
-  accelerationSpeedInAir: 15
-  slidingDeceleration: 1.25
-  jumpForce: 9
-  vaultForce: 7.5
-  gravityDownForce: 25
   rotationSpeed: 0.25
   aimingRotationMultiplier: 0.4
-  cameraHeightRatio: 0.9
-  capsuleHeightStanding: 1.8
-  capsuleHeightCrouching: 0.9
-  crouchingSharpness: 10
   m_CharacterVelocity: {x: 0, y: 0, z: 0}
   horizontalCharacterVelocity: 0
   isGrounded: 0
@@ -890,3 +876,93 @@ Transform:
   m_Father: {fileID: 6334903113573939402}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &7367500100388371280
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6334903113817078143}
+    m_Modifications:
+    - target: {fileID: 7367500099061641514, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_Name
+      value: LightTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099291878732, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_Name
+      value: ColoredPetals
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655889, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_Name
+      value: TimeFreezeTrailEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655889, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.41
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cf1e9887df94c8249bf35aadafc99739, type: 3}
+--- !u!4 &444269250 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
+    type: 3}
+  m_PrefabInstance: {fileID: 7367500100388371280}
+  m_PrefabAsset: {fileID: 0}
