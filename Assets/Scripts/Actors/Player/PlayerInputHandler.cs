@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 public class PlayerInputHandler : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class PlayerInputHandler : MonoBehaviour
 
     // GameFlowManager m_GameFlowManager;
     PlayerWeaponsManager m_PlayerWeaponsManager;
+
+    public UnityAction<InputAction.CallbackContext> onMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -90,6 +93,14 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             m_PlayerWeaponsManager.Reload();
+        }
+    }
+
+    public void OnMenu(InputAction.CallbackContext context)
+    {
+        if (onMenu != null)
+        {
+            onMenu.Invoke(context);
         }
     }
 }

@@ -30,7 +30,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Sensitivity")]
     [Tooltip("Rotation speed for moving the camera")]
-    public float rotationSpeed = 1f;
+    public float lookSensitivity = 1f;
     [Range(0.1f, 1f)]
     [Tooltip("Rotation speed multiplier when aiming")]
     public float aimingRotationMultiplier = 0.4f;
@@ -183,13 +183,13 @@ public class PlayerCharacterController : MonoBehaviour
         // horizontal character rotation
         {
             // rotate the transform with the input speed around its local Y axis
-            transform.Rotate(new Vector3(0f, (lookInput.x * rotationSpeed * RotationMultiplier), 0f), Space.Self);
+            transform.Rotate(new Vector3(0f, (lookInput.x * lookSensitivity * RotationMultiplier), 0f), Space.Self);
         }
 
         // vertical camera rotation
         {
             // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += -lookInput.y * rotationSpeed * RotationMultiplier;
+            m_CameraVerticalAngle += -lookInput.y * lookSensitivity * RotationMultiplier;
 
             // limit the camera's vertical angle to min/max
             m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);

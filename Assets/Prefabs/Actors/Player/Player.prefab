@@ -543,6 +543,21 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ecf0dc20-414b-4649-bc58-e1cbbd262150
     m_ActionName: Player/Jump[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 60492024002433571}
+        m_MethodName: OnMenu
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 685d8706-26b7-4b0b-9f38-b62864fce73e
+    m_ActionName: Player/Pause[/Keyboard/tab]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -601,7 +616,7 @@ MonoBehaviour:
     m_Bits: 769
   walkSpeed: 8
   sprintSpeedRatio: 1.5
-  rotationSpeed: 0.25
+  lookSensitivity: 1
   aimingRotationMultiplier: 0.4
   m_CharacterVelocity: {x: 0, y: 0, z: 0}
   horizontalCharacterVelocity: 0
