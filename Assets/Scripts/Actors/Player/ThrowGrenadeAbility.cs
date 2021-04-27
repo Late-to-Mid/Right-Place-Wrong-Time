@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ThrowGrenadeAbility : MonoBehaviour
 {
@@ -31,6 +30,14 @@ public class ThrowGrenadeAbility : MonoBehaviour
             Rigidbody rb = thrown_grenade.GetComponent<Rigidbody>();
             rb.AddForce(transform.forward * throwForce);
             m_TimeLastUsed = Time.time;
+        }
+    }
+
+    public void OnGadget(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Performed)
+        {
+            ThrowGrenade();
         }
     }
 }

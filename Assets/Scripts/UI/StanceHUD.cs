@@ -9,17 +9,30 @@ public class StanceHUD : MonoBehaviour
     public Sprite standingSprite;
     [Tooltip("Sprite to display when crouching")]
     public Sprite crouchingSprite;
+    [Tooltip("Sprite to display when sprinting")]
+    public Sprite sprintingSprite;
 
     private void Start()
     {
         PlayerCharacterController character = FindObjectOfType<PlayerCharacterController>();
         character.onStanceChanged += OnStanceChanged;
 
-        OnStanceChanged(character.isCrouching);
+        OnStanceChanged(character.isCrouching, character.isSprinting);
     }
 
-    void OnStanceChanged(bool crouched)
+    void OnStanceChanged(bool crouched, bool sprinting)
     {
-        stanceImage.sprite = crouched ? crouchingSprite : standingSprite;
+        if (crouched)
+        {
+            stanceImage.sprite = crouchingSprite;
+        }
+        else if (sprinting)
+        {
+            stanceImage.sprite = sprintingSprite;
+        }
+        else
+        {
+            stanceImage.sprite = standingSprite;
+        }
     }
 }
