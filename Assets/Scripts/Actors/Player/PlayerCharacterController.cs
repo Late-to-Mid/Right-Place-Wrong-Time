@@ -11,38 +11,21 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Physic layers checked to consider the player grounded")]
     public LayerMask groundCheckLayers = -1;
     [Tooltip("distance from the bottom of the character controller capsule to test for grounded")]
-    float groundCheckDistance = 0.06f;
+    const float groundCheckDistance = 0.06f;
 
-    [Header("Movement")]
-    [Tooltip("Max movement speed when grounded (when not sprinting)")]
-    public float walkSpeed = 8f;
-    [Tooltip("Max movement speed when crouching")]
-    [Range(0, 1)]
+    public float walkSpeed { get { return walkSpeed; } private set { walkSpeed = 8f; } }
+    public float sprintSpeedRatio { get { return sprintSpeedRatio; } private set { sprintSpeedRatio = 1.5f; } }
     const float crouchedSpeedRatio = 0.6f;
-    [Tooltip("Multiplicator for the sprint speed (based on grounded speed)")]
-    [Range(1, 2)]
-    public float sprintSpeedRatio = 1.5f;
-    [Tooltip("Max movement speed when not grounded")]
     const float airSpeed = 8f;
-    [Tooltip("Minimum speed player must be going in order to slide")]
     const float requiredSpeedForSliding = 10f;
-    [Tooltip("Speed the player stops sliding at (and begins to crouch-walk at)")]
     const float slideSpeedMinimum = 4f;
 
-    [Header("Acceleration")]
-    [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
     const float accelerationSpeedOnGround = 20f;
-    [Tooltip("Acceleration speed when in the air")]
     const float accelerationSpeedInAir = 15f;
-    [Tooltip("Sliding deceleration value. Lower value means slower deleceration")]
     const float slidingDeceleration = 1.25f;
 
-    [Header("Force")]
-    [Tooltip("Force applied upward when jumping")]
     const float jumpForce = 9f;
-    [Tooltip("Force applied downward when vaulting")]
     const float vaultForce = 7.5f;
-    [Tooltip("Force applied downward when in the air")]
     const float gravityDownForce = 25f;
 
     [Header("Sensitivity")]
@@ -52,14 +35,9 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Rotation speed multiplier when aiming")]
     public float aimingRotationMultiplier = 0.4f;
 
-    [Header("Stance")]
-    [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
     const float cameraHeightRatio = 0.9f;
-    [Tooltip("Height of character when standing")]
     const float capsuleHeightStanding = 1.8f;
-    [Tooltip("Height of character when crouching")]
     const float capsuleHeightCrouching = 0.9f;
-    [Tooltip("Speed of crouching transitions")]
     const float crouchingSharpness = 10f;
 
     [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
@@ -101,8 +79,9 @@ public class PlayerCharacterController : MonoBehaviour
     [Header("References")]
     [Tooltip("Sound played when jumping")]
     public AudioClip jumpSFX;
-
+    [Tooltip("Camera to serve as player POV")]
     public Camera playerCamera;
+
     AudioSource audioSource;
     CharacterController m_Controller;
     PlayerWeaponsManager m_PlayerWeaponsManager;
