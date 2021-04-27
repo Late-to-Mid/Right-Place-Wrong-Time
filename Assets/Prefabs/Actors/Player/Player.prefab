@@ -302,7 +302,6 @@ GameObject:
   - component: {fileID: 5590805953635055263}
   - component: {fileID: 5138014119724375689}
   - component: {fileID: 6341863466867747127}
-  - component: {fileID: 486291610}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -459,12 +458,12 @@ MonoBehaviour:
     m_ActionName: Player/Reload[/Keyboard/r]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5138014119724375689}
-        m_MethodName: OnAbility
-        m_Mode: 0
+      - m_Target: {fileID: 6334903113817078140}
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -474,12 +473,12 @@ MonoBehaviour:
     m_ActionName: Player/Ability[/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5590805953635055263}
-        m_MethodName: OnGadget
-        m_Mode: 0
+      - m_Target: {fileID: 6334903113817078140}
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -626,7 +625,6 @@ MonoBehaviour:
   isDead: 0
   inCollider: 0
   isVaulting: 0
-  jumpSFX: {fileID: 8300000, guid: 5388ac1fc37808f449ffc6bd03c45893, type: 3}
   playerCamera: {fileID: 6334903112852522063}
 --- !u!114 &6334903113817078117
 MonoBehaviour:
@@ -640,7 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c29786f66fd5f49b1d67d7c18b1a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 5733399493780849868, guid: 0909d70706a0d9241a9a8877f1c8e059,
+  weaponPrefab: {fileID: 6573077057033688565, guid: 0909d70706a0d9241a9a8877f1c8e059,
     type: 3}
   weaponCamera: {fileID: 6334903112888455210}
   weaponParentSocket: {fileID: 6334903113902778084}
@@ -649,7 +647,7 @@ MonoBehaviour:
   downWeaponPosition: {fileID: 6334903113819467386}
   bobFrequency: 10
   bobSharpness: 10
-  defaultBobAmount: 0.02
+  defaultBobAmount: 0.05
   aimingBobAmount: 0.02
   aimingAnimationSpeed: 10
   defaultFOV: 90
@@ -658,6 +656,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   isAiming: 0
+  isFiring: 0
 --- !u!114 &6334903113817078114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -716,7 +715,6 @@ MonoBehaviour:
   playerDummyObject: {fileID: 7759714358863529581, guid: 1fa97897db96eb44293c0dc215655392,
     type: 3}
   timeLength: 5
-  cooldown: 5
   dummyController: {fileID: 0}
 --- !u!114 &6341863466867747127
 MonoBehaviour:
@@ -733,103 +731,6 @@ MonoBehaviour:
   damageMultiplier: 0.001
   sensibilityToSelfdamage: 0.5
   armor: 0
---- !u!82 &486291610
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6334903113817078140}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 24300002, guid: f290c1f6ee56a22488c8270dcb6159ba,
-    type: 2}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &6334903113819467387
 GameObject:
   m_ObjectHideFlags: 0
