@@ -64,6 +64,8 @@ GameObject:
   - component: {fileID: 1641137324511058694}
   - component: {fileID: 8482517119860109666}
   - component: {fileID: 2699818157976086737}
+  - component: {fileID: 6427720970295277672}
+  - component: {fileID: 4658174262724370639}
   m_Layer: 0
   m_Name: GameHUD
   m_TagString: Untagged
@@ -143,7 +145,32 @@ MonoBehaviour:
   stanceImage: {fileID: 8769263619893469153}
   standingSprite: {fileID: 21300000, guid: d880f0ec47b0c5447a430636df169e1d, type: 3}
   crouchingSprite: {fileID: 21300000, guid: 841d6eadd8def0b4a86f9174cecd1b52, type: 3}
-  sprintingSprite: {fileID: 21300000, guid: 33589bef1fc429f41938946caf96ed20, type: 3}
+--- !u!114 &6427720970295277672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482283186218417521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbfc22b872cc85a49a1a641c7a3794ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityFillImage: {fileID: 8328759641290235776}
+--- !u!114 &4658174262724370639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482283186218417521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08806d4f511f20478f05e94870917b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  abilityFillImage: {fileID: 7572753135109952364}
 --- !u!1 &1482969392879928030
 GameObject:
   m_ObjectHideFlags: 0
@@ -302,8 +329,6 @@ GameObject:
   m_Component:
   - component: {fileID: 607553426222984630}
   - component: {fileID: 1659346679239190880}
-  - component: {fileID: 4678762554536446247}
-  - component: {fileID: 840620308}
   m_Layer: 5
   m_Name: PlayerAbility
   m_TagString: Untagged
@@ -345,42 +370,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &4678762554536446247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1812941790142393758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d1d8afc2c95a3240a0e879001e367b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foregroundImage: {fileID: 8328759641290235776}
-  defaultForegroundColor: {r: 0, g: 1, b: 1, a: 1}
-  flashForegroundColorFull: {r: 0, g: 0, b: 0, a: 1}
-  backgroundImage: {fileID: 3094898923050844511}
-  defaultBackgroundColor: {r: 0, g: 0, b: 0, a: 0.49803922}
-  flashBackgroundColorEmpty: {r: 0, g: 0, b: 0, a: 0}
-  fullValue: 1
-  emptyValue: 0
-  colorChangeSharpness: 5
---- !u!114 &840620308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1812941790142393758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbfc22b872cc85a49a1a641c7a3794ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityFillImage: {fileID: 8328759641290235776}
-  FillBarColorChange: {fileID: 4678762554536446247}
-  barFillMovementSharpness: 20
 --- !u!1 &2130664733049060856
 GameObject:
   m_ObjectHideFlags: 0
@@ -1021,8 +1010,6 @@ GameObject:
   m_Component:
   - component: {fileID: 796516186400258986}
   - component: {fileID: 2802038076194702982}
-  - component: {fileID: 1074300807}
-  - component: {fileID: 1074300808}
   m_Layer: 5
   m_Name: PlayerGadget
   m_TagString: Untagged
@@ -1064,42 +1051,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &1074300807
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7166136197165029028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d1d8afc2c95a3240a0e879001e367b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foregroundImage: {fileID: 7572753135109952364}
-  defaultForegroundColor: {r: 1, g: 0, b: 1, a: 1}
-  flashForegroundColorFull: {r: 0, g: 0, b: 0, a: 1}
-  backgroundImage: {fileID: 6854962291116370528}
-  defaultBackgroundColor: {r: 0, g: 0, b: 0, a: 0.56078434}
-  flashBackgroundColorEmpty: {r: 0, g: 0, b: 0, a: 0}
-  fullValue: 1
-  emptyValue: 0
-  colorChangeSharpness: 5
---- !u!114 &1074300808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7166136197165029028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c08806d4f511f20478f05e94870917b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  abilityFillImage: {fileID: 7572753135109952364}
-  FillBarColorChange: {fileID: 1074300807}
-  barFillMovementSharpness: 20
 --- !u!1 &7547010931821585897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1359,7 +1310,7 @@ GameObject:
   - component: {fileID: 9115853336871569509}
   - component: {fileID: 2119770229483626461}
   m_Layer: 5
-  m_Name: GadgetIcon
+  m_Name: HealthIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

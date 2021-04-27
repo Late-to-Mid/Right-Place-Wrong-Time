@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-[RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler))]
+[RequireComponent(typeof(CharacterController), typeof(PlayerInput), typeof(PlayerInputHandler))]
 public class PlayerCharacterController : MonoBehaviour
 {
     [Header("General")]
@@ -11,34 +11,56 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("Physic layers checked to consider the player grounded")]
     public LayerMask groundCheckLayers = -1;
     [Tooltip("distance from the bottom of the character controller capsule to test for grounded")]
-    const float groundCheckDistance = 0.06f;
+    public float groundCheckDistance = 0.06f;
 
+    [Header("Movement")]
+    [Tooltip("Max movement speed when grounded (when not sprinting)")]
     public float walkSpeed = 8f;
+    [Tooltip("Max movement speed when crouching")]
+    [Range(0, 1)]
+    public float crouchedSpeedRatio = 0.6f;
+    [Tooltip("Multiplicator for the sprint speed (based on grounded speed)")]
+    [Range(1, 2)]
     public float sprintSpeedRatio = 1.5f;
-    const float crouchedSpeedRatio = 0.6f;
-    const float airSpeed = 8f;
-    const float requiredSpeedForSliding = 10f;
-    const float slideSpeedMinimum = 4f;
+    [Tooltip("Max movement speed when not grounded")]
+    public float airSpeed = 8f;
+    [Tooltip("Minimum speed player must be going in order to slide")]
+    public float requiredSpeedForSliding = 10f;
+    [Tooltip("Speed the player stops sliding at (and begins to crouch-walk at)")]
+    public float slideSpeedMinimum = 4f;
 
-    const float accelerationSpeedOnGround = 20f;
-    const float accelerationSpeedInAir = 15f;
-    const float slidingDeceleration = 1.25f;
+    [Header("Acceleration")]
+    [Tooltip("Sharpness for the movement when grounded, a low value will make the player accelerate and decelerate slowly, a high value will do the opposite")]
+    public float accelerationSpeedOnGround = 20f;
+    [Tooltip("Acceleration speed when in the air")]
+    public float accelerationSpeedInAir = 15f;
+    [Tooltip("Sliding deceleration value. Lower value means slower deleceration")]
+    public float slidingDeceleration = 1.25f;
 
-    const float jumpForce = 9f;
-    const float vaultForce = 7.5f;
-    const float gravityDownForce = 25f;
+    [Header("Force")]
+    [Tooltip("Force applied upward when jumping")]
+    public float jumpForce = 9f;
+    [Tooltip("Force applied downward when vaulting")]
+    public float vaultForce = 7.5f;
+    [Tooltip("Force applied downward when in the air")]
+    public float gravityDownForce = 25f;
 
-    [Header("Sensitivity")]
+    [Header("Rotation")]
     [Tooltip("Rotation speed for moving the camera")]
     public float rotationSpeed = 1f;
     [Range(0.1f, 1f)]
     [Tooltip("Rotation speed multiplier when aiming")]
     public float aimingRotationMultiplier = 0.4f;
 
-    const float cameraHeightRatio = 0.9f;
-    const float capsuleHeightStanding = 1.8f;
-    const float capsuleHeightCrouching = 0.9f;
-    const float crouchingSharpness = 10f;
+    [Header("Stance")]
+    [Tooltip("Ratio (0-1) of the character height where the camera will be at")]
+    public float cameraHeightRatio = 0.9f;
+    [Tooltip("Height of character when standing")]
+    public float capsuleHeightStanding = 1.8f;
+    [Tooltip("Height of character when crouching")]
+    public float capsuleHeightCrouching = 0.9f;
+    [Tooltip("Speed of crouching transitions")]
+    public float crouchingSharpness = 10f;
 
     [Header("Current Variables (DO NOT CHANGE, MONITOR ONLY)")]
     public Vector3 m_CharacterVelocity;
@@ -50,9 +72,8 @@ public class PlayerCharacterController : MonoBehaviour
     public bool isDead;
     public bool inCollider;
     public bool isVaulting;
-
-    public UnityAction<bool, bool> onStanceChanged;
-
+    float m_LastTimeJumped = 0f;
+    public UnityAction<bool> onStanceChanged;
     float RotationMultiplier
     {
         get
@@ -65,34 +86,38 @@ public class PlayerCharacterController : MonoBehaviour
             return 1f;
         }
     }
-    float m_LastTimeJumped = 0f;
-    float m_footstepDistanceCounter;
     float m_CameraVerticalAngle = 0f;
     float m_TargetCharacterHeight;
     Vector3 m_GroundNormal;
-    Vector3 moveInput;
-    Vector2 lookInput;
+    float m_footstepDistanceCounter;
     const float k_JumpGroundingPreventionTime = 0.2f;
     const float k_GroundCheckDistanceInAir = 0.07f;
-    Collider colliderToVault;
+
+    // [Header("Vaulting")]
+    // Reference for the collider of the object to be vaulted
+    Collider m_Collider;
 
     [Header("References")]
-    [Tooltip("Sound played when jumping")]
-    public AudioClip jumpSFX;
-    [Tooltip("Camera to serve as player POV")]
+    [Tooltip("Audio source for footsteps, jump, etc...")]
     public Camera playerCamera;
-
     AudioSource audioSource;
     CharacterController m_Controller;
     PlayerWeaponsManager m_PlayerWeaponsManager;
+    PlayerInputHandler m_PlayerInputHandler;
     Actor m_Actor;
     Health m_Health;
+    CharacterAbility m_CharacterAbility;
+    ThrowGrenadeAbility m_ThrowGrenade;
+
 
     void Start()
     {
         // Set the character controller
         m_Controller = GetComponent<CharacterController>();
         m_Controller.enableOverlapRecovery = true;
+
+        // Get the input handler
+        m_PlayerInputHandler = GetComponent<PlayerInputHandler>();
 
         // Set the weapons manager, used for managing weapons
         m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
@@ -106,12 +131,18 @@ public class PlayerCharacterController : MonoBehaviour
         // Subscribe to OnDie
         m_Health.onDie += OnDie;
 
-        audioSource = GetComponent<AudioSource>();
+        m_CharacterAbility = GetComponent<CharacterAbility>();
+        m_ThrowGrenade = GetComponent<ThrowGrenadeAbility>();
+
 
         // force the crouch state to false when starting
         // If this is commented out, the sliding bug occurs.
         SetCrouchingState(false, true);
         UpdateCharacterHeight(true);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
     }
 
     void Update()
@@ -131,21 +162,8 @@ public class PlayerCharacterController : MonoBehaviour
         // Ground the player
         HandleGrounding();
 
-        if (moveInput.z <= 0f) { isSprinting = false; }
-
-        // Set UnityEvent for stance change (for hud)
-        if (onStanceChanged != null)
-        {
-            onStanceChanged.Invoke(isCrouching, isSprinting);
-        }
-
-        // Update the character height (but do not force it)
-        // This should be an update function, not an input function
-        // So that the character height can change smoothly over time
-        UpdateCharacterHeight(false);
-
         // converts move input to a worldspace vector based on our character's transform orientation
-        Vector3 worldspaceMoveInput = transform.TransformVector(moveInput);
+        Vector3 worldspaceMoveInput = transform.TransformVector(m_PlayerInputHandler.moveInput);
 
         horizontalCharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, Vector3.up).magnitude;
 
@@ -154,7 +172,7 @@ public class PlayerCharacterController : MonoBehaviour
         Vector3 capsuleTopBeforeMove = GetCapsuleTopHemisphere(m_Controller.height);
 
         // Adjust speed modifier depending on whether or not the player is sprinting.
-        float speedModifier = (isSprinting && (!isCrouching || !isGrounded)) ? sprintSpeedRatio : 1f;
+        float speedModifier = (isSprinting && !isCrouching) ? sprintSpeedRatio : 1f;
 
         // handle grounded movement
         if (isGrounded)
@@ -183,13 +201,13 @@ public class PlayerCharacterController : MonoBehaviour
         // horizontal character rotation
         {
             // rotate the transform with the input speed around its local Y axis
-            transform.Rotate(new Vector3(0f, (lookInput.x * rotationSpeed * RotationMultiplier), 0f), Space.Self);
+            transform.Rotate(new Vector3(0f, (m_PlayerInputHandler.lookInput.x * rotationSpeed * RotationMultiplier), 0f), Space.Self);
         }
 
         // vertical camera rotation
         {
             // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += -lookInput.y * rotationSpeed * RotationMultiplier;
+            m_CameraVerticalAngle += -m_PlayerInputHandler.lookInput.y * rotationSpeed * RotationMultiplier;
 
             // limit the camera's vertical angle to min/max
             m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
@@ -287,6 +305,10 @@ public class PlayerCharacterController : MonoBehaviour
         // smoothly interpolate between our current velocity and the target velocity based on acceleration speed
         m_CharacterVelocity = Vector3.Lerp(m_CharacterVelocity, targetVelocity, accelerationRate * Time.deltaTime);
 
+        // Update the character height (but do not force it)
+        SetCrouchingState(isCrouching, false);
+        UpdateCharacterHeight(false);
+
         // footsteps sound
         // float chosenFootstepSFXFrequency = (isSprinting ? footstepSFXFrequencyWhileSprinting : footstepSFXFrequency);
         // if (m_footstepDistanceCounter >= 1f / chosenFootstepSFXFrequency)
@@ -304,6 +326,8 @@ public class PlayerCharacterController : MonoBehaviour
         isVaulting = CheckForVaulting(isVaulting, worldspaceMoveInput);
         if (isVaulting)
         {
+            //Vector3 directionToVault = Vector3.ProjectOnPlane(m_Collider.transform.position - transform.position, Vector3.up);
+            //m_CharacterVelocity = directionToVault * 4.0f;
             m_CharacterVelocity.y = vaultForce;
         }
 
@@ -326,7 +350,7 @@ public class PlayerCharacterController : MonoBehaviour
         
         if (inCollider)
         {
-            Vector3 directionToVault = colliderToVault.transform.position - transform.position;
+            Vector3 directionToVault = m_Collider.transform.position - transform.position;
             // Check that we're looking at and moving toward the wall
             if (Vector3.Angle(playerCamera.transform.forward, directionToVault) < playerCamera.fieldOfView + 15 &&
                 Vector3.Dot(directionToVault, worldspaceMoveInput) > 0f)
@@ -337,57 +361,29 @@ public class PlayerCharacterController : MonoBehaviour
         return false;
     }
 
-    public void OnLook(InputAction.CallbackContext context)
+    public void Jump()
     {
-        lookInput = context.ReadValue<Vector2>(); ;
-    }
-
-    public void OnMove(InputAction.CallbackContext context)
-    {
-        Vector2 moveInput2d = context.ReadValue<Vector2>();
-        moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
-    }
-
-    public void OnSprint(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
+        // jumping
+        if (isGrounded)
         {
-            isSprinting = !isSprinting;
-        }
-    }
+            isCrouching = false;
 
-    public void OnCouch(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            isCrouching = !isCrouching;
+            // start by canceling out the vertical component of our velocity
+            m_CharacterVelocity = new Vector3(m_CharacterVelocity.x, 0f, m_CharacterVelocity.z);
 
-            SetCrouchingState(isCrouching, false);
-        }
-    }
+            // then, add the jumpSpeed value upwards
+            m_CharacterVelocity += Vector3.up * jumpForce;
 
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            if (isGrounded)
-            {
-                // start by canceling out the vertical component of our velocity
-                m_CharacterVelocity = new Vector3(m_CharacterVelocity.x, 0f, m_CharacterVelocity.z);
+            // play sound
+            // audioSource.PlayOneShot(jumpSFX);
 
-                // then, add the jumpSpeed value upwards
-                m_CharacterVelocity += Vector3.up * jumpForce;
+            // remember last time we jumped because we need to prevent snapping to ground for a short time
+            m_LastTimeJumped = Time.time;
+            //hasJumpedThisFrame = true;
 
-                // play sound
-                audioSource.PlayOneShot(jumpSFX);
-
-                // remember last time we jumped because we need to prevent snapping to ground for a short time
-                m_LastTimeJumped = Time.time;
-
-                // Force grounding to false
-                isGrounded = false;
-                m_GroundNormal = Vector3.up;
-            }
+            // Force grounding to false
+            isGrounded = false;
+            m_GroundNormal = Vector3.up;
         }
     }
 
@@ -432,6 +428,11 @@ public class PlayerCharacterController : MonoBehaviour
             m_TargetCharacterHeight = capsuleHeightStanding;
         }
 
+        if (onStanceChanged != null)
+        {
+            onStanceChanged.Invoke(crouched);
+        }
+
         return true;
     }
 
@@ -456,12 +457,22 @@ public class PlayerCharacterController : MonoBehaviour
         }
     }
 
+    public void UseAbility()
+    {
+        m_CharacterAbility.CheckToUseAbility();
+    }
+
+    public void UseGadget()
+    {
+        m_ThrowGrenade.ThrowGrenade();
+    }
+
     void OnTriggerEnter(Collider collider)
     {
         //This method is to check if player is colliding with vaultable walls
 
         //Getting sizes of the vault wall the player collides with
-        colliderToVault = collider;
+        m_Collider = collider;
 
         if (collider.gameObject.layer == LayerMask.NameToLayer("Mount"))
         {
