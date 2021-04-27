@@ -13,8 +13,8 @@ public class PlayerCharacterController : MonoBehaviour
     [Tooltip("distance from the bottom of the character controller capsule to test for grounded")]
     const float groundCheckDistance = 0.06f;
 
-    public float walkSpeed { get { return walkSpeed; } private set { walkSpeed = 8f; } }
-    public float sprintSpeedRatio { get { return sprintSpeedRatio; } private set { sprintSpeedRatio = 1.5f; } }
+    public float walkSpeed = 8f;
+    public float sprintSpeedRatio = 1.5f;
     const float crouchedSpeedRatio = 0.6f;
     const float airSpeed = 8f;
     const float requiredSpeedForSliding = 10f;
