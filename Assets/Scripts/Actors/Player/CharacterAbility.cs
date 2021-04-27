@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(Actor))]
 public class CharacterAbility : MonoBehaviour
@@ -98,14 +99,6 @@ public class CharacterAbility : MonoBehaviour
         {
             m_State = AbilityState.Ready;
             readyBar = 1f;
-        }
-    }
-
-    public void OnAbility(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            CheckToUseAbility();
         }
     }
 }
