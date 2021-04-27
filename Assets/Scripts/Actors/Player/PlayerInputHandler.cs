@@ -24,11 +24,8 @@ public class PlayerInputHandler : MonoBehaviour
 
     bool Firing;
     bool m_FireInputWasHeld;
-    public Vector3 moveInput { get; private set; }
-    public Vector2 lookInput { get; private set; }
 
     // GameFlowManager m_GameFlowManager;
-    PlayerCharacterController m_PlayerCharacterController;
     PlayerWeaponsManager m_PlayerWeaponsManager;
 
     // Start is called before the first frame update
@@ -39,7 +36,6 @@ public class PlayerInputHandler : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
         m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
     }
 
@@ -48,41 +44,6 @@ public class PlayerInputHandler : MonoBehaviour
         m_FireInputWasHeld = Firing;
     }
     
-    public void OnLook(InputAction.CallbackContext context)
-    {
-        lookInput = context.ReadValue<Vector2>();;
-    }
-
-    public void OnMove(InputAction.CallbackContext context) 
-    {
-        Vector2 moveInput2d = context.ReadValue<Vector2>();
-        moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
-    }
-
-    public void OnCouch(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            m_PlayerCharacterController.isCrouching = !m_PlayerCharacterController.isCrouching;
-        }
-    }
-
-    public void OnSprint(InputAction.CallbackContext context) 
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            m_PlayerCharacterController.isSprinting = !m_PlayerCharacterController.isSprinting;
-        }
-    }
-
-    public void OnJump(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            m_PlayerCharacterController.Jump();
-        }
-    }
-
     public void OnAim(InputAction.CallbackContext context)
     {
         if (context.phase == InputActionPhase.Performed)
@@ -129,22 +90,6 @@ public class PlayerInputHandler : MonoBehaviour
         if (context.phase == InputActionPhase.Performed)
         {
             m_PlayerWeaponsManager.Reload();
-        }
-    }
-
-    public void OnGadget(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            m_PlayerCharacterController.UseGadget();
-        }
-    }
-
-    public void OnAbility(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed)
-        {
-            m_PlayerCharacterController.UseAbility();
         }
     }
 }
