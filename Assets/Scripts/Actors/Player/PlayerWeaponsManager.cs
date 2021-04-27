@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(PlayerCharacterController))]
+[RequireComponent(typeof(PlayerCharacterController), typeof(PlayerInputHandler))]
 public class PlayerWeaponsManager : MonoBehaviour
 {
     [Tooltip("Weapon the player will start with")]
@@ -41,7 +40,6 @@ public class PlayerWeaponsManager : MonoBehaviour
     public LayerMask FPSWeaponLayer;
 
     public bool isAiming;
-    public bool isFiring;
     public bool isPointingAtEnemy { get; private set; }
 
     PlayerInputHandler m_InputHandler;
