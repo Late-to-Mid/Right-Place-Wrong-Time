@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 
@@ -23,6 +23,8 @@ public class InGameMenuManager : MonoBehaviour
     PlayerCharacterController m_PlayerCharacterController;
     Health m_PlayerHealth;
     FramerateCounter m_FramerateCounter;
+
+    public UnityAction<bool> onPause;
 
     void Start()
     {
@@ -60,7 +62,7 @@ public class InGameMenuManager : MonoBehaviour
             Time.timeScale = 0f;
             // AudioUtility.SetMasterVolume(volumeWhenMenuOpen);
 
-            EventSystem.current.SetSelectedGameObject(null);
+            // EventSystem.current.SetSelectedGameObject(null);
         }
         else
         {
@@ -99,6 +101,9 @@ public class InGameMenuManager : MonoBehaviour
 
     public void OnSensitivityValueChanged()
     {
-        m_PlayerCharacterController.lookSensitivity = lookSensitivitySlider.value;
+        if (m_PlayerCharacterController)
+        {
+            m_PlayerCharacterController.lookSensitivity = lookSensitivitySlider.value;
+        }
     }
 }

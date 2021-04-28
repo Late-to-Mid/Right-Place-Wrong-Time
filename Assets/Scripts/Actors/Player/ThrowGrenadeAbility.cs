@@ -35,7 +35,7 @@ public class ThrowGrenadeAbility : MonoBehaviour
 
     public void OnGadget(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && Cursor.lockState == CursorLockMode.Locked)
         {
             ThrowGrenade();
         }

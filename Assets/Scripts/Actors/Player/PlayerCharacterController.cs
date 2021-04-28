@@ -142,6 +142,7 @@ public class PlayerCharacterController : MonoBehaviour
         // Update the character height (but do not force it)
         // This should be an update function, not an input function
         // So that the character height can change smoothly over time
+        SetCrouchingState(isCrouching, false);
         UpdateCharacterHeight(false);
 
         // converts move input to a worldspace vector based on our character's transform orientation
@@ -337,20 +338,31 @@ public class PlayerCharacterController : MonoBehaviour
         return false;
     }
 
+    public bool CanProcessInput()
+    {
+        return Cursor.lockState == CursorLockMode.Locked;
+    }
+
     public void OnLook(InputAction.CallbackContext context)
     {
-        lookInput = context.ReadValue<Vector2>(); ;
+        if (CanProcessInput())
+        {
+            lookInput = context.ReadValue<Vector2>();
+        }
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 moveInput2d = context.ReadValue<Vector2>();
-        moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
+        if (CanProcessInput())
+        {
+            Vector2 moveInput2d = context.ReadValue<Vector2>();
+            moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
+        }
     }
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && CanProcessInput())
         {
             isSprinting = !isSprinting;
         }
@@ -358,17 +370,15 @@ public class PlayerCharacterController : MonoBehaviour
 
     public void OnCouch(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && CanProcessInput())
         {
             isCrouching = !isCrouching;
-
-            SetCrouchingState(isCrouching, false);
         }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (CanProcessInput() && context.phase == InputActionPhase.Performed)
         {
             if (isGrounded)
             {

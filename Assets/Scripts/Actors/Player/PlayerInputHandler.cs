@@ -42,6 +42,11 @@ public class PlayerInputHandler : MonoBehaviour
         m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
     }
 
+    public bool CanProcessInput()
+    {
+        return Cursor.lockState == CursorLockMode.Locked;
+    }
+
     private void LateUpdate()
     {
         m_FireInputWasHeld = Firing;
@@ -49,7 +54,7 @@ public class PlayerInputHandler : MonoBehaviour
     
     public void OnAim(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && CanProcessInput())
         {
             m_PlayerWeaponsManager.isAiming = !m_PlayerWeaponsManager.isAiming;
         }
@@ -57,19 +62,22 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnShoot(InputAction.CallbackContext context)
     {
-        switch (context.phase)
+        if (CanProcessInput())
         {
-            case InputActionPhase.Started:
-            Firing = true;
-            break;
+            switch (context.phase)
+            {
+                case InputActionPhase.Started:
+                Firing = true;
+                break;
 
-            case InputActionPhase.Performed:
-            Firing = true;
-            break;
+                case InputActionPhase.Performed:
+                Firing = true;
+                break;
 
-            case InputActionPhase.Canceled:
-            Firing = false;
-            break;
+                case InputActionPhase.Canceled:
+                Firing = false;
+                break;
+            }
         }
     }
 
@@ -90,7 +98,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnReload(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && CanProcessInput())
         {
             m_PlayerWeaponsManager.Reload();
         }

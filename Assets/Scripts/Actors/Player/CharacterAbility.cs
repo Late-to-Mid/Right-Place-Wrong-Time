@@ -103,7 +103,7 @@ public class CharacterAbility : MonoBehaviour
 
     public void OnAbility(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && Cursor.lockState == CursorLockMode.Locked)
         {
             CheckToUseAbility();
         }
