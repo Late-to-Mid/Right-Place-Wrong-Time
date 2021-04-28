@@ -731,7 +731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b0c77754d398541b632d1dc81a9919, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageMultiplier: 0.001
+  damageMultiplier: 1
   sensibilityToSelfdamage: 0.5
   armor: 0
 --- !u!82 &486291610

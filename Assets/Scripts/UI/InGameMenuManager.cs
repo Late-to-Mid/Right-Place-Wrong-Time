@@ -84,7 +84,7 @@ public class InGameMenuManager : MonoBehaviour
         QualitySettings.shadows = newValue ? ShadowQuality.All : ShadowQuality.Disable;
     }
 
-    void OnInvincibilityChanged(bool newValue)
+    public void OnInvincibilityChanged(bool newValue)
     {
         m_PlayerHealth.invincible = newValue;
     }

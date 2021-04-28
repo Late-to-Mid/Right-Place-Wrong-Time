@@ -122,8 +122,11 @@ public class PlayerCharacterController : MonoBehaviour
             m_Health.Kill();
         }
 
-        Move();
-        Look();
+        if (CanProcessInput())
+        {
+            Move();
+            Look();
+        }
     }
 
     void Move()
@@ -345,19 +348,13 @@ public class PlayerCharacterController : MonoBehaviour
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        if (CanProcessInput())
-        {
-            lookInput = context.ReadValue<Vector2>();
-        }
+        lookInput = context.ReadValue<Vector2>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (CanProcessInput())
-        {
-            Vector2 moveInput2d = context.ReadValue<Vector2>();
-            moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
-        }
+        Vector2 moveInput2d = context.ReadValue<Vector2>();
+        moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
     }
 
     public void OnSprint(InputAction.CallbackContext context)
