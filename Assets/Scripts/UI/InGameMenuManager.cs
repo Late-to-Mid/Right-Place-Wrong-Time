@@ -86,7 +86,10 @@ public class InGameMenuManager : MonoBehaviour
 
     public void OnInvincibilityChanged(bool newValue)
     {
-        m_PlayerHealth.invincible = newValue;
+        if (m_PlayerHealth)
+        {
+            m_PlayerHealth.invincible = newValue;
+        }
     }
 
     void OnFramerateCounterChanged(bool newValue)
