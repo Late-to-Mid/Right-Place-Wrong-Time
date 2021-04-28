@@ -131,6 +131,8 @@ public class WeaponController : MonoBehaviour
     const string k_AnimAttackParameter = "Attack";
     const string k_AnimReloadParameter = "Reload";
     const string k_AnimAimParameter = "Aiming";
+    const string k_AnimSprintParameter = "Sprinting";
+    const string k_AnimSlideParameter = "Sliding";
 
     public bool FullAmmo() { return (currentAmmoRatio >= 1); }
 
@@ -442,8 +444,10 @@ public class WeaponController : MonoBehaviour
         projectile.damage += amt;
     }
 
-    public void SetAnimAimParameter(bool aiming)
+    public void SetAnimAimParameter(bool aiming, bool sprinting, bool sliding)
     {
         weaponAnimator.SetBool(k_AnimAimParameter, aiming);
+        weaponAnimator.SetBool(k_AnimSprintParameter, sprinting);
+        weaponAnimator.SetBool(k_AnimSlideParameter, sliding);
     }
 }
