@@ -1,6 +1,8 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
+using System.Collections.Generic;
 
 public enum WeaponShootType
 {
@@ -368,21 +370,10 @@ public class WeaponController : MonoBehaviour
 
     void HandleShoot()
     {
-        int bulletsPerShotFinal = shootType == WeaponShootType.Charge ? Mathf.CeilToInt(currentCharge * bulletsPerShot) : bulletsPerShot;
-
         // Trigger attack animation if there is any
         if (weaponAnimator)
         {
             weaponAnimator.SetTrigger(k_AnimAttackParameter);
-
-        }
-
-        // spawn all bullets with random direction
-        for (int i = 0; i < bulletsPerShotFinal; i++)
-        {
-            Vector3 shotDirection = GetShotDirectionWithinSpread(weaponMuzzle);
-            ProjectileBase newProjectile = Instantiate(projectilePrefab, weaponMuzzle.position, Quaternion.LookRotation(shotDirection));
-            newProjectile.Shoot(this);
         }
 
         // muzzle flash
@@ -413,6 +404,8 @@ public class WeaponController : MonoBehaviour
         }
 
         OnShootProcessed?.Invoke();
+
+        StartCoroutine(ShootOneFrameLater());
     }
 
     public void Reload()
@@ -449,5 +442,21 @@ public class WeaponController : MonoBehaviour
         weaponAnimator.SetBool(k_AnimAimParameter, aiming);
         weaponAnimator.SetBool(k_AnimSprintParameter, sprinting);
         weaponAnimator.SetBool(k_AnimSlideParameter, sliding);
+    }
+
+    IEnumerator ShootOneFrameLater()
+    {
+        // returning 0 will wait for 1 frame
+        yield return 0;
+
+        int bulletsPerShotFinal = shootType == WeaponShootType.Charge ? Mathf.CeilToInt(currentCharge * bulletsPerShot) : bulletsPerShot;
+
+        // spawn all bullets with random direction
+        for (int i = 0; i < bulletsPerShotFinal; i++)
+        {
+            Vector3 shotDirection = GetShotDirectionWithinSpread(weaponMuzzle);
+            ProjectileBase newProjectile = Instantiate(projectilePrefab, weaponMuzzle.position, Quaternion.LookRotation(shotDirection));
+            newProjectile.Shoot(this);
+        }
     }
 }
