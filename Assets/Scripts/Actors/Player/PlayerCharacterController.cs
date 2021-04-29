@@ -10,6 +10,8 @@ public class PlayerCharacterController : MonoBehaviour
     public float killHeight = -50f;
     [Tooltip("Physic layers checked to consider the player grounded")]
     public LayerMask groundCheckLayers = -1;
+    [Tooltip("Physics layers checked for collision")]
+    public LayerMask collisionCheckLayers = -1;
     [Tooltip("distance from the bottom of the character controller capsule to test for grounded")]
     const float groundCheckDistance = 0.06f;
 
@@ -174,7 +176,7 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         // detect obstructions to adjust velocity accordingly
-        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, m_CharacterVelocity.normalized, out RaycastHit hit, m_CharacterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
+        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, m_CharacterVelocity.normalized, out RaycastHit hit, m_CharacterVelocity.magnitude * Time.deltaTime, collisionCheckLayers, QueryTriggerInteraction.Ignore))
         {
             m_CharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, hit.normal);
         }
