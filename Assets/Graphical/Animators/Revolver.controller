@@ -102,19 +102,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-<<<<<<< Updated upstream
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.5833349
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-=======
   m_TransitionDuration: 0.065533616
   m_TransitionOffset: 0.0072339852
   m_ExitTime: 0.39886844
   m_HasExitTime: 0
   m_HasFixedDuration: 0
->>>>>>> Stashed changes
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -301,11 +293,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 2
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
-<<<<<<< Updated upstream
---- !u!1101 &-4469119018923469504
-=======
 --- !u!1101 &-4526716833952716345
->>>>>>> Stashed changes
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -313,34 +301,19 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-<<<<<<< Updated upstream
-  - m_ConditionMode: 1
-    m_ConditionEvent: Sprinting
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 880657449932655358}
-=======
   - m_ConditionMode: 2
     m_ConditionEvent: Sprinting
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8338902898276836624}
->>>>>>> Stashed changes
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-<<<<<<< Updated upstream
-  m_TransitionDuration: 0.013559282
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9406779
-  m_HasExitTime: 1
-=======
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.73214316
   m_HasExitTime: 0
->>>>>>> Stashed changes
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -367,11 +340,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
-<<<<<<< Updated upstream
---- !u!1101 &-3900495472467691758
-=======
 --- !u!1101 &-4217578235356351888
->>>>>>> Stashed changes
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,13 +387,8 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0
   m_TransitionOffset: 0
-<<<<<<< Updated upstream
-  m_ExitTime: 1
-  m_HasExitTime: 1
-=======
   m_ExitTime: 0.5833349
   m_HasExitTime: 0
->>>>>>> Stashed changes
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -502,15 +466,6 @@ AnimatorStateMachine:
     m_Position: {x: -420, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6353005369182042159}
-<<<<<<< Updated upstream
-    m_Position: {x: 90, y: -60, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3759854517125726820}
-    m_Position: {x: 430, y: -60, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 880657449932655358}
-    m_Position: {x: 90, y: 40, z: 0}
-=======
     m_Position: {x: 670, y: 280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3759854517125726820}
@@ -518,7 +473,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 880657449932655358}
     m_Position: {x: 480, y: 130, z: 0}
->>>>>>> Stashed changes
   - serializedVersion: 1
     m_State: {fileID: -5262527700445149003}
     m_Position: {x: 560, y: 40, z: 0}
@@ -527,24 +481,16 @@ AnimatorStateMachine:
     m_StateMachine: {fileID: -2965626011585722328}
     m_Position: {x: -210, y: 290, z: 0}
   m_AnyStateTransitions:
-<<<<<<< Updated upstream
-=======
   - {fileID: 1674096861896207450}
   - {fileID: 2120605514888653584}
->>>>>>> Stashed changes
   - {fileID: 3852469762064880261}
   - {fileID: 2120605514888653584}
   - {fileID: -4469119018923469504}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-<<<<<<< Updated upstream
-  m_AnyStatePosition: {x: -130, y: 40, z: 0}
-  m_EntryPosition: {x: 130, y: 130, z: 0}
-=======
   m_AnyStatePosition: {x: 150, y: -30, z: 0}
   m_EntryPosition: {x: 150, y: 40, z: 0}
->>>>>>> Stashed changes
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 8338902898276836624}
@@ -733,16 +679,9 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-<<<<<<< Updated upstream
-  - {fileID: 7361088750459890826}
-  - {fileID: -3900495472467691758}
-  - {fileID: 8085261109026291346}
-  - {fileID: -789981890041445454}
-=======
   - {fileID: -7826663062850922404}
   - {fileID: -7140235325197583317}
   - {fileID: -4526716833952716345}
->>>>>>> Stashed changes
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -787,11 +726,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
-<<<<<<< Updated upstream
---- !u!1101 &2013737343732110602
-=======
 --- !u!1101 &1674096861896207450
->>>>>>> Stashed changes
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -800,17 +735,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-<<<<<<< Updated upstream
-    m_ConditionEvent: Sliding
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 6353005369182042159}
-=======
     m_ConditionEvent: Sprinting
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 880657449932655358}
->>>>>>> Stashed changes
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
@@ -926,11 +854,7 @@ AnimatorStateTransition:
   m_TransitionOffset: 0.07983779
   m_ExitTime: 0.5833349
   m_HasExitTime: 0
-<<<<<<< Updated upstream
-  m_HasFixedDuration: 1
-=======
   m_HasFixedDuration: 0
->>>>>>> Stashed changes
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -1122,12 +1046,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3330121705783035346}
-<<<<<<< Updated upstream
-  - {fileID: 2013737343732110602}
-=======
   - {fileID: -4074027691706451475}
   - {fileID: -4217578235356351888}
->>>>>>> Stashed changes
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -1223,11 +1143,7 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
-<<<<<<< Updated upstream
---- !u!1101 &8085261109026291346
-=======
 --- !u!1101 &7931836027018694678
->>>>>>> Stashed changes
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1236,40 +1152,6 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-<<<<<<< Updated upstream
-    m_ConditionEvent: Attack
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
-    m_ConditionEvent: Sprinting
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: -5262527700445149003}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.028714776
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9692342
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
---- !u!1101 &8101734700248654605
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: Sprinting
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 880657449932655358}
-=======
     m_ConditionEvent: Sprinting
     m_EventTreshold: 0
   - m_ConditionMode: 1
@@ -1277,22 +1159,15 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6353005369182042159}
->>>>>>> Stashed changes
   m_Solo: 0
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
   m_TransitionDuration: 0.14399345
   m_TransitionOffset: 0
-<<<<<<< Updated upstream
-  m_ExitTime: 0.875
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-=======
   m_ExitTime: 0.60894656
   m_HasExitTime: 0
   m_HasFixedDuration: 0
->>>>>>> Stashed changes
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
@@ -1308,13 +1183,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -1372428041919803266}
-<<<<<<< Updated upstream
-  - {fileID: 4922120390061611769}
-  - {fileID: 8101734700248654605}
-=======
   - {fileID: -3499446168275297065}
   - {fileID: 4922120390061611769}
->>>>>>> Stashed changes
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -1427,19 +1297,11 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-<<<<<<< Updated upstream
-  m_TransitionDuration: 0.07245761
-  m_TransitionOffset: 0
-  m_ExitTime: 0.9219129
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-=======
   m_TransitionDuration: 0.07119216
   m_TransitionOffset: 0
   m_ExitTime: 0.31492516
   m_HasExitTime: 0
   m_HasFixedDuration: 0
->>>>>>> Stashed changes
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
