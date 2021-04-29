@@ -13,6 +13,8 @@ public class CharacterAbility : MonoBehaviour
 
     [Tooltip("Dummy to be placed that enemies will shoot at")]
     public GameObject playerDummyObject;
+    [Tooltip("Particle trail effect for when the abiliy is active")]
+    public GameObject playerTrailEffect;
     [Tooltip("Time stealth lasts")]
     [Range(0f, 10f)]
     public float timeLength = 5f;
@@ -67,12 +69,24 @@ public class CharacterAbility : MonoBehaviour
 
     void UseAbility()
     {
+        // Set now as the time we used the ability
         m_TimeActivated = Time.time;
+
+        // Spawn a player dummy in our place and rotation
         GameObject dummy = Instantiate(playerDummyObject, transform.position + Vector3.up, transform.rotation);
         dummyController = dummy.GetComponent<DummyController>();
         dummyController.lifeTime = timeLength;
+
+        // Start the trail effect
+        playerTrailEffect.SetActive(true);
+
+        // Set the ability state
         m_State = AbilityState.Active;
+
+        // Unregister ourselves as an actor so enemies will stop shooting at us
         actorsManager.UnregisterActor(m_Actor);
+
+        // Set the readybar to zero (so we can't activate the ability again)
         readyBar = 0f;
     }
 
@@ -87,6 +101,9 @@ public class CharacterAbility : MonoBehaviour
                 dummyController.Kill();
                 dummyController = null;
             }
+
+            playerTrailEffect.SetActive(false);
+            
             m_TimeEnded = Time.time;
         }
     }
