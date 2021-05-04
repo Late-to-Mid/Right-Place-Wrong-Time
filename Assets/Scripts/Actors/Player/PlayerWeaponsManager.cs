@@ -68,7 +68,7 @@ public class PlayerWeaponsManager : MonoBehaviour
     private void Update()
     {
         // handle aiming down sights
-        weapon.SetAnimAimParameter(isAiming);
+        weapon.SetAnimAimParameter(isAiming, m_PlayerCharacterController.isSprinting, m_PlayerCharacterController.isSliding);
 
         weapon.HandleShootInputs(
             m_InputHandler.GetFireInputDown(),

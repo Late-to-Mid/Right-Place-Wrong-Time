@@ -10,6 +10,8 @@ public class PlayerCharacterController : MonoBehaviour
     public float killHeight = -50f;
     [Tooltip("Physic layers checked to consider the player grounded")]
     public LayerMask groundCheckLayers = -1;
+    [Tooltip("Physics layers checked for collision")]
+    public LayerMask collisionCheckLayers = -1;
     [Tooltip("distance from the bottom of the character controller capsule to test for grounded")]
     const float groundCheckDistance = 0.06f;
 
@@ -30,7 +32,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     [Header("Sensitivity")]
     [Tooltip("Rotation speed for moving the camera")]
-    public float rotationSpeed = 1f;
+    public float lookSensitivity = 1f;
     [Range(0.1f, 1f)]
     [Tooltip("Rotation speed multiplier when aiming")]
     public float aimingRotationMultiplier = 0.4f;
@@ -122,8 +124,11 @@ public class PlayerCharacterController : MonoBehaviour
             m_Health.Kill();
         }
 
-        Move();
-        Look();
+        if (CanProcessInput())
+        {
+            Move();
+            Look();
+        }
     }
 
     void Move()
@@ -142,6 +147,7 @@ public class PlayerCharacterController : MonoBehaviour
         // Update the character height (but do not force it)
         // This should be an update function, not an input function
         // So that the character height can change smoothly over time
+        SetCrouchingState(isCrouching, false);
         UpdateCharacterHeight(false);
 
         // converts move input to a worldspace vector based on our character's transform orientation
@@ -170,7 +176,7 @@ public class PlayerCharacterController : MonoBehaviour
         }
 
         // detect obstructions to adjust velocity accordingly
-        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, m_CharacterVelocity.normalized, out RaycastHit hit, m_CharacterVelocity.magnitude * Time.deltaTime, -1, QueryTriggerInteraction.Ignore))
+        if (Physics.CapsuleCast(capsuleBottomBeforeMove, capsuleTopBeforeMove, m_Controller.radius, m_CharacterVelocity.normalized, out RaycastHit hit, m_CharacterVelocity.magnitude * Time.deltaTime, collisionCheckLayers, QueryTriggerInteraction.Ignore))
         {
             m_CharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, hit.normal);
         }
@@ -183,13 +189,13 @@ public class PlayerCharacterController : MonoBehaviour
         // horizontal character rotation
         {
             // rotate the transform with the input speed around its local Y axis
-            transform.Rotate(new Vector3(0f, (lookInput.x * rotationSpeed * RotationMultiplier), 0f), Space.Self);
+            transform.Rotate(new Vector3(0f, (lookInput.x * lookSensitivity * RotationMultiplier), 0f), Space.Self);
         }
 
         // vertical camera rotation
         {
             // add vertical inputs to the camera's vertical angle
-            m_CameraVerticalAngle += -lookInput.y * rotationSpeed * RotationMultiplier;
+            m_CameraVerticalAngle += -lookInput.y * lookSensitivity * RotationMultiplier;
 
             // limit the camera's vertical angle to min/max
             m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
@@ -337,9 +343,14 @@ public class PlayerCharacterController : MonoBehaviour
         return false;
     }
 
+    public bool CanProcessInput()
+    {
+        return Cursor.lockState == CursorLockMode.Locked;
+    }
+
     public void OnLook(InputAction.CallbackContext context)
     {
-        lookInput = context.ReadValue<Vector2>(); ;
+        lookInput = context.ReadValue<Vector2>();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -350,7 +361,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && CanProcessInput())
         {
             isSprinting = !isSprinting;
         }
@@ -358,17 +369,15 @@ public class PlayerCharacterController : MonoBehaviour
 
     public void OnCouch(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.phase == InputActionPhase.Performed && CanProcessInput())
         {
             isCrouching = !isCrouching;
-
-            SetCrouchingState(isCrouching, false);
         }
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (CanProcessInput() && context.phase == InputActionPhase.Performed)
         {
             if (isGrounded)
             {
