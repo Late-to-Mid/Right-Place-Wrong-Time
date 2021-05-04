@@ -10,6 +10,7 @@ public class ThrowGrenadeAbility : MonoBehaviour
     public float readyBar { get; private set; }
 
     public GameObject grenade;
+    public Camera playerCamera;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class ThrowGrenadeAbility : MonoBehaviour
         {
             GameObject thrown_grenade = Instantiate(grenade, transform.position + Vector3.up * 1.4f, transform.rotation);
             Rigidbody rb = thrown_grenade.GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * throwForce);
+            rb.AddForce(playerCamera.transform.forward * throwForce);
             m_TimeLastUsed = Time.time;
         }
     }

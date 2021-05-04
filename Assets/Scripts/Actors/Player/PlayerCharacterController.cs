@@ -388,7 +388,7 @@ public class PlayerCharacterController : MonoBehaviour
                 m_CharacterVelocity += Vector3.up * jumpForce;
 
                 // play sound
-                audioSource.PlayOneShot(jumpSFX);
+                // audioSource.PlayOneShot(jumpSFX);
 
                 // remember last time we jumped because we need to prevent snapping to ground for a short time
                 m_LastTimeJumped = Time.time;

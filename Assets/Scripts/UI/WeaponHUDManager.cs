@@ -8,20 +8,11 @@ public class WeaponHUDManager : MonoBehaviour
     [Tooltip("Prefab for displaying weapon ammo")]
     public GameObject ammoCounterPrefab;
 
-    PlayerWeaponsManager m_PlayerWeaponsManager;
     List<AmmoCounter> m_AmmoCounters = new List<AmmoCounter>();
 
-    void Start()
+    public void AddWeapon(WeaponController weapon)
     {
-        m_PlayerWeaponsManager = FindObjectOfType<PlayerWeaponsManager>();
-
-        m_PlayerWeaponsManager.onAddedWeapon += AddWeapon;
-
-    }
-
-    void AddWeapon(WeaponController weapon)
-    {
-        WeaponController activeWeapon = m_PlayerWeaponsManager.weapon;
+        WeaponController activeWeapon = weapon;
 
         GameObject ammoCounterInstance = Instantiate(ammoCounterPrefab, ammosPanel);
         AmmoCounter newAmmoCounter = ammoCounterInstance.GetComponent<AmmoCounter>();
