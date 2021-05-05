@@ -359,17 +359,33 @@ public class PlayerCharacterController : MonoBehaviour
         moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
     }
 
-    public void OnSprint(InputAction.CallbackContext context)
+    public void OnSprintHold(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed && CanProcessInput())
+        if (context.performed && CanProcessInput())
+        {
+            isSprinting = context.ReadValueAsButton();
+        }
+    }
+
+    public void OnSprintToggle(InputAction.CallbackContext context)
+    {
+        if (context.performed && CanProcessInput())
         {
             isSprinting = !isSprinting;
         }
     }
 
-    public void OnCouch(InputAction.CallbackContext context)
+    public void OnCouchHold(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed && CanProcessInput())
+        if (context.performed && CanProcessInput())
+        {
+            isCrouching = context.ReadValueAsButton();
+        }
+    }
+
+    public void OnCrouchToggle(InputAction.CallbackContext context)
+    {
+        if (context.performed && CanProcessInput())
         {
             isCrouching = !isCrouching;
         }
@@ -377,7 +393,7 @@ public class PlayerCharacterController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (CanProcessInput() && context.phase == InputActionPhase.Performed)
+        if (CanProcessInput() && context.performed)
         {
             if (isGrounded)
             {
