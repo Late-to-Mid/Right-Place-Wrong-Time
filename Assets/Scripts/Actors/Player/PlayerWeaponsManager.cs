@@ -49,7 +49,6 @@ public class PlayerWeaponsManager : MonoBehaviour
     Vector3 m_WeaponBobLocalPosition;
     Vector3 m_WeaponRecoilLocalPosition;
     Vector3 m_AccumulatedRecoil;
-    WeaponHUDManager weaponHUDManager;
     public WeaponController weapon { get; private set; }
 
     public UnityAction<WeaponController> onAddedWeapon;
@@ -59,8 +58,6 @@ public class PlayerWeaponsManager : MonoBehaviour
         m_InputHandler = GetComponent<PlayerInputHandler>();
 
         m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
-
-        weaponHUDManager = FindObjectOfType<WeaponHUDManager>();
 
         SetFOV(defaultFOV);
 
@@ -185,6 +182,7 @@ public class PlayerWeaponsManager : MonoBehaviour
             t.gameObject.layer = layerIndex;
         }
 
+        WeaponHUDManager weaponHUDManager = FindObjectOfType<WeaponHUDManager>();
         weaponHUDManager.AddWeapon(weapon);
     }
 
