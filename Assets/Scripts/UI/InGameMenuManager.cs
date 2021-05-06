@@ -12,6 +12,8 @@ public class InGameMenuManager : MonoBehaviour
     public float volumeWhenMenuOpen = 0.5f;
     [Tooltip("Slider component for look sensitivity")]
     public Slider lookSensitivitySlider;
+    [Tooltip("Input Text field for sensitivity")]
+    public TMPro.TMP_InputField lookSensitivityInput;
     [Tooltip("Toggle component for invincibility")]
     public Toggle invincibilityToggle;
     [Tooltip("Toggle component for framerate display")]
@@ -74,9 +76,14 @@ public class InGameMenuManager : MonoBehaviour
 
     }
 
-    void OnMouseSensitivityChanged(float newValue)
+    public void OnMouseSensitivityChangedInput(string stringValue)
     {
-        m_PlayerInputHandler.lookSensitivity = newValue;
+        if (stringValue != null)
+        {
+            float newValue = float.Parse(stringValue);
+            m_PlayerInputHandler.lookSensitivity = newValue;
+            lookSensitivitySlider.value = newValue;
+        }
     }
 
     void OnShadowsChanged(bool newValue)
@@ -107,6 +114,7 @@ public class InGameMenuManager : MonoBehaviour
         if (m_PlayerCharacterController)
         {
             m_PlayerCharacterController.lookSensitivity = lookSensitivitySlider.value;
+            lookSensitivityInput.text = lookSensitivitySlider.value.ToString();
         }
     }
 }
