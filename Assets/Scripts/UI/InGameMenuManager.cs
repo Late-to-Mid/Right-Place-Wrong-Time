@@ -78,12 +78,12 @@ public class InGameMenuManager : MonoBehaviour
 
     public void OnMouseSensitivityChangedInput(string stringValue)
     {
-        if (stringValue != null)
-        {
-            float newValue = float.Parse(stringValue);
-            m_PlayerInputHandler.lookSensitivity = newValue;
-            lookSensitivitySlider.value = newValue;
-        }
+        // if (stringValue != null)
+        // {
+        //     float newValue = float.Parse(stringValue);
+        //     m_PlayerInputHandler.lookSensitivity = newValue;
+        //     lookSensitivitySlider.value = newValue;
+        // }
     }
 
     void OnShadowsChanged(bool newValue)
