@@ -415,7 +415,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6334903113817078142}
-        m_MethodName: OnCouch
+        m_MethodName: OnCouchHold
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -430,7 +430,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6334903113817078142}
-        m_MethodName: OnSprint
+        m_MethodName: OnSprintToggle
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -557,6 +557,40 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 685d8706-26b7-4b0b-9f38-b62864fce73e
     m_ActionName: Player/Pause[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6334903113817078142}
+        m_MethodName: OnCrouchToggle
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a383c023-2cce-49d8-8481-fa5316f9da85
+    m_ActionName: Player/CrouchToggle[/Keyboard/leftCtrl]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fa862e5f-4368-44bc-8971-0acbcc2db9b4
+    m_ActionName: Player/AimHold[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6334903113817078142}
+        m_MethodName: OnSprintHold
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5bc665f0-3977-4cab-9c45-4a68d07aa881
+    m_ActionName: Player/SprintHold[/Keyboard/leftShift]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
