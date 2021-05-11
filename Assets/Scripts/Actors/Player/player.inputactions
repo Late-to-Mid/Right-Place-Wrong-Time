@@ -30,6 +30,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "AimHold",
+                    "type": "Button",
+                    "id": "fa862e5f-4368-44bc-8971-0acbcc2db9b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "AimToggle",
                     "type": "Button",
                     "id": "2baae611-ebb6-41b1-be6a-76d1ff65aa55",
@@ -41,6 +49,22 @@
                     "name": "CrouchHold",
                     "type": "Button",
                     "id": "9c48f597-ae29-463b-a693-0e6b5c1eaa0d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "CrouchToggle",
+                    "type": "Button",
+                    "id": "a383c023-2cce-49d8-8481-fa5316f9da85",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "SprintHold",
+                    "type": "Button",
+                    "id": "5bc665f0-3977-4cab-9c45-4a68d07aa881",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -319,7 +343,7 @@
                     "name": "",
                     "id": "c461c54e-1667-45f1-af2a-01dcdd11caf3",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "AimToggle",
@@ -340,8 +364,8 @@
                 {
                     "name": "",
                     "id": "e5295e7f-6d5f-467b-888c-a285f764943f",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
+                    "path": "<Keyboard>/z",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "SprintToggle",
@@ -400,6 +424,39 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5b559313-19af-40e0-8e12-701397c6f705",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CrouchToggle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "118e2bce-8c6c-4229-abbf-bea7af2f2312",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "AimHold",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6bcc87ce-f518-409f-b244-5aedb35665be",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "Press(behavior=2)",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SprintHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

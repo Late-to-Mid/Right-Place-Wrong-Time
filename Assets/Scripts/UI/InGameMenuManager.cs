@@ -12,6 +12,8 @@ public class InGameMenuManager : MonoBehaviour
     public float volumeWhenMenuOpen = 0.5f;
     [Tooltip("Slider component for look sensitivity")]
     public Slider lookSensitivitySlider;
+    [Tooltip("Input Text field for sensitivity")]
+    public TMPro.TMP_InputField lookSensitivityInput;
     [Tooltip("Toggle component for invincibility")]
     public Toggle invincibilityToggle;
     [Tooltip("Toggle component for framerate display")]
@@ -19,12 +21,21 @@ public class InGameMenuManager : MonoBehaviour
     [Tooltip("GameObject for the controls")]
     public GameObject controlImage;
 
+    [Header("Tabs for menu navigation")]
+    [Tooltip("General Menu")]
+    public GameObject menuGeneral;
+    [Tooltip("Controls Menu")]
+    public GameObject menuControls;
+    
+
     PlayerInputHandler m_PlayerInputHandler;
     PlayerCharacterController m_PlayerCharacterController;
     Health m_PlayerHealth;
     FramerateCounter m_FramerateCounter;
 
     public UnityAction<bool> onPause;
+
+    GameObject activeMenu;
 
     void Start()
     {
@@ -37,6 +48,9 @@ public class InGameMenuManager : MonoBehaviour
         m_FramerateCounter = FindObjectOfType<FramerateCounter>();
 
         menuRoot.SetActive(false);
+        menuGeneral.SetActive(true);
+        menuControls.SetActive(false);
+        activeMenu = menuGeneral;
     }
     public void OnMenu(InputAction.CallbackContext context)
     {
@@ -74,9 +88,14 @@ public class InGameMenuManager : MonoBehaviour
 
     }
 
-    void OnMouseSensitivityChanged(float newValue)
+    public void OnMouseSensitivityChangedInput(string stringValue)
     {
-        m_PlayerInputHandler.lookSensitivity = newValue;
+        // if (stringValue != null)
+        // {
+        //     float newValue = float.Parse(stringValue);
+        //     m_PlayerInputHandler.lookSensitivity = newValue;
+        //     lookSensitivitySlider.value = newValue;
+        // }
     }
 
     void OnShadowsChanged(bool newValue)
@@ -97,16 +116,32 @@ public class InGameMenuManager : MonoBehaviour
         m_FramerateCounter.uiText.gameObject.SetActive(newValue);
     }
 
-    public void OnShowControlButtonClicked(bool show)
-    {
-        controlImage.SetActive(show);
-    }
-
     public void OnSensitivityValueChanged()
     {
         if (m_PlayerCharacterController)
         {
             m_PlayerCharacterController.lookSensitivity = lookSensitivitySlider.value;
+            lookSensitivityInput.text = lookSensitivitySlider.value.ToString();
+        }
+    }
+
+    public void OnGeneralMenuClicked()
+    {
+        if (activeMenu != menuGeneral)
+        {
+            activeMenu.SetActive(false);
+            menuGeneral.SetActive(true);
+            activeMenu = menuGeneral;
+        }
+    }
+
+    public void OnControlsMenuClicked()
+    {
+        if (activeMenu != menuControls)
+        {
+            activeMenu.SetActive(false);
+            menuControls.SetActive(true);
+            activeMenu = menuControls;
         }
     }
 }
