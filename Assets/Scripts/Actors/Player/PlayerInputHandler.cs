@@ -15,6 +15,8 @@ public class PlayerInputHandler : MonoBehaviour
     [Tooltip("Used to flip the horizontal input axis")]
     public bool invertXAxis = false;
 
+    public InputActionReference[] playActions;
+
     // [Header("Movement Options")]
     // [Tooltip("Make crouching a toggle (default false)")]
     // public bool crouchIsToggle = false;
@@ -25,6 +27,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     bool Firing;
     bool m_FireInputWasHeld;
+    bool inMenu = false;
 
     // GameFlowManager m_GameFlowManager;
     PlayerWeaponsManager m_PlayerWeaponsManager;
@@ -106,8 +109,25 @@ public class PlayerInputHandler : MonoBehaviour
 
     public void OnMenu(InputAction.CallbackContext context)
     {
+        inMenu = !inMenu;
+
         if (onMenu != null)
         {
+            if (inMenu)
+            {
+                foreach (InputActionReference ele in playActions)
+                {
+                    ele.action.Disable();
+                }
+            }
+            else
+            {
+                foreach (InputActionReference ele in playActions)
+                {
+                    ele.action.Enable();
+                }
+            }
+
             onMenu.Invoke(context);
         }
     }
