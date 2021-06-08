@@ -13,7 +13,7 @@ public class InGameMenuManager : MonoBehaviour
     [Tooltip("Slider component for look sensitivity")]
     public Slider lookSensitivitySlider;
     [Tooltip("Input Text field for sensitivity")]
-    public TMPro.TMP_InputField lookSensitivityInput;
+    public InputField lookSensitivityInput;
     [Tooltip("Toggle component for invincibility")]
     public Toggle invincibilityToggle;
     [Tooltip("Toggle component for framerate display")]
@@ -51,6 +51,8 @@ public class InGameMenuManager : MonoBehaviour
         menuGeneral.SetActive(true);
         menuControls.SetActive(false);
         activeMenu = menuGeneral;
+
+        LoadSensitivityValue();
     }
     public void OnMenu(InputAction.CallbackContext context)
     {
@@ -88,16 +90,6 @@ public class InGameMenuManager : MonoBehaviour
 
     }
 
-    public void OnMouseSensitivityChangedInput(string stringValue)
-    {
-        // if (stringValue != null)
-        // {
-        //     float newValue = float.Parse(stringValue);
-        //     m_PlayerInputHandler.lookSensitivity = newValue;
-        //     lookSensitivitySlider.value = newValue;
-        // }
-    }
-
     void OnShadowsChanged(bool newValue)
     {
         QualitySettings.shadows = newValue ? ShadowQuality.All : ShadowQuality.Disable;
@@ -123,6 +115,37 @@ public class InGameMenuManager : MonoBehaviour
             m_PlayerCharacterController.lookSensitivity = lookSensitivitySlider.value;
             lookSensitivityInput.text = lookSensitivitySlider.value.ToString();
         }
+
+        SaveSensitivityValue();
+    }
+
+    public void OnMouseSensitivityChangedInput()
+    {
+        string stringValue = lookSensitivityInput.text;
+        if (stringValue != null)
+        {
+            float newValue = float.Parse(stringValue);
+            m_PlayerCharacterController.lookSensitivity = newValue;
+            lookSensitivitySlider.value = newValue;
+        }
+
+        SaveSensitivityValue();
+    }
+
+    void SaveSensitivityValue()
+    {
+        if (m_PlayerCharacterController)
+        {
+            PlayerPrefs.SetFloat("Mouse Sensitivity", m_PlayerCharacterController.lookSensitivity);        
+        }
+    }
+
+    void LoadSensitivityValue()
+    {
+        float lookSensitivity = PlayerPrefs.GetFloat("Mouse Sensitivity", 1);
+        m_PlayerCharacterController.lookSensitivity = lookSensitivity;
+        lookSensitivitySlider.value = lookSensitivity;
+        lookSensitivityInput.text = lookSensitivity.ToString();
     }
 
     public void OnGeneralMenuClicked()
