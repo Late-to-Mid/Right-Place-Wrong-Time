@@ -794,7 +794,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 56.6
   m_fontSizeBase: 12
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6324,7 +6324,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Z
+      value: Shift
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -6816,7 +6816,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Shift
+      value: Backspace
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7554,7 +7554,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press RMB
+      value: Press Backspace
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -8046,7 +8046,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: C
+      value: C [Keyboard]
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -8069,6 +8069,11 @@ PrefabInstance:
       propertyPath: m_RebindOverlay
       value: 
       objectReference: {fileID: 5286981082012234144}
+    - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
+        type: 3}
+      propertyPath: m_DisplayStringOptions
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4144614242073959112, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_AnchorMax.y
