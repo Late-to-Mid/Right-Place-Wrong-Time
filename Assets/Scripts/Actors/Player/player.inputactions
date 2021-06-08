@@ -342,7 +342,7 @@
                 {
                     "name": "",
                     "id": "c461c54e-1667-45f1-af2a-01dcdd11caf3",
-                    "path": "<Mouse>/rightButton",
+                    "path": "<Keyboard>/backspace",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -364,7 +364,7 @@
                 {
                     "name": "",
                     "id": "e5295e7f-6d5f-467b-888c-a285f764943f",
-                    "path": "<Keyboard>/z",
+                    "path": "<Keyboard>/capsLock",
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
