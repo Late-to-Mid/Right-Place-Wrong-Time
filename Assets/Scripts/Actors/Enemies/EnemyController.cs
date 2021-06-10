@@ -283,7 +283,7 @@ public class EnemyController : MonoBehaviour
         m_CurrentWeapon.transform.forward = weaponForward;
     }
 
-    public bool TryAtack(Vector3 enemyPosition)
+    public bool TryAttack(Vector3 enemyPosition)
     {
         // if (m_GameFlowManager.gameIsEnding)
         //     return false;

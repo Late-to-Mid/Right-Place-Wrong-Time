@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
+
 
 [RequireComponent(typeof(Actor))]
 public class CharacterAbility : MonoBehaviour
@@ -31,6 +33,9 @@ public class CharacterAbility : MonoBehaviour
     Actor m_Actor;
     ActorsManager actorsManager;
     PlayerInputHandler m_PlayerInputHandler;
+
+    public UnityAction onAbilityUsed;
+    public UnityAction onAbilityOver;
 
     // Start is called before the first frame update
     void Start()
@@ -69,6 +74,11 @@ public class CharacterAbility : MonoBehaviour
 
     void UseAbility()
     {
+        if (onAbilityUsed != null)
+        {
+            onAbilityUsed.Invoke();
+        }
+
         // Set now as the time we used the ability
         m_TimeActivated = Time.time;
 
@@ -105,6 +115,11 @@ public class CharacterAbility : MonoBehaviour
             playerTrailEffect.SetActive(false);
             
             m_TimeEnded = Time.time;
+
+            if (onAbilityOver != null)
+            {
+                onAbilityOver.Invoke();
+            }
         }
     }
 

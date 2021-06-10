@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 public class Health : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class Health : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+
+        StartCoroutine("PassiveRegen");
     }
 
     public void Heal(float healAmount)
@@ -85,6 +88,16 @@ public class Health : MonoBehaviour
                 m_IsDead = true;
                 onDie.Invoke();
             }
+        }
+    }
+
+    IEnumerator PassiveRegen()
+    {
+        while (!m_IsDead)
+        {
+            float healAmount = maxHealth * 0.01f;
+            Heal(healAmount);
+            yield return new WaitForSeconds(1);
         }
     }
 }
