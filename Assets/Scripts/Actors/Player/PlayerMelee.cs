@@ -5,7 +5,8 @@ using UnityEngine.InputSystem;
 
 public class PlayerMelee : MonoBehaviour
 {
-    public GameObject weapon;
+    public float damage = 50f;
+    public float healAmount = 50f;
     public LayerMask hittableLayers = -1;
 
     Health m_Health;
@@ -14,7 +15,7 @@ public class PlayerMelee : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        m_Health = GetComponent<Health>();   
+        m_Health = GetComponent<Health>();
     }
 
     // Update is called once per frame
@@ -25,11 +26,19 @@ public class PlayerMelee : MonoBehaviour
 
     public void Melee(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed && Cursor.lockState == CursorLockMode.Locked)
+        Debug.Log("melee");
+        if (context.phase == InputActionPhase.Performed)
         {
-            weapon.transform.Translate(0f, 0f, 0.5f, weapon.transform);
             Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
-
+            foreach (Collider collider in colliders) 
+            {
+                if (collider.GetComponent<Damageable>() != null)
+                {
+                    Damageable damageable = collider.GetComponent<Damageable>();
+                    damageable.InflictDamage(damage, false, gameObject);
+                    m_Health.Heal(healAmount);
+                }
+            }
         }
     }
 }

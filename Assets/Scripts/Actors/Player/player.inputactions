@@ -472,7 +472,7 @@
                     "name": "",
                     "id": "69e5d824-1864-418a-a632-449fd4c9d115",
                     "path": "<Keyboard>/f",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Melee",
