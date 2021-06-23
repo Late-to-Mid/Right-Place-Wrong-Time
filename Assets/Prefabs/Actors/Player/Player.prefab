@@ -741,7 +741,7 @@ MonoBehaviour:
   moveInput: {x: 0, y: 0, z: 0}
   lookInput: {x: 0, y: 0}
   jumpSFX: {fileID: 0}
-  playerCamera: {fileID: 0}
+  playerCamera: {fileID: 6334903112852522063}
 --- !u!114 &8338677424337247554
 MonoBehaviour:
   m_ObjectHideFlags: 0
