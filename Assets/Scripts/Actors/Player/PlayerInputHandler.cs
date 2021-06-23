@@ -53,25 +53,39 @@ namespace PlayerScripts
             m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
         }
 
-        public bool CanProcessInput()
-        {
-            return Cursor.lockState == CursorLockMode.Locked;
-        }
-
         private void LateUpdate()
         {
             m_FireInputWasHeld = Firing;
         }
 
+        public bool CanProcessInput()
+        {
+            return Cursor.lockState == CursorLockMode.Locked;
+        }
+
         public void OnLook(InputAction.CallbackContext context)
         {
-            m_PlayerCharacterController.lookInput = context.ReadValue<Vector2>();
+            if (CanProcessInput())
+            {
+                m_PlayerCharacterController.lookInput = context.ReadValue<Vector2>();
+            }
+            else
+            {
+                m_PlayerCharacterController.lookInput = new Vector2(0, 0);
+            }
         }
 
         public void OnMove(InputAction.CallbackContext context)
         {
-            Vector2 moveInput2d = context.ReadValue<Vector2>();
-            m_PlayerCharacterController.moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
+            if (CanProcessInput())
+            {
+                Vector2 moveInput2d = context.ReadValue<Vector2>();
+                m_PlayerCharacterController.moveInput = new Vector3(moveInput2d.x, 0, moveInput2d.y);
+            }
+            else
+            {
+                m_PlayerCharacterController.moveInput = new Vector2(0, 0);
+            }
         }
 
         public void OnSprintHold(InputAction.CallbackContext context)
