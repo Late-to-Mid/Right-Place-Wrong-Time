@@ -37,6 +37,7 @@ namespace PlayerScripts
         PlayerCharacterController m_PlayerCharacterController;
         PlayerWeaponsManager m_PlayerWeaponsManager;
         PlayerAbilityBase m_PlayerAbility;
+        PlayerMelee m_PlayerMelee;
 
         public UnityAction<InputAction.CallbackContext> onMenu;
 
@@ -51,6 +52,7 @@ namespace PlayerScripts
             m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
             m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
             m_PlayerAbility = GetComponent<PlayerAbilityBase>();
+            m_PlayerMelee = GetComponent<PlayerMelee>();
         }
 
         private void LateUpdate()
@@ -150,11 +152,20 @@ namespace PlayerScripts
 
         public void OnAbility(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed && Cursor.lockState == CursorLockMode.Locked)
+            if (context.performed && CanProcessInput())
             {
                 m_PlayerAbility.CheckToUseAbility();
             }
         }
+
+        public void OnMelee(InputAction.CallbackContext context)
+        {
+            if (context.performed && CanProcessInput())
+            {
+                m_PlayerMelee.Melee();
+            }
+        }
+
 
         public bool GetFireInputHeld()
         {

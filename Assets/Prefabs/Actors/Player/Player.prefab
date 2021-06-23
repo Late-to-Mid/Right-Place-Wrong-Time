@@ -670,8 +670,8 @@ MonoBehaviour:
     m_ActionName: Player/SprintHold[/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1609560544047481798}
-        m_MethodName: Melee
+      - m_Target: {fileID: 8338677424337247554}
+        m_MethodName: OnMelee
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
