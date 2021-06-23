@@ -359,14 +359,14 @@ GameObject:
   - component: {fileID: 6334903113817078143}
   - component: {fileID: 6123316803130869462}
   - component: {fileID: 6334903113817078112}
-  - component: {fileID: 60492024002433571}
-  - component: {fileID: 6334903113817078142}
+  - component: {fileID: 6589617461294021600}
+  - component: {fileID: 8338677424337247554}
   - component: {fileID: 6334903113817078117}
   - component: {fileID: 6334903113817078114}
   - component: {fileID: 6334903113817078115}
   - component: {fileID: 5590805953635055263}
-  - component: {fileID: 5138014119724375689}
   - component: {fileID: 6341863466867747127}
+  - component: {fileID: 3292646968472965525}
   - component: {fileID: 1609560544047481798}
   m_Layer: 10
   m_Name: Player
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6334903113817078142}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -435,7 +435,7 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6334903113817078142}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnLook
         m_Mode: 0
         m_Arguments:
@@ -450,7 +450,7 @@ MonoBehaviour:
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnShoot
         m_Mode: 0
         m_Arguments:
@@ -465,7 +465,7 @@ MonoBehaviour:
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnAim
         m_Mode: 0
         m_Arguments:
@@ -480,8 +480,8 @@ MonoBehaviour:
     m_ActionName: Player/Aim[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6334903113817078142}
-        m_MethodName: OnCouchHold
+      - m_Target: {fileID: 8338677424337247554}
+        m_MethodName: OnCrouchToggle
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -495,7 +495,7 @@ MonoBehaviour:
     m_ActionName: Player/Crouch[/Keyboard/c]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6334903113817078142}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnSprintToggle
         m_Mode: 0
         m_Arguments:
@@ -510,7 +510,7 @@ MonoBehaviour:
     m_ActionName: Player/Sprint[/Keyboard/leftShift]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnReload
         m_Mode: 0
         m_Arguments:
@@ -525,7 +525,7 @@ MonoBehaviour:
     m_ActionName: Player/Reload[/Keyboard/r]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5138014119724375689}
+      - m_Target: {fileID: 3292646968472965525}
         m_MethodName: OnAbility
         m_Mode: 0
         m_Arguments:
@@ -595,7 +595,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6334903113817078142}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -610,7 +610,7 @@ MonoBehaviour:
     m_ActionName: Player/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 60492024002433571}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnMenu
         m_Mode: 0
         m_Arguments:
@@ -625,7 +625,7 @@ MonoBehaviour:
     m_ActionName: Player/Pause[/Keyboard/tab]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6334903113817078142}
+      - m_Target: {fileID: 8338677424337247554}
         m_MethodName: OnCrouchToggle
         m_Mode: 0
         m_Arguments:
@@ -639,13 +639,24 @@ MonoBehaviour:
     m_ActionId: a383c023-2cce-49d8-8481-fa5316f9da85
     m_ActionName: Player/CrouchToggle[/Keyboard/leftCtrl]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8338677424337247554}
+        m_MethodName: OnAim
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: fa862e5f-4368-44bc-8971-0acbcc2db9b4
     m_ActionName: Player/AimHold[/Mouse/rightButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6334903113817078142}
-        m_MethodName: OnSprintHold
+      - m_Target: {fileID: 8338677424337247554}
+        m_MethodName: OnSprintToggle
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -658,7 +669,18 @@ MonoBehaviour:
     m_ActionId: 5bc665f0-3977-4cab-9c45-4a68d07aa881
     m_ActionName: Player/SprintHold[/Keyboard/leftShift]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1609560544047481798}
+        m_MethodName: Melee
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: b47f2356-1931-4021-9f17-5c46bc50ff68
     m_ActionName: Player/Melee[/Keyboard/f]
   m_NeverAutoSwitchControlSchemes: 0
@@ -684,7 +706,43 @@ CharacterController:
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &60492024002433571
+--- !u!114 &6589617461294021600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334903113817078140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6544379ef186d8b44aa54fdd8682624c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  killHeight: -50
+  groundCheckLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  collisionCheckLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  walkSpeed: 8
+  sprintSpeedRatio: 1.5
+  lookSensitivity: 1
+  aimingRotationMultiplier: 0.4
+  m_CharacterVelocity: {x: 0, y: 0, z: 0}
+  horizontalCharacterVelocity: 0
+  isGrounded: 0
+  isSprinting: 0
+  isCrouching: 0
+  isSliding: 0
+  isDead: 0
+  inCollider: 0
+  isVaulting: 0
+  moveInput: {x: 0, y: 0, z: 0}
+  lookInput: {x: 0, y: 0}
+  jumpSFX: {fileID: 0}
+  playerCamera: {fileID: 0}
+--- !u!114 &8338677424337247554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -701,54 +759,7 @@ MonoBehaviour:
   triggerAxisThreshold: 0.4
   invertYAxis: 0
   invertXAxis: 0
-  playActions:
-  - {fileID: 250100397929313716, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: -3055606846093191019, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: 1796520139347809431, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: -4463350769125065859, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: -2113018962382279128, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: -6113669777879173743, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: -2083820902829432362, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: 6836268635780022845, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: -942942483898749846, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: 8012941318583229371, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: 4551791092244279694, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: -2848241301843081106, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
-  - {fileID: 4847176568017563774, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
---- !u!114 &6334903113817078142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6334903113817078140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6544379ef186d8b44aa54fdd8682624c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  killHeight: -50
-  groundCheckLayers:
-    serializedVersion: 2
-    m_Bits: 769
-  collisionCheckLayers:
-    serializedVersion: 2
-    m_Bits: 2065
-  walkSpeed: 8
-  sprintSpeedRatio: 1.5
-  lookSensitivity: 0.25
-  aimingRotationMultiplier: 0.4
-  m_CharacterVelocity: {x: 0, y: 0, z: 0}
-  horizontalCharacterVelocity: 0
-  isGrounded: 0
-  isSprinting: 0
-  isCrouching: 0
-  isSliding: 0
-  isDead: 0
-  inCollider: 0
-  isVaulting: 0
-  jumpSFX: {fileID: 8300000, guid: 5388ac1fc37808f449ffc6bd03c45893, type: 3}
-  playerCamera: {fileID: 6334903112852522063}
+  playActions: []
 --- !u!114 &6334903113817078117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,24 +834,6 @@ MonoBehaviour:
   throwForce: 600
   grenade: {fileID: 2429262466265052374, guid: 15b5f2551715bcf449b2f7c961994a4e, type: 3}
   playerCamera: {fileID: 6334903112852522063}
---- !u!114 &5138014119724375689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6334903113817078140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50fb1d25aa9ec8c4695e3c2b1a9c36b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerDummyObject: {fileID: 7759714358863529581, guid: 1fa97897db96eb44293c0dc215655392,
-    type: 3}
-  playerTrailEffect: {fileID: 444269249}
-  timeLength: 5
-  cooldown: 5
-  dummyController: {fileID: 0}
 --- !u!114 &6341863466867747127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -856,6 +849,25 @@ MonoBehaviour:
   damageMultiplier: 1
   sensibilityToSelfdamage: 0.5
   armor: 0
+--- !u!114 &3292646968472965525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334903113817078140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f89dbbb3dc3bd6479b44b14d0a659dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDummyObject: {fileID: 7759714358863529581, guid: 1fa97897db96eb44293c0dc215655392,
+    type: 3}
+  playerTrailEffect: {fileID: 7367500099950655889, guid: cf1e9887df94c8249bf35aadafc99739,
+    type: 3}
+  timeLength: 5
+  cooldown: 5
+  dummyController: {fileID: 0}
 --- !u!114 &1609560544047481798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +880,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf6da2f0e83ea44c8bd8a18066f6b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon: {fileID: 0}
+  damage: 50
+  healAmount: 50
   hittableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1016,12 +1029,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cf1e9887df94c8249bf35aadafc99739, type: 3}
---- !u!1 &444269249 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7367500099950655889, guid: cf1e9887df94c8249bf35aadafc99739,
-    type: 3}
-  m_PrefabInstance: {fileID: 7367500100388371280}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &444269250 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7367500099950655890, guid: cf1e9887df94c8249bf35aadafc99739,
