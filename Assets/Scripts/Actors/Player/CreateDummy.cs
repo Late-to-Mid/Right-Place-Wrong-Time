@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
-using UnityEngine.InputSystem;
 using PlayerScripts;
+
+namespace PlayerScripts
+{
+
+}
 public class CreateDummy : PlayerAbilityBase
 {
     [Tooltip("Dummy to be placed that enemies will shoot at")]
@@ -34,7 +38,7 @@ public class CreateDummy : PlayerAbilityBase
         }
     }
 
-    public void CheckToUseAbility()
+    public override void CheckToUseAbility()
     {
         if (m_State == AbilityState.Ready)
         {
@@ -100,14 +104,6 @@ public class CreateDummy : PlayerAbilityBase
         {
             m_State = AbilityState.Ready;
             readyBar = 1f;
-        }
-    }
-
-    public void OnAbility(InputAction.CallbackContext context)
-    {
-        if (context.phase == InputActionPhase.Performed && Cursor.lockState == CursorLockMode.Locked)
-        {
-            CheckToUseAbility();
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Events;
-using PlayerScripts;
 
 namespace PlayerScripts
 {
@@ -37,7 +36,7 @@ namespace PlayerScripts
         // GameFlowManager m_GameFlowManager;
         PlayerCharacterController m_PlayerCharacterController;
         PlayerWeaponsManager m_PlayerWeaponsManager;
-
+        PlayerAbilityBase m_PlayerAbility;
 
         public UnityAction<InputAction.CallbackContext> onMenu;
 
@@ -51,6 +50,7 @@ namespace PlayerScripts
 
             m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
             m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
+            m_PlayerAbility = GetComponent<PlayerAbilityBase>();
         }
 
         private void LateUpdate()
@@ -88,15 +88,7 @@ namespace PlayerScripts
             }
         }
 
-        public void OnSprintHold(InputAction.CallbackContext context)
-        {
-            if (context.performed && CanProcessInput())
-            {
-                m_PlayerCharacterController.isSprinting = context.ReadValueAsButton();
-            }
-        }
-
-        public void OnSprintToggle(InputAction.CallbackContext context)
+        public void OnSprint(InputAction.CallbackContext context)
         {
             if (context.performed && CanProcessInput())
             {
@@ -104,15 +96,15 @@ namespace PlayerScripts
             }
         }
 
-        public void OnCouchHold(InputAction.CallbackContext context)
-        {
-            if (context.performed && CanProcessInput())
-            {
-                m_PlayerCharacterController.isCrouching = context.ReadValueAsButton();
-            }
-        }
+        // public void OnCouchHold(InputAction.CallbackContext context)
+        // {
+        //     if (context.performed && CanProcessInput())
+        //     {
+        //         m_PlayerCharacterController.isCrouching = context.ReadValueAsButton();
+        //     }
+        // }
 
-        public void OnCrouchToggle(InputAction.CallbackContext context)
+        public void OnCrouch(InputAction.CallbackContext context)
         {
             if (context.performed && CanProcessInput())
             {
@@ -122,14 +114,14 @@ namespace PlayerScripts
 
         public void OnJump(InputAction.CallbackContext context)
         {
-            if (CanProcessInput() && context.performed)
+            if (context.performed && CanProcessInput())
             {
                 m_PlayerCharacterController.Jump();
             }
         }
         public void OnAim(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed && CanProcessInput())
+            if (context.performed && CanProcessInput())
             {
                 m_PlayerWeaponsManager.isAiming = !m_PlayerWeaponsManager.isAiming;
             }
@@ -156,6 +148,14 @@ namespace PlayerScripts
             }
         }
 
+        public void OnAbility(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed && Cursor.lockState == CursorLockMode.Locked)
+            {
+                m_PlayerAbility.CheckToUseAbility();
+            }
+        }
+
         public bool GetFireInputHeld()
         {
             return Firing;
@@ -173,7 +173,7 @@ namespace PlayerScripts
 
         public void OnReload(InputAction.CallbackContext context)
         {
-            if (context.phase == InputActionPhase.Performed && CanProcessInput())
+            if (context.performed && CanProcessInput())
             {
                 m_PlayerWeaponsManager.Reload();
             }

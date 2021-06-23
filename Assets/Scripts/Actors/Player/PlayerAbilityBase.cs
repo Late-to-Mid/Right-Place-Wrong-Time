@@ -33,5 +33,10 @@ namespace PlayerScripts
 
             readyBar = 1f;
         }
+
+        public virtual void CheckToUseAbility() 
+        {
+            Debug.Log("Ability");
+        }
     }
 }
