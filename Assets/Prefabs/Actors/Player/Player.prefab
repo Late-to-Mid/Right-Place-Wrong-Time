@@ -759,7 +759,21 @@ MonoBehaviour:
   triggerAxisThreshold: 0.4
   invertYAxis: 0
   invertXAxis: 0
-  playActions: []
+  playActions:
+  - {fileID: 250100397929313716, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: -3055606846093191019, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: 1796520139347809431, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: -4463350769125065859, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: -2113018962382279128, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: -6113669777879173743, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: -2083820902829432362, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: 6836268635780022845, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: -942942483898749846, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: -3906270184703830495, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: 8012941318583229371, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: 4551791092244279694, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: -2848241301843081106, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
+  - {fileID: 4847176568017563774, guid: c384c1ff332d72748b6b907ac16b214f, type: 3}
   playerAbility1: {fileID: 3292646968472965525}
   playerAbility2: {fileID: 313349209697806056}
 --- !u!114 &6334903113817078117
