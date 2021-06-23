@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using PlayerScripts;
 
 [RequireComponent(typeof(PlayerCharacterController), typeof(PlayerInputHandler))]
 public class PlayerWeaponsManager : MonoBehaviour

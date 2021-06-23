@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using PlayerScripts;
 
 [RequireComponent(typeof(Rigidbody), typeof(Collider))]
 public class Pickup : MonoBehaviour

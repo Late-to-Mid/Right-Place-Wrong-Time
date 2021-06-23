@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using PlayerScripts;
 public class ArmorPickup : MonoBehaviour
 {
     [Header("Parameters")]
