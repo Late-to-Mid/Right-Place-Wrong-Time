@@ -208,6 +208,8 @@ namespace PlayerScripts
             {
                 if (inMenu)
                 {
+                    Cursor.lockState = CursorLockMode.Confined;
+                    Cursor.visible = true;
                     foreach (InputActionReference ele in playActions)
                     {
                         ele.action.Disable();
@@ -215,6 +217,8 @@ namespace PlayerScripts
                 }
                 else
                 {
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
                     foreach (InputActionReference ele in playActions)
                     {
                         ele.action.Enable();
