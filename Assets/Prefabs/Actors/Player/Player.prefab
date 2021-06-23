@@ -364,10 +364,10 @@ GameObject:
   - component: {fileID: 6334903113817078117}
   - component: {fileID: 6334903113817078114}
   - component: {fileID: 6334903113817078115}
-  - component: {fileID: 5590805953635055263}
   - component: {fileID: 6341863466867747127}
   - component: {fileID: 3292646968472965525}
   - component: {fileID: 1609560544047481798}
+  - component: {fileID: 313349209697806056}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -526,7 +526,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8338677424337247554}
-        m_MethodName: OnAbility
+        m_MethodName: OnAbility1
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -540,8 +540,8 @@ MonoBehaviour:
     m_ActionName: Player/Ability[/Keyboard/f]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5590805953635055263}
-        m_MethodName: OnGadget
+      - m_Target: {fileID: 8338677424337247554}
+        m_MethodName: OnAbility2
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -760,6 +760,8 @@ MonoBehaviour:
   invertYAxis: 0
   invertXAxis: 0
   playActions: []
+  playerAbility1: {fileID: 3292646968472965525}
+  playerAbility2: {fileID: 313349209697806056}
 --- !u!114 &6334903113817078117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,21 +821,6 @@ MonoBehaviour:
   maxHealth: 100
   criticalHealthRatio: 0.3
   currentHealth: 0
---- !u!114 &5590805953635055263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6334903113817078140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7266d328a5594eb44a1255aebd2665f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwForce: 600
-  grenade: {fileID: 2429262466265052374, guid: 15b5f2551715bcf449b2f7c961994a4e, type: 3}
-  playerCamera: {fileID: 6334903112852522063}
 --- !u!114 &6341863466867747127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,7 +854,6 @@ MonoBehaviour:
     type: 3}
   timeLength: 5
   cooldown: 5
-  dummyController: {fileID: 0}
 --- !u!114 &1609560544047481798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -885,6 +871,22 @@ MonoBehaviour:
   hittableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &313349209697806056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6334903113817078140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67a42b3f00159d14e88f38a4f05c2292, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  throwForce: 1000
+  cooldown: 2.5
+  grenade: {fileID: 2429262466265052374, guid: 15b5f2551715bcf449b2f7c961994a4e, type: 3}
+  playerCamera: {fileID: 6334903112852522063}
 --- !u!1 &6334903113819467387
 GameObject:
   m_ObjectHideFlags: 0

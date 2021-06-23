@@ -16,11 +16,8 @@ public class CreateDummy : PlayerAbilityBase
     public float timeLength = 5f;
     public float cooldown = 5f;
 
-
-
-    [Header("Internal References (DO NOT SET)")]
-    public DummyController dummyController;
-
+    // [Header("Internal References (DO NOT SET)")]
+    public DummyController dummyController { get; private set; }
 
     // Update is called once per frame
     void Update()

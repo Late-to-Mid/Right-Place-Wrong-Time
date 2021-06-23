@@ -14,6 +14,7 @@ namespace PlayerScripts
         }
 
         public float readyBar { get; protected set; }
+        // public float cooldown = 5f;
         protected AbilityState m_State = AbilityState.Ready;
         protected float m_TimeActivated;
         protected float m_TimeEnded;
@@ -24,7 +25,7 @@ namespace PlayerScripts
         public UnityAction onAbilityUsed;
         public UnityAction onAbilityOver;
 
-        void Start()
+        protected virtual void Start()
         {
             m_Actor = GetComponent<Actor>();
             actorsManager = FindObjectOfType<ActorsManager>();

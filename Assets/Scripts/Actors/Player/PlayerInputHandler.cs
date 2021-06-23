@@ -28,6 +28,10 @@ namespace PlayerScripts
         // [Tooltip("Make aiming a toggle (default true)")]
         // public bool aimIsToggle = true;
 
+        public PlayerAbilityBase playerAbility1;
+        public PlayerAbilityBase playerAbility2;
+
+
         bool Firing;
         bool m_FireInputWasHeld;
         bool inMenu = false;
@@ -36,7 +40,6 @@ namespace PlayerScripts
         // GameFlowManager m_GameFlowManager;
         PlayerCharacterController m_PlayerCharacterController;
         PlayerWeaponsManager m_PlayerWeaponsManager;
-        PlayerAbilityBase m_PlayerAbility;
         PlayerMelee m_PlayerMelee;
 
         public UnityAction<InputAction.CallbackContext> onMenu;
@@ -51,7 +54,7 @@ namespace PlayerScripts
 
             m_PlayerCharacterController = GetComponent<PlayerCharacterController>();
             m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
-            m_PlayerAbility = GetComponent<PlayerAbilityBase>();
+            playerAbility1 = GetComponent<PlayerAbilityBase>();
             m_PlayerMelee = GetComponent<PlayerMelee>();
         }
 
@@ -150,11 +153,19 @@ namespace PlayerScripts
             }
         }
 
-        public void OnAbility(InputAction.CallbackContext context)
+        public void OnAbility1(InputAction.CallbackContext context)
         {
             if (context.performed && CanProcessInput())
             {
-                m_PlayerAbility.CheckToUseAbility();
+                playerAbility1.CheckToUseAbility();
+            }
+        }
+
+        public void OnAbility2(InputAction.CallbackContext context)
+        {
+            if (context.phase == InputActionPhase.Performed && Cursor.lockState == CursorLockMode.Locked)
+            {
+                playerAbility2.CheckToUseAbility();
             }
         }
 
@@ -165,7 +176,6 @@ namespace PlayerScripts
                 m_PlayerMelee.Melee();
             }
         }
-
 
         public bool GetFireInputHeld()
         {
