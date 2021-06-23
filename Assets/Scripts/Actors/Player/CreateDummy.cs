@@ -1,18 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Events;
-
-
-[RequireComponent(typeof(Actor))]
-public class CharacterAbility : MonoBehaviour
+using PlayerScripts;
+public class CreateDummy : PlayerAbilityBase
 {
-    public enum AbilityState
-    {
-        Cooldown,
-        Ready,
-        Active
-    }
-
     [Tooltip("Dummy to be placed that enemies will shoot at")]
     public GameObject playerDummyObject;
     [Tooltip("Particle trail effect for when the abiliy is active")]
@@ -23,30 +13,10 @@ public class CharacterAbility : MonoBehaviour
     public float cooldown = 5f;
 
 
-    float m_TimeActivated;
-    float m_TimeEnded;
-    public float readyBar { get; private set; }
-    AbilityState m_State = AbilityState.Ready;
 
     [Header("Internal References (DO NOT SET)")]
     public DummyController dummyController;
-    Actor m_Actor;
-    ActorsManager actorsManager;
-    PlayerInputHandler m_PlayerInputHandler;
 
-    public UnityAction onAbilityUsed;
-    public UnityAction onAbilityOver;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        m_Actor = GetComponent<Actor>();
-        actorsManager = FindObjectOfType<ActorsManager>();
-
-        m_PlayerInputHandler = GetComponent<PlayerInputHandler>();
-
-        readyBar = 1f;
-    }
 
     // Update is called once per frame
     void Update()
