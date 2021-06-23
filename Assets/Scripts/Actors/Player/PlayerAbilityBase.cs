@@ -36,7 +36,7 @@ namespace PlayerScripts
 
         public virtual void CheckToUseAbility() 
         {
-            Debug.Log("Ability");
+            Debug.Log("Used Ability");
         }
     }
 }
