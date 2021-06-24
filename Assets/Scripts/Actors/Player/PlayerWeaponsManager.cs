@@ -69,8 +69,8 @@ namespace PlayerScripts
 
         private void Update()
         {
-            // handle aiming down sights
-            weapon.SetAnimAimParameter(isAiming, m_PlayerCharacterController.isSprinting, m_PlayerCharacterController.isSliding);
+            // handle aiming down sights as well as other animator parameters
+            weapon.SetAnimAimParameter(isAiming, m_PlayerCharacterController.isSprinting, m_PlayerCharacterController.isSliding, !m_PlayerCharacterController.isGrounded);
 
             weapon.HandleShootInputs(
                 m_InputHandler.GetFireInputDown(),
