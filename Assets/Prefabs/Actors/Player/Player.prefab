@@ -788,7 +788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c29786f66fd5f49b1d67d7c18b1a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 5733399493780849868, guid: 0909d70706a0d9241a9a8877f1c8e059,
+  weaponPrefab: {fileID: 5832225416094631428, guid: 0a5e3d082b448dc4f87b9df68f266538,
     type: 3}
   weaponCamera: {fileID: 6334903112888455210}
   weaponParentSocket: {fileID: 6334903113902778084}
