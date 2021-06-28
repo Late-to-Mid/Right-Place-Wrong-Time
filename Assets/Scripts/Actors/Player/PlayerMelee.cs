@@ -8,8 +8,12 @@ namespace PlayerScripts
         public float damage = 10f;
         public float healAmount = 50f;
         public LayerMask hittableLayers = -1;
+        [Tooltip("Optional weapon animator for OnShoot animations")]
+        public Animator weaponAnimator;
 
         Health m_Health;
+
+        const string k_AnimMeleeParameter = "Melee";
 
 
         // Start is called before the first frame update
@@ -28,6 +32,10 @@ namespace PlayerScripts
                     Damageable damageable = collider.GetComponent<Damageable>();
                     damageable.InflictDamage(damage, false, gameObject);
                     m_Health.Heal(healAmount);
+                    if (weaponAnimator)
+                    {
+                        weaponAnimator.SetTrigger(k_AnimMeleeParameter);
+                    }
                 }
             }
         }
