@@ -24,7 +24,7 @@ namespace PlayerScripts
 
         public void Melee()
         {
-            Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
+            Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 1f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
             foreach (Collider collider in colliders) 
             {
                 if (collider.GetComponent<Damageable>() != null)
