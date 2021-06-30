@@ -5,6 +5,8 @@ using UnityEngine;
 public class CylinderSpin : MonoBehaviour
 {
     // Start is called before the first frame update
+    public float spinSpeed;
+
     void Start()
     {
         
@@ -13,6 +15,6 @@ public class CylinderSpin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // transform.Rotate(0, 0, 1, Space.World);
+        transform.Rotate(0, spinSpeed, 0, Space.Self);
     }
 }
