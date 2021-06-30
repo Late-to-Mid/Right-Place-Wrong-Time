@@ -2,6 +2,7 @@
 using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using PlayerScripts;
 
 public class InGameMenuManager : MonoBehaviour
 {

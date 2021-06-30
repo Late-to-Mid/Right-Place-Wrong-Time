@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using PlayerScripts;
 
 [RequireComponent(typeof(FillBarColorChange))]
 public class AmmoCounter : MonoBehaviour

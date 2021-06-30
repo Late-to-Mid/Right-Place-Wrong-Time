@@ -1,35 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMelee : MonoBehaviour
+namespace PlayerScripts
 {
-    public float damage = 50f;
-    public float healAmount = 50f;
-    public LayerMask hittableLayers = -1;
-
-    Health m_Health;
-
-
-    // Start is called before the first frame update
-    void Start()
+    public class PlayerMelee : MonoBehaviour
     {
-        m_Health = GetComponent<Health>();
-    }
+        public float damage = 10f;
+        public float healAmount = 50f;
+        public LayerMask hittableLayers = -1;
+        [Tooltip("Optional weapon animator for OnShoot animations")]
+        public Animator weaponAnimator;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        Health m_Health;
 
-    public void Melee(InputAction.CallbackContext context)
-    {
-        Debug.Log("melee");
-        if (context.phase == InputActionPhase.Performed)
+        const string k_AnimMeleeParameter = "Melee";
+
+
+        // Start is called before the first frame update
+        void Start()
         {
-            Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 0.5f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
+            m_Health = GetComponent<Health>();
+        }
+
+        public void Melee()
+        {
+            Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 1f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
             foreach (Collider collider in colliders) 
             {
                 if (collider.GetComponent<Damageable>() != null)
@@ -37,6 +32,10 @@ public class PlayerMelee : MonoBehaviour
                     Damageable damageable = collider.GetComponent<Damageable>();
                     damageable.InflictDamage(damage, false, gameObject);
                     m_Health.Heal(healAmount);
+                    if (weaponAnimator)
+                    {
+                        weaponAnimator.SetTrigger(k_AnimMeleeParameter);
+                    }
                 }
             }
         }

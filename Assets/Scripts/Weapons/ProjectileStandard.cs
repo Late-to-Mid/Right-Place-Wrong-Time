@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using PlayerScripts;
 
 [RequireComponent(typeof(ProjectileBase))]
 public class ProjectileStandard : MonoBehaviour

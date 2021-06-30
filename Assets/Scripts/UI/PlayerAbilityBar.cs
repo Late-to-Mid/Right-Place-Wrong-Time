@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using PlayerScripts;
 
 [RequireComponent(typeof(FillBarColorChange))]
 public class PlayerAbilityBar : MonoBehaviour
@@ -16,13 +17,13 @@ public class PlayerAbilityBar : MonoBehaviour
     [Tooltip("Sharpness for the fill ratio movements")]
     public float barFillMovementSharpness = 20f;
 
-    CharacterAbility ability;
+    PlayerAbilityBase ability;
 
     private void Start()
     {
         PlayerCharacterController playerCharacterController = GameObject.FindObjectOfType<PlayerCharacterController>();
 
-        ability = playerCharacterController.GetComponent<CharacterAbility>();
+        ability = playerCharacterController.GetComponent<PlayerAbilityBase>();
 
         FillBarColorChange.Initialize(1f, 0);
 

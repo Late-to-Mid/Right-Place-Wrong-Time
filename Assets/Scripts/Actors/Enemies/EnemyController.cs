@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
+using PlayerScripts;
 
 [RequireComponent(typeof(Health), typeof(Actor), typeof(NavMeshAgent))]
 public class EnemyController : MonoBehaviour

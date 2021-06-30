@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using PlayerScripts;
 
 public class FullAutoPickup : MonoBehaviour
 {

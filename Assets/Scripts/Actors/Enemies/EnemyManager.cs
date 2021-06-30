@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
+using PlayerScripts;
 public class EnemyManager : MonoBehaviour
 {
     PlayerCharacterController m_PlayerController;
