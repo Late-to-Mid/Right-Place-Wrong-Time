@@ -3,7 +3,17 @@ guid: c81c8be6ed22474449bfe0b8b892296d
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blast
+    second: {fileID: 2100000, guid: fd74052406a492f4081421c2dfec2dff, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Bullets
+    second: {fileID: 2100000, guid: 6863268688dc833449cc1b8c1919de91, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

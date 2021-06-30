@@ -53,6 +53,7 @@ namespace PlayerScripts
         public bool isDead;
         public bool inCollider;
         public bool isVaulting;
+        public bool isMoving;
 
         public UnityAction<bool, bool> onStanceChanged;
 
@@ -152,6 +153,15 @@ namespace PlayerScripts
             Vector3 worldspaceMoveInput = transform.TransformVector(moveInput);
 
             horizontalCharacterVelocity = Vector3.ProjectOnPlane(m_CharacterVelocity, Vector3.up).magnitude;
+
+            if (horizontalCharacterVelocity > 0.01f)
+            {
+                isMoving = true;
+            }
+            else
+            {
+                isMoving = false;
+            }
 
             // apply the final calculated velocity value as a character movement
             Vector3 capsuleBottomBeforeMove = GetCapsuleBottomHemisphere();
