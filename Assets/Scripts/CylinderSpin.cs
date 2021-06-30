@@ -23,13 +23,13 @@ public class CylinderSpin : MonoBehaviour
 
     public void CylinderSpinEvent()
     {
-        Debug.Log("hope");
+        //Debug.Log("hope");
         StartCoroutine("SpinCylinder");
     }
 
     public IEnumerator SpinCylinder()
     {
-        for (int i = 0; i <= 60; i++)
+        for (int i = 0; i < 15; i++)
         {
             Cylinder.transform.Rotate(0, spinSpeed, 0, Space.Self);
             yield return null;
