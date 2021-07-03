@@ -54,6 +54,8 @@ public class InGameMenuManager : MonoBehaviour
         activeMenu = menuGeneral;
 
         LoadSensitivityValue();
+
+        SetPauseMenuActivation(false);
     }
     public void OnMenu(InputAction.CallbackContext context)
     {
