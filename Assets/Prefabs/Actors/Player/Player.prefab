@@ -789,7 +789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c29786f66fd5f49b1d67d7c18b1a45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 1037044667924982152, guid: 65479cba8adf4aa488b1c365d11786d6,
+  weaponPrefab: {fileID: 4960095820252017807, guid: 5e9f01804f2c63d4a9459dd213848d2e,
     type: 3}
   weaponCamera: {fileID: 6334903112888455210}
   weaponParentSocket: {fileID: 6334903113902778084}
@@ -886,6 +886,7 @@ MonoBehaviour:
   hittableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  weaponAnimator: {fileID: 0}
 --- !u!114 &313349209697806056
 MonoBehaviour:
   m_ObjectHideFlags: 0
