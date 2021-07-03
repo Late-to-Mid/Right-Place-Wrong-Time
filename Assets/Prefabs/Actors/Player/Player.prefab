@@ -881,7 +881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf6da2f0e83ea44c8bd8a18066f6b4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 50
+  damage: 10
   healAmount: 50
   hittableLayers:
     serializedVersion: 2
