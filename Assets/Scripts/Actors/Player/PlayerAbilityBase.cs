@@ -21,6 +21,8 @@ namespace PlayerScripts
         protected Actor m_Actor;
         protected ActorsManager actorsManager;
         protected PlayerInputHandler m_PlayerInputHandler;
+        protected PlayerWeaponsManager m_PlayerWeaponsManager;
+        protected Animator m_Animator;
 
         public UnityAction onAbilityUsed;
         public UnityAction onAbilityOver;
@@ -31,6 +33,8 @@ namespace PlayerScripts
             actorsManager = FindObjectOfType<ActorsManager>();
 
             m_PlayerInputHandler = GetComponent<PlayerInputHandler>();
+
+            m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
 
             readyBar = 1f;
         }

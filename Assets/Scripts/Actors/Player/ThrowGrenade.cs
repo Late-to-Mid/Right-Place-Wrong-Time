@@ -30,6 +30,16 @@ namespace PlayerScripts
                 Rigidbody rb = thrown_grenade.GetComponent<Rigidbody>();
                 rb.AddForce(playerCamera.transform.forward * throwForce);
                 m_TimeActivated = Time.time;
+                
+                if (m_Animator)
+                {
+                    m_Animator.SetTrigger("Ability1");
+                }
+                else
+                {
+                    m_Animator = m_PlayerWeaponsManager.weapon.weaponAnimator;
+                    m_Animator.SetTrigger("Ability1");
+                }
             }
         }
     }
