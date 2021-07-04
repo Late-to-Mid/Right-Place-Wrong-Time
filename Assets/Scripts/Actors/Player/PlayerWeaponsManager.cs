@@ -27,9 +27,9 @@ namespace PlayerScripts
         [Tooltip("How fast the weapon bob is applied, the bigger value the fastest")]
         public float bobSharpness = 10f;
         [Tooltip("Distance the weapon bobs when not aiming")]
-        public float defaultBobAmount = 0.05f;
+        public float defaultBobAmount = 0.02f;
         [Tooltip("Distance the weapon bobs when aiming")]
-        public float aimingBobAmount = 0.02f;
+        public float aimingBobAmount = 0.002f;
 
         [Header("Misc")]
         [Tooltip("Speed at which the aiming animation is played")]
@@ -42,7 +42,6 @@ namespace PlayerScripts
         public LayerMask FPSWeaponLayer;
 
         public bool isAiming;
-        public bool isPointingAtEnemy { get; private set; }
 
         PlayerInputHandler m_InputHandler;
         PlayerCharacterController m_PlayerCharacterController;
@@ -50,7 +49,6 @@ namespace PlayerScripts
         Vector3 m_WeaponMainLocalPosition;
         Vector3 m_WeaponBobLocalPosition;
         Vector3 m_WeaponRecoilLocalPosition;
-        Vector3 m_AccumulatedRecoil;
         public WeaponController weapon { get; private set; }
 
         public UnityAction<WeaponController> onAddedWeapon;
@@ -82,19 +80,6 @@ namespace PlayerScripts
                 m_InputHandler.GetFireInputDown(),
                 m_InputHandler.GetFireInputHeld(),
                 m_InputHandler.GetFireInputReleased());
-
-            // // Pointing at enemy handling
-            // isPointingAtEnemy = false;
-            // if (activeWeapon)
-            // {
-            //     if(Physics.Raycast(weaponCamera.transform.position, weaponCamera.transform.forward, out RaycastHit hit, 1000, -1, QueryTriggerInteraction.Ignore))
-            //     {
-            //         if(hit.collider.GetComponentInParent<EnemyController>())
-            //         {
-            //             isPointingAtEnemy = true;
-            //         }
-            //     }
-            // }
         }
 
 
@@ -103,7 +88,6 @@ namespace PlayerScripts
         {
             UpdateWeaponAiming();
             UpdateWeaponBob();
-            UpdateWeaponRecoil();
 
             // Set final weapon socket position based on all the combined animation influences
             weaponParentSocket.localPosition = m_WeaponMainLocalPosition + m_WeaponBobLocalPosition + m_WeaponRecoilLocalPosition;
@@ -143,7 +127,7 @@ namespace PlayerScripts
                 m_WeaponBobFactor = Mathf.Lerp(m_WeaponBobFactor, characterMovementFactor, bobSharpness * Time.deltaTime);
 
                 // Calculate vertical and horizontal weapon bob values based on a sine function
-                float bobAmount = defaultBobAmount;
+                float bobAmount = isAiming? aimingBobAmount : defaultBobAmount;
                 float frequency = bobFrequency;
                 float hBobValue = Mathf.Sin(Time.time * frequency) * bobAmount * m_WeaponBobFactor;
                 float vBobValue = ((Mathf.Sin(Time.time * frequency * 2f) * 0.5f) + 0.5f) * bobAmount * m_WeaponBobFactor;
@@ -152,22 +136,6 @@ namespace PlayerScripts
                 m_WeaponBobLocalPosition.x = hBobValue;
                 m_WeaponBobLocalPosition.y = Mathf.Abs(vBobValue);
             }
-        }
-
-        // Updates the weapon recoil animation
-        void UpdateWeaponRecoil()
-        {
-            // // if the accumulated recoil is further away from the current position, make the current position move towards the recoil target
-            // if (m_WeaponRecoilLocalPosition.z >= m_AccumulatedRecoil.z * 0.99f)
-            // {
-            //     m_WeaponRecoilLocalPosition = Vector3.Lerp(m_WeaponRecoilLocalPosition, m_AccumulatedRecoil, recoilSharpness * Time.deltaTime);
-            // }
-            // // otherwise, move recoil position to make it recover towards its resting pose
-            // else
-            // {
-            //     m_WeaponRecoilLocalPosition = Vector3.Lerp(m_WeaponRecoilLocalPosition, Vector3.zero, recoilRestitutionSharpness * Time.deltaTime);
-            //     m_AccumulatedRecoil = m_WeaponRecoilLocalPosition;
-            // }
         }
 
         // Adds a weapon to our inventory

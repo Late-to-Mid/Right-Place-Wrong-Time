@@ -799,7 +799,7 @@ MonoBehaviour:
   bobFrequency: 10
   bobSharpness: 10
   defaultBobAmount: 0.02
-  aimingBobAmount: 0.02
+  aimingBobAmount: 0.002
   aimingAnimationSpeed: 10
   defaultFOV: 90
   weaponFOVMultiplier: 0.66
