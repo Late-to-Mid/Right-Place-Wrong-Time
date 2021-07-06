@@ -9,7 +9,7 @@ namespace PlayerScripts
         public float healAmount = 50f;
         public LayerMask hittableLayers = -1;
         [Tooltip("Optional weapon animator for OnShoot animations")]
-        public Animator weaponAnimator;
+        Animator weaponAnimator;
 
         Health m_Health;
 
@@ -20,10 +20,14 @@ namespace PlayerScripts
         void Start()
         {
             m_Health = GetComponent<Health>();
+
+            weaponAnimator = GetComponent<PlayerWeaponsManager>().weapon.weaponAnimator;
         }
 
         public void Melee()
         {
+            weaponAnimator.SetTrigger(k_AnimMeleeParameter);
+            Debug.Log("melee");
             Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 1f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
             foreach (Collider collider in colliders) 
             {
@@ -32,10 +36,7 @@ namespace PlayerScripts
                     Damageable damageable = collider.GetComponent<Damageable>();
                     damageable.InflictDamage(damage, false, gameObject);
                     m_Health.Heal(healAmount);
-                    if (weaponAnimator)
-                    {
-                        weaponAnimator.SetTrigger(k_AnimMeleeParameter);
-                    }
+
                 }
             }
         }
