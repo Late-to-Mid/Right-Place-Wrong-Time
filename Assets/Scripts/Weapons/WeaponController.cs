@@ -100,6 +100,8 @@ public class WeaponController : MonoBehaviour
     public AudioClip shootSFX;
     [Tooltip("Sound played when changing to this weapon")]
     public AudioClip changeWeaponSFX;
+    [Tooltip("Amount the weapon camera needs move up vertically to move when attaching sight")]
+    public float sightCameraOffset = 0f;
 
     [Tooltip("Continuous Shooting Sound")]
     public bool useContinuousShootSound = false;
@@ -467,5 +469,10 @@ public class WeaponController : MonoBehaviour
             ProjectileBase newProjectile = Instantiate(projectilePrefab, weaponMuzzle.position, Quaternion.LookRotation(shotDirection));
             newProjectile.Shoot(this);
         }
+    }
+
+    public float AttachSight()
+    {
+        return sightCameraOffset;
     }
 }

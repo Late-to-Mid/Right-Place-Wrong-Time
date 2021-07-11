@@ -165,5 +165,12 @@ namespace PlayerScripts
         {
             weapon.Reload();
         }
+
+        public void AttachSight()
+        {
+            Debug.Log("Attaching sight!");
+            float sightCameraOffset = weapon.AttachSight();
+            weaponCamera.transform.Translate(new Vector3(0f, sightCameraOffset, 0f), Space.World);
+        }
     }
 }
