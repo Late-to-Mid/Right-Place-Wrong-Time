@@ -35,6 +35,9 @@ namespace PlayerScripts
         [Tooltip("Layer to set FPS weapon gameObjects to")]
         public LayerMask FPSWeaponLayer;
 
+        public GameObject crosshair;
+        CanvasGroup crosshairCanvasGroup;
+
         public bool isAiming;
 
         PlayerInputHandler m_InputHandler;
@@ -62,6 +65,8 @@ namespace PlayerScripts
 
             // Set owner to this gameObject so the weapon can alter projectile/damage logic accordingly
             weapon.owner = gameObject;
+
+            crosshairCanvasGroup = crosshair.GetComponent<CanvasGroup>();
         }
 
         private void Update()
@@ -105,10 +110,12 @@ namespace PlayerScripts
             if (isAiming)
             {
                 SetFOV(Mathf.Lerp(m_PlayerCharacterController.playerCamera.fieldOfView, weapon.aimZoomRatio * defaultFOV, aimingAnimationSpeed * Time.deltaTime));
+                crosshairCanvasGroup.alpha = 0f;
             }
             else
             {
                 SetFOV(Mathf.Lerp(m_PlayerCharacterController.playerCamera.fieldOfView, defaultFOV, aimingAnimationSpeed * Time.deltaTime));
+                crosshairCanvasGroup.alpha = 1f;
             }
         }
 
