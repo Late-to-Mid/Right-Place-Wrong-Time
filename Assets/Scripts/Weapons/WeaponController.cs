@@ -106,6 +106,7 @@ public class WeaponController : MonoBehaviour
     public GameObject sightParentObject;
     public Vector3 sightPositionOffset = new Vector3(0, 0, 0);
     public GameObject sightPrefab;
+    public GameObject ironSight;
 
     [Tooltip("Continuous Shooting Sound")]
     public bool useContinuousShootSound = false;
@@ -482,6 +483,10 @@ public class WeaponController : MonoBehaviour
         sightParentObject.transform.rotation, 
         sightParentObject.transform);
 
+        if (ironSight)
+        {
+            Destroy(ironSight, 0f);
+        }
 
         sight.transform.Translate(sightPositionOffset, Space.Self);
         sight.transform.Rotate(0, 90, 0, Space.Self);
