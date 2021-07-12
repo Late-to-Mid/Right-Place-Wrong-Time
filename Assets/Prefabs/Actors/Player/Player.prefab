@@ -856,10 +856,20 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
         type: 3}
+      propertyPath: ironSight
+      value: 
+      objectReference: {fileID: 8736491034794142183}
+    - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
+        type: 3}
       propertyPath: sightPrefab
       value: 
       objectReference: {fileID: 2018180117524242099, guid: c6517d5f9e0a6f44e819b77a78f43b04,
         type: 3}
+    - target: {fileID: 8060525387357539989, guid: 0d0059359efef7d4288528b67dbf62ad,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8310347597278632963, guid: 0d0059359efef7d4288528b67dbf62ad,
         type: 3}
       propertyPath: m_RootOrder
@@ -940,6 +950,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6299c09d3533ce04dac2327900f9164a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8736491034794142183 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6489418794080369766, guid: 0d0059359efef7d4288528b67dbf62ad,
+    type: 3}
+  m_PrefabInstance: {fileID: 2535891955220305281}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7367500100388371280
 PrefabInstance:
   m_ObjectHideFlags: 0
