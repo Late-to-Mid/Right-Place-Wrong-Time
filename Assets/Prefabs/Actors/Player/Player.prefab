@@ -842,6 +842,23 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6334903113573939402}
     m_Modifications:
+    - target: {fileID: 403599511539353187, guid: 0d0059359efef7d4288528b67dbf62ad,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0008
+      objectReference: {fileID: 0}
+    - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
+        type: 3}
+      propertyPath: sight
+      value: 
+      objectReference: {fileID: 2018180117524242099, guid: c6517d5f9e0a6f44e819b77a78f43b04,
+        type: 3}
+    - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
+        type: 3}
+      propertyPath: sightPrefab
+      value: 
+      objectReference: {fileID: 2018180117524242099, guid: c6517d5f9e0a6f44e819b77a78f43b04,
+        type: 3}
     - target: {fileID: 8310347597278632963, guid: 0d0059359efef7d4288528b67dbf62ad,
         type: 3}
       propertyPath: m_RootOrder

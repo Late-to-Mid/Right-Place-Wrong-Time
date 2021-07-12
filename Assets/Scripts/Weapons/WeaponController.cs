@@ -103,6 +103,10 @@ public class WeaponController : MonoBehaviour
     [Tooltip("Amount the weapon camera needs move up vertically to move when attaching sight")]
     public float sightCameraOffset = 0f;
 
+    public GameObject sightParentObject;
+    public Vector3 sightPositionOffset = new Vector3(0, 0, 0);
+    public GameObject sightPrefab;
+
     [Tooltip("Continuous Shooting Sound")]
     public bool useContinuousShootSound = false;
     public AudioClip continuousShootStartSFX;
@@ -473,6 +477,15 @@ public class WeaponController : MonoBehaviour
 
     public float AttachSight()
     {
+        GameObject sight = Instantiate(sightPrefab, 
+        sightParentObject.transform.position, 
+        sightParentObject.transform.rotation, 
+        sightParentObject.transform);
+
+
+        sight.transform.Translate(sightPositionOffset, Space.Self);
+        sight.transform.Rotate(0, 90, 0, Space.Self);
+
         return sightCameraOffset;
     }
 }
