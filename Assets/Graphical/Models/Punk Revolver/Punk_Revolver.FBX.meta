@@ -374,7 +374,7 @@ ModelImporter:
       name: Player_Revolver_Slide_Shoot
       takeName: Take 001
       internalID: 0
-      firstFrame: 830
+      firstFrame: 832
       lastFrame: 846
       wrapMode: 0
       orientationOffsetY: 0
