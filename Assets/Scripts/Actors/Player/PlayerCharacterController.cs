@@ -487,5 +487,10 @@ namespace PlayerScripts
         {
             return Vector3.Angle(transform.up, normal) <= m_Controller.slopeLimit;
         }
+
+        public void Recoil(float recoilAngle)
+        {
+            m_CameraVerticalAngle += -recoilAngle;
+        }
     }
 }

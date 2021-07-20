@@ -34,6 +34,8 @@ namespace PlayerScripts
         public float weaponFOVMultiplier = 0.66f;
         [Tooltip("Layer to set FPS weapon gameObjects to")]
         public LayerMask FPSWeaponLayer;
+        [Tooltip("Angle amount for recoil to move")]
+        public float recoilAngle = 5f;
 
         public GameObject crosshair;
         CanvasGroup crosshairCanvasGroup;
@@ -80,7 +82,7 @@ namespace PlayerScripts
                 m_PlayerCharacterController.isMoving
                 );
 
-            weapon.HandleShootInputs(
+            bool didShoot = weapon.HandleShootInputs(
                 m_InputHandler.GetFireInputDown(),
                 m_InputHandler.GetFireInputHeld(),
                 m_InputHandler.GetFireInputReleased());

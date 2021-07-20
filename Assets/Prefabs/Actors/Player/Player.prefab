@@ -676,6 +676,7 @@ MonoBehaviour:
   inCollider: 0
   isVaulting: 0
   isMoving: 0
+  m_CameraVerticalAngle: 0
   moveInput: {x: 0, y: 0, z: 0}
   lookInput: {x: 0, y: 0}
   jumpSFX: {fileID: 0}
@@ -739,6 +740,7 @@ MonoBehaviour:
   FPSWeaponLayer:
     serializedVersion: 2
     m_Bits: 4096
+  recoilAngle: 3
   crosshair: {fileID: 0}
   isAiming: 0
 --- !u!114 &6334903113817078114
@@ -865,6 +867,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2018180117524242099, guid: c6517d5f9e0a6f44e819b77a78f43b04,
         type: 3}
+    - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
+        type: 3}
+      propertyPath: aimZoomRatio
+      value: 0.961
+      objectReference: {fileID: 0}
     - target: {fileID: 8060525387357539989, guid: 0d0059359efef7d4288528b67dbf62ad,
         type: 3}
       propertyPath: m_Enabled

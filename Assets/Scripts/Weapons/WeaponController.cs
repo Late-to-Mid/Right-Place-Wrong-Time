@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
-using System.Collections.Generic;
+using PlayerScripts;
 
 public enum WeaponShootType
 {
@@ -65,6 +65,8 @@ public class WeaponController : MonoBehaviour
     [Tooltip("Force that will push back the weapon after each shot")]
     [Range(0f, 2f)]
     public float recoilForce = 1;
+    [Tooltip("Angle for camera to move after shot")]
+    public float recoilAngle = 3f;
     [Tooltip("Ratio of the default FOV that this weapon applies while aiming")]
     [Range(0f, 1f)]
     public float aimZoomRatio = 1f;
@@ -474,6 +476,14 @@ public class WeaponController : MonoBehaviour
             ProjectileBase newProjectile = Instantiate(projectilePrefab, weaponMuzzle.position, Quaternion.LookRotation(shotDirection));
             newProjectile.Shoot(this);
         }
+
+        var pcc = owner.GetComponent<PlayerCharacterController>();
+
+        if (pcc)
+        {
+            pcc.Recoil(recoilAngle);
+        }
+
     }
 
     public float AttachSight()
