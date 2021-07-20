@@ -17,7 +17,7 @@ namespace PlayerScripts
 
         float m_TimeActivated;
 
-        float cooldown = 0.25f;
+        public float cooldown = 0.25f;
 
 
         // Start is called before the first frame update
