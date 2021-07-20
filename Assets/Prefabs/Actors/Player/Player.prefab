@@ -821,6 +821,7 @@ MonoBehaviour:
   hittableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
+  cooldown: 0.25
 --- !u!114 &313349209697806056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,6 +861,11 @@ PrefabInstance:
       propertyPath: ironSight
       value: 
       objectReference: {fileID: 8736491034794142183}
+    - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
+        type: 3}
+      propertyPath: recoilAngle
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
         type: 3}
       propertyPath: sightPrefab
