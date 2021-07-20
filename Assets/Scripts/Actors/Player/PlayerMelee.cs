@@ -15,6 +15,10 @@ namespace PlayerScripts
 
         const string k_AnimMeleeParameter = "Melee";
 
+        float m_TimeActivated;
+
+        float cooldown = 0.25f;
+
 
         // Start is called before the first frame update
         void Start()
@@ -22,20 +26,26 @@ namespace PlayerScripts
             m_Health = GetComponent<Health>();
 
             weaponAnimator = GetComponent<PlayerWeaponsManager>().weapon.weaponAnimator;
+
+            m_TimeActivated = -cooldown;
         }
 
         public void Melee()
         {
-            weaponAnimator.SetTrigger(k_AnimMeleeParameter);
-            Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 1f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
-            foreach (Collider collider in colliders) 
+            if (Time.time > m_TimeActivated + cooldown)
             {
-                if (collider.GetComponent<Damageable>() != null)
+                m_TimeActivated = Time.time;
+                weaponAnimator.SetTrigger(k_AnimMeleeParameter);
+                Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 1f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
+                foreach (Collider collider in colliders) 
                 {
-                    Damageable damageable = collider.GetComponent<Damageable>();
-                    damageable.InflictDamage(damage, false, gameObject);
-                    m_Health.Heal(healAmount);
+                    if (collider.GetComponent<Damageable>() != null)
+                    {
+                        Damageable damageable = collider.GetComponent<Damageable>();
+                        damageable.InflictDamage(damage, false, gameObject);
+                        m_Health.Heal(healAmount);
 
+                    }
                 }
             }
         }
