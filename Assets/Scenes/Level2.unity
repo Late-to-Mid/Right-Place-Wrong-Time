@@ -458,11 +458,6 @@ PrefabInstance:
       propertyPath: crosshair
       value: 
       objectReference: {fileID: 107077732}
-    - target: {fileID: 6334903113817078117, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: recoilAngle
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 6334903113817078140, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
       propertyPath: m_Name
@@ -525,53 +520,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
-      propertyPath: recoilForce
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: aimZoomRatio
-      value: 0.961
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshairDataDefault.crosshairSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshairDataDefault.crosshairColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshairDataDefault.crosshairColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshairDataDefault.crosshairColor.r
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshairDataTargetInSight.crosshairSprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshairDataTargetInSight.crosshairColor.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshairDataTargetInSight.crosshairColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8548179659820700407, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshairDataTargetInSight.crosshairColor.r
-      value: 0
+      propertyPath: recoilAngle
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd, type: 3}
