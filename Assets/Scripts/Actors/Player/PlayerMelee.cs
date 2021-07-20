@@ -27,7 +27,6 @@ namespace PlayerScripts
         public void Melee()
         {
             weaponAnimator.SetTrigger(k_AnimMeleeParameter);
-            Debug.Log("melee");
             Collider[] colliders = Physics.OverlapBox(transform.position + transform.forward * 1f, new Vector3(0.5f, 0.5f, 0.5f), Quaternion.identity, hittableLayers, QueryTriggerInteraction.Ignore);
             foreach (Collider collider in colliders) 
             {

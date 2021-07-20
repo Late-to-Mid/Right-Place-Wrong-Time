@@ -502,7 +502,6 @@ namespace PlayerScripts
             for (int i = 0; i < frames; i++)
             {
                 m_CameraVerticalAngle += -recoilAngle/frames;
-                Debug.Log("moved camera");
                 yield return null;
             }
         }
