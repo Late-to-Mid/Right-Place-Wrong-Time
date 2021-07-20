@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 namespace PlayerScripts
 {
@@ -54,6 +55,7 @@ namespace PlayerScripts
         public bool inCollider;
         public bool isVaulting;
         public bool isMoving;
+        float recoilAngle;
 
         public UnityAction<bool, bool> onStanceChanged;
 
@@ -488,9 +490,21 @@ namespace PlayerScripts
             return Vector3.Angle(transform.up, normal) <= m_Controller.slopeLimit;
         }
 
-        public void Recoil(float recoilAngle)
+        public void Recoil(float recoilAmt)
         {
-            m_CameraVerticalAngle += -recoilAngle;
+            recoilAngle = recoilAmt;
+            StartCoroutine("SmoothRecoil");
+        }
+
+        IEnumerator SmoothRecoil()
+        {
+            float frames = 10f;
+            for (int i = 0; i < frames; i++)
+            {
+                m_CameraVerticalAngle += -recoilAngle/frames;
+                Debug.Log("moved camera");
+                yield return null;
+            }
         }
     }
 }
