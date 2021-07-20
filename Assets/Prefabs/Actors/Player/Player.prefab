@@ -676,7 +676,6 @@ MonoBehaviour:
   inCollider: 0
   isVaulting: 0
   isMoving: 0
-  m_CameraVerticalAngle: 0
   moveInput: {x: 0, y: 0, z: 0}
   lookInput: {x: 0, y: 0}
   jumpSFX: {fileID: 0}
