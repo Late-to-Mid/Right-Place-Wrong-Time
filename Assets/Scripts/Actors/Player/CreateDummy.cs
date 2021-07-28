@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 namespace PlayerScripts
 {
@@ -15,6 +16,8 @@ namespace PlayerScripts
 
         // [Header("Internal References (DO NOT SET)")]
         public DummyController dummyController { get; private set; }
+
+        public UnityAction<GameObject> onStealthEnter;
 
         // Update is called once per frame
         void Update()
@@ -47,6 +50,7 @@ namespace PlayerScripts
                 onAbilityUsed.Invoke();
             }
 
+
             // Set now as the time we used the ability
             m_TimeActivated = Time.time;
 
@@ -54,6 +58,11 @@ namespace PlayerScripts
             GameObject dummy = Instantiate(playerDummyObject, transform.position + Vector3.up, transform.rotation);
             dummyController = dummy.GetComponent<DummyController>();
             dummyController.lifeTime = timeLength;
+
+            if (onStealthEnter != null)
+            {
+                onStealthEnter.Invoke(dummy);
+            }
 
             // Start the trail effect
             playerTrailEffect.SetActive(true);

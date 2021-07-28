@@ -103,6 +103,9 @@ public class EnemyController : MonoBehaviour
 
         m_ActorsManager = FindObjectOfType<ActorsManager>();
 
+        CreateDummy playerStealth = FindObjectOfType<CreateDummy>();
+        playerStealth.onStealthEnter += LosePlayer;
+
         m_EnemyManager.RegisterEnemy(this);
 
         m_Health = GetComponent<Health>();
@@ -332,5 +335,10 @@ public class EnemyController : MonoBehaviour
         // Attack range
         Gizmos.color = attackRangeColor;
         Gizmos.DrawWireSphere(transform.position, m_DetectionModule.attackRange);
+    }
+
+    void LosePlayer(GameObject dummy)
+    {
+        m_DetectionModule.knownDetectedTarget = dummy;
     }
 }
