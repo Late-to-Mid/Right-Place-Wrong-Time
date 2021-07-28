@@ -739,7 +739,7 @@ MonoBehaviour:
   FPSWeaponLayer:
     serializedVersion: 2
     m_Bits: 4096
-  recoilAngle: 3
+  recoilAngle: 50
   crosshair: {fileID: 0}
   isAiming: 0
 --- !u!114 &6334903113817078114
