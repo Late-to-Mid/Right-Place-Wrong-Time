@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class WorldspaceHealthBar : MonoBehaviour
+public class WorldspaceHealthBar : HealthBar
 {
     [Tooltip("Health component to track")]
     public Health health;
@@ -14,14 +14,16 @@ public class WorldspaceHealthBar : MonoBehaviour
 
     void Update()
     {
-        // update health bar value
-        healthBarImage.fillAmount = health.currentHealth / health.maxHealth;
-        
         // rotate health bar to face the camera/player
         healthBarPivot.LookAt(Camera.main.transform.position);
 
         // hide health bar if needed
         if (hideFullHealthBar)
             healthBarPivot.gameObject.SetActive(healthBarImage.fillAmount != 1);
+    }
+
+    public override void UpdateHealthBar(float fillAmount)
+    {
+        healthBarImage.fillAmount = fillAmount;
     }
 }

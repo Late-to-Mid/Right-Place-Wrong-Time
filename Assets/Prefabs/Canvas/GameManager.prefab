@@ -1419,7 +1419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23963a2fbf721bf418a7aaa966f29e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthFillImage: {fileID: 1955453273746690012}
+  healthBarImage: {fileID: 1955453273746690012}
   DamageIndicator: {fileID: 89055463}
 --- !u!114 &8482517119860109666
 MonoBehaviour:
@@ -3944,7 +3944,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 66.4
+  m_fontSize: 49.15
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5767,7 +5767,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 66.4
+  m_fontSize: 49.15
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6260,7 +6260,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Space
+      value: Space
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -6752,7 +6752,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Caps Lock
+      value: Z
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7244,7 +7244,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Shift
+      value: Shift
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7490,7 +7490,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: C
+      value: Press Ctrl
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7736,7 +7736,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press F
+      value: E
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}

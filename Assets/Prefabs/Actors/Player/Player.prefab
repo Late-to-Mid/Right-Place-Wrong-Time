@@ -739,7 +739,7 @@ MonoBehaviour:
   FPSWeaponLayer:
     serializedVersion: 2
     m_Bits: 4096
-  recoilAngle: 50
+  recoilAngle: 10
   crosshair: {fileID: 0}
   isAiming: 0
 --- !u!114 &6334903113817078114
@@ -770,6 +770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   criticalHealthRatio: 0.3
+  healthBar: {fileID: 0}
   currentHealth: 0
 --- !u!114 &6341863466867747127
 MonoBehaviour:
@@ -864,7 +865,7 @@ PrefabInstance:
     - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
         type: 3}
       propertyPath: recoilAngle
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6165551380522616694, guid: 0d0059359efef7d4288528b67dbf62ad,
         type: 3}

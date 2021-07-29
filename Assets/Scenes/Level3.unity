@@ -586,6 +586,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &40427163 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1641137324511058694, guid: 4bc284046b5bcad48af261019b688457,
+    type: 3}
+  m_PrefabInstance: {fileID: 1923855727}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23963a2fbf721bf418a7aaa966f29e87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &65386767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,6 +1456,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2021384744}
     m_Modifications:
+    - target: {fileID: 6334903113817078115, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
+        type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 40427163}
     - target: {fileID: 6334903113817078117, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
       propertyPath: crosshair
@@ -11016,16 +11033,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4935057802124056190, guid: 4bc284046b5bcad48af261019b688457,
-        type: 3}
-      propertyPath: m_Text
-      value: RMB
-      objectReference: {fileID: 0}
-    - target: {fileID: 5395583730015397002, guid: 4bc284046b5bcad48af261019b688457,
-        type: 3}
-      propertyPath: m_Text
-      value: C
-      objectReference: {fileID: 0}
     - target: {fileID: 5470690496690503074, guid: 4bc284046b5bcad48af261019b688457,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -11100,16 +11107,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7835204634039847903, guid: 4bc284046b5bcad48af261019b688457,
-        type: 3}
-      propertyPath: m_Text
-      value: Backspace
-      objectReference: {fileID: 0}
-    - target: {fileID: 8160903689820331677, guid: 4bc284046b5bcad48af261019b688457,
-        type: 3}
-      propertyPath: m_Text
-      value: C
       objectReference: {fileID: 0}
     - target: {fileID: 8177935015593995552, guid: 4bc284046b5bcad48af261019b688457,
         type: 3}
