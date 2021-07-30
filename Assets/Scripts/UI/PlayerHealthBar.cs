@@ -13,7 +13,7 @@ public class PlayerHealthBar : HealthBar
 
     public Image DamageIndicator;
 
-    private void Start()
+    private void Awake()
     {
         PlayerCharacterController playerCharacterController = GameObject.FindObjectOfType<PlayerCharacterController>();
 
