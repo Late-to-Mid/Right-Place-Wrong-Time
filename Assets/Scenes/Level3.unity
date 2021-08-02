@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1537,11 +1537,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2021384744}
     m_Modifications:
-    - target: {fileID: 6334903113817078117, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
-        type: 3}
-      propertyPath: crosshair
-      value: 
-      objectReference: {fileID: 1765294490}
     - target: {fileID: 6334903113817078140, guid: c4e3ea3f9e4bcf449b5e19ac141e86bd,
         type: 3}
       propertyPath: m_Name
@@ -10189,12 +10184,6 @@ Transform:
   m_Father: {fileID: 2036765031}
   m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1765294490 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8412895857029019258, guid: 4bc284046b5bcad48af261019b688457,
-    type: 3}
-  m_PrefabInstance: {fileID: 1923855727}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1792759273
 GameObject:
   m_ObjectHideFlags: 0
@@ -11109,16 +11098,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4935057802124056190, guid: 4bc284046b5bcad48af261019b688457,
-        type: 3}
-      propertyPath: m_Text
-      value: RMB
-      objectReference: {fileID: 0}
-    - target: {fileID: 5395583730015397002, guid: 4bc284046b5bcad48af261019b688457,
-        type: 3}
-      propertyPath: m_Text
-      value: C
-      objectReference: {fileID: 0}
     - target: {fileID: 5470690496690503074, guid: 4bc284046b5bcad48af261019b688457,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -11193,16 +11172,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7835204634039847903, guid: 4bc284046b5bcad48af261019b688457,
-        type: 3}
-      propertyPath: m_Text
-      value: Backspace
-      objectReference: {fileID: 0}
-    - target: {fileID: 8160903689820331677, guid: 4bc284046b5bcad48af261019b688457,
-        type: 3}
-      propertyPath: m_Text
-      value: C
       objectReference: {fileID: 0}
     - target: {fileID: 8177935015593995552, guid: 4bc284046b5bcad48af261019b688457,
         type: 3}

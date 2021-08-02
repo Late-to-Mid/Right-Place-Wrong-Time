@@ -10,6 +10,9 @@ public class WeaponHUDManager : MonoBehaviour
 
     List<AmmoCounter> m_AmmoCounters = new List<AmmoCounter>();
 
+    [Tooltip("Crosshair game object")]
+    public GameObject crosshair;
+
     public void AddWeapon(WeaponController weapon)
     {
         WeaponController activeWeapon = weapon;

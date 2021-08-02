@@ -37,7 +37,6 @@ namespace PlayerScripts
         [Tooltip("Angle amount for recoil to move")]
         public float recoilAngle = 5f;
 
-        public GameObject crosshair;
         CanvasGroup crosshairCanvasGroup;
 
         public bool isAiming;
@@ -65,10 +64,10 @@ namespace PlayerScripts
             WeaponHUDManager weaponHUDManager = FindObjectOfType<WeaponHUDManager>();
             weaponHUDManager.AddWeapon(weapon);
 
+            crosshairCanvasGroup = weaponHUDManager.crosshair.GetComponent<CanvasGroup>();
+
             // Set owner to this gameObject so the weapon can alter projectile/damage logic accordingly
             weapon.owner = gameObject;
-
-            crosshairCanvasGroup = crosshair.GetComponent<CanvasGroup>();
         }
 
         private void Update()
