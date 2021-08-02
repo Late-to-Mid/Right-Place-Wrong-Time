@@ -1407,6 +1407,7 @@ MonoBehaviour:
   ammosPanel: {fileID: 4276774125646395539}
   ammoCounterPrefab: {fileID: 9217758296869649016, guid: 2922b87602080ed4cb4094aa2dee7e66,
     type: 3}
+  crosshair: {fileID: 8412895857029019258}
 --- !u!114 &1641137324511058694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3944,7 +3945,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.15
+  m_fontSize: 49.05
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5767,7 +5768,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.15
+  m_fontSize: 49.05
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6260,7 +6261,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Space
+      value: Press Space
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -6752,7 +6753,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Z
+      value: Press Caps Lock
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7244,7 +7245,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Shift
+      value: Press Shift
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7736,7 +7737,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: E
+      value: Press F
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7982,7 +7983,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: RMB
+      value: Press Backspace
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -8228,7 +8229,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Backspace
+      value: Press RMB
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -8474,7 +8475,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: C
+      value: Press C
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
