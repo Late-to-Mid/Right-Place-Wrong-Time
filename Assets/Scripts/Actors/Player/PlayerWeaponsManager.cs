@@ -172,6 +172,7 @@ namespace PlayerScripts
         public void Reload()
         {
             weapon.Reload();
+            isAiming = false;
         }
 
         public void AttachSight()
