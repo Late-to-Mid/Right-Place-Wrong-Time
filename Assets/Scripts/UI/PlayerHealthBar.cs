@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using PlayerScripts;
+using System.Collections;
+
 
 public class PlayerHealthBar : HealthBar
 {
@@ -11,9 +13,9 @@ public class PlayerHealthBar : HealthBar
 
     Health m_PlayerHealth;
 
-    public Image DamageIndicator;
+    public Image damageIndicator;
 
-    private void Awake()
+    void Awake()
     {
         PlayerCharacterController playerCharacterController = GameObject.FindObjectOfType<PlayerCharacterController>();
 
@@ -24,23 +26,25 @@ public class PlayerHealthBar : HealthBar
         m_previousHealth = m_PlayerHealth.currentHealth;
     }
 
-    void Update()
+    void Start()
     {
-        if (m_PlayerHealth.currentHealth != m_previousHealth)
-        {
-            // Notify
-            DamageIndicator.gameObject.SetActive(true);
-
-            m_previousHealth = m_PlayerHealth.currentHealth;
-        }
-        else
-        {
-            DamageIndicator.gameObject.SetActive(false);
-        }
+        m_PlayerHealth.onDamaged += OnDamaged;
     }
 
     public override void UpdateHealthBar(float fillAmount)
     {
         healthBarImage.fillAmount = fillAmount;
+    }
+
+    void OnDamaged(float amt, GameObject source)
+    {
+        StartCoroutine(DamageIndicator(amt));
+    }
+
+    IEnumerator DamageIndicator(float amt)
+    {
+        damageIndicator.color = new Color(100f, 0, 0, amt/100);
+        yield return new WaitForSeconds(0.25f);
+        damageIndicator.color = new Color(100f, 0, 0, 0);
     }
 }
