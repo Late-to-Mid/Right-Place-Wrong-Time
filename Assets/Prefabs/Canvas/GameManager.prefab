@@ -92,7 +92,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &89055462
 RectTransform:
   m_ObjectHideFlags: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 0.56078434}
+  m_Color: {r: 1, g: 0, b: 0, a: 0}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1421,7 +1421,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBarImage: {fileID: 1955453273746690012}
-  DamageIndicator: {fileID: 89055463}
+  damageIndicator: {fileID: 89055463}
 --- !u!114 &8482517119860109666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3945,7 +3945,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.05
+  m_fontSize: 49.15
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5768,7 +5768,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 49.05
+  m_fontSize: 49.15
   m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6261,7 +6261,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Space
+      value: Space
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -6753,7 +6753,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Caps Lock
+      value: Z
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7245,7 +7245,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Shift
+      value: Shift
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7737,7 +7737,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press F
+      value: E
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -7983,7 +7983,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press Backspace
+      value: RMB
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -8229,7 +8229,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press RMB
+      value: Backspace
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
@@ -8475,7 +8475,7 @@ PrefabInstance:
     - target: {fileID: 690190895482579582, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
       propertyPath: m_Text
-      value: Press C
+      value: C
       objectReference: {fileID: 0}
     - target: {fileID: 842315773000857784, guid: 121e8e681963689479992d073b0a42ed,
         type: 3}
