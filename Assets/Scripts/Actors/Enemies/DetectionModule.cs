@@ -18,7 +18,7 @@ public class DetectionModule : MonoBehaviour
     public UnityAction onDetectedTarget;
     public UnityAction onLostTarget;
 
-    public GameObject knownDetectedTarget { get; private set; }
+    public GameObject knownDetectedTarget { get; set; }
     public bool isTargetInAttackRange { get; private set; }
     public bool isSeeingTarget { get; private set; }
     public bool hadKnownTarget { get; private set; }

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 using System.Collections;
-using System.Collections.Generic;
+using PlayerScripts;
 
 public enum WeaponShootType
 {
@@ -65,6 +65,8 @@ public class WeaponController : MonoBehaviour
     [Tooltip("Force that will push back the weapon after each shot")]
     [Range(0f, 2f)]
     public float recoilForce = 1;
+    [Tooltip("Angle for camera to move after shot")]
+    public float recoilAngle = 3f;
     [Tooltip("Ratio of the default FOV that this weapon applies while aiming")]
     [Range(0f, 1f)]
     public float aimZoomRatio = 1f;
@@ -100,6 +102,13 @@ public class WeaponController : MonoBehaviour
     public AudioClip shootSFX;
     [Tooltip("Sound played when changing to this weapon")]
     public AudioClip changeWeaponSFX;
+    [Tooltip("Amount the weapon camera needs move up vertically to move when attaching sight")]
+    public float sightCameraOffset = 0f;
+
+    public GameObject sightParentObject;
+    public Vector3 sightPositionOffset = new Vector3(0, 0, 0);
+    public GameObject sightPrefab;
+    public GameObject ironSight;
 
     [Tooltip("Continuous Shooting Sound")]
     public bool useContinuousShootSound = false;
@@ -467,5 +476,31 @@ public class WeaponController : MonoBehaviour
             ProjectileBase newProjectile = Instantiate(projectilePrefab, weaponMuzzle.position, Quaternion.LookRotation(shotDirection));
             newProjectile.Shoot(this);
         }
+
+        var pcc = owner.GetComponent<PlayerCharacterController>();
+
+        if (pcc)
+        {
+            pcc.Recoil(recoilAngle);
+        }
+
+    }
+
+    public float AttachSight()
+    {
+        GameObject sight = Instantiate(sightPrefab, 
+        sightParentObject.transform.position, 
+        sightParentObject.transform.rotation, 
+        sightParentObject.transform);
+
+        if (ironSight)
+        {
+            Destroy(ironSight, 0f);
+        }
+
+        sight.transform.Translate(sightPositionOffset, Space.Self);
+        sight.transform.Rotate(0, 90, 0, Space.Self);
+
+        return sightCameraOffset;
     }
 }

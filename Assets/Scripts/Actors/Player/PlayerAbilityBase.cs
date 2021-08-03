@@ -36,6 +36,8 @@ namespace PlayerScripts
 
             m_PlayerWeaponsManager = GetComponent<PlayerWeaponsManager>();
 
+            m_Animator = m_PlayerWeaponsManager.weapon.weaponAnimator;
+
             readyBar = 1f;
         }
 

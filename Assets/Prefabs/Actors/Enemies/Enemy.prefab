@@ -283,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 20
   criticalHealthRatio: 0.3
+  healthBar: {fileID: 7546854698723191474}
   currentHealth: 0
 --- !u!114 &7546854698723191474
 MonoBehaviour:

@@ -8,6 +8,9 @@ public class Health : MonoBehaviour
     public float maxHealth = 10f;
     [Tooltip("Health ratio at which the critical health vignette starts appearing")]
     public float criticalHealthRatio = 0.3f;
+    // [Tooltip("Script to link to health bar display")]
+    public HealthBar healthBar { get; set; }
+
 
     public UnityAction<float, GameObject> onDamaged;
     public UnityAction<float> onHealed;
@@ -27,6 +30,8 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
 
         StartCoroutine("PassiveRegen");
+
+        healthBar.UpdateHealthBar(currentHealth / maxHealth);
     }
 
     public void Heal(float healAmount)
@@ -41,6 +46,8 @@ public class Health : MonoBehaviour
         {
             onHealed.Invoke(trueHealAmount);
         }
+
+        healthBar.UpdateHealthBar(currentHealth / maxHealth);
     }
 
     public void TakeDamage(float damage, GameObject damageSource)
@@ -58,6 +65,8 @@ public class Health : MonoBehaviour
         {
             onDamaged.Invoke(trueDamageAmount, damageSource);
         }
+
+        healthBar.UpdateHealthBar(currentHealth / maxHealth);
 
         HandleDeath();
     }
